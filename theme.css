@@ -5829,3 +5829,31 @@ html.kft header[data-kft-head]:has(span[class*="font-extrabold"]) > div:nth-chil
 html.kft .match-tabs div.border-2.rounded-sm.flex-col:has(> span.font-extrabold) > span {
   white-space: nowrap;
 }
+
+/* Barra plegada: el pie es una columna de iconos centrada (Discord e
+   Instalar app como iconos cuadrados, sin texto; el usuario, solo avatar) */
+html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="footer"] > [data-sidebar="menu"]:not(#kft) {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px !important;
+}
+html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="footer"] [data-sidebar="menu-item"]:not(#kft) {
+  width: auto !important;
+}
+html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="footer"] :is(a[href*="discord"], [data-sidebar="menu"] > div [data-sidebar="menu-button"])[data-sidebar="menu-button"]:not(#kft) {
+  justify-content: center !important;
+  width: 32px !important;
+  height: 32px !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  font-size: 0 !important;
+}
+html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="footer"] :is(a[href*="discord"], [data-sidebar="menu"] > div [data-sidebar="menu-button"])[data-sidebar="menu-button"] > :not(svg):not(:has(svg)) {
+  display: none !important;
+}
+html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="footer"] :is(a[href*="discord"], [data-sidebar="menu"] > div [data-sidebar="menu-button"])[data-sidebar="menu-button"] svg {
+  width: 16px !important;
+  height: 16px !important;
+  margin: 0 !important;
+}
