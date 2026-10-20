@@ -1245,7 +1245,8 @@
       const eloOf = (a) => parseInt(a?.querySelector(":scope > div > span:nth-child(4)")?.textContent.replace(/\D/g, ""), 10);
       const lead = eloOf(podium.children[1]) - eloOf(podium.children[0]);
       const box = podium.children[1]?.firstElementChild;
-      const text = isNaN(lead) ? null : `+${lead} ELO sobre el #2`;
+      const es = /^es/i.test(document.documentElement.lang);
+      const text = isNaN(lead) ? null : es ? `+${lead} ELO sobre el #2` : `+${lead} ELO over #2`;
       if (box && box.dataset.kftLead !== text) {
         if (text) box.dataset.kftLead = text;
         else delete box.dataset.kftLead;

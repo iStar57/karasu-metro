@@ -5197,6 +5197,9 @@ html.kft [data-kft-podium] > a > div > div:nth-child(6):not(#kft) {
   color: var(--kft-text-2) !important;
 }
 html.kft [data-kft-podium] > a > div > div:nth-child(6)::after {
+  content: " wins";
+}
+html.kft[lang^="es"] [data-kft-podium] > a > div > div:nth-child(6)::after {
   content: " victorias";
 }
 
