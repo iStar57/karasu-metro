@@ -1,0 +1,11 @@
+# Build output (packages are attached to releases, not committed)
+dist/
+*.zip
+*.xpi
+.web-ext-artifacts/
+
+# Local tooling
+node_modules/
+.vscode/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,52 @@
+{
+  "manifest_version": 3,
+  "name": "Karasu Metro",
+  "version": "1.7.0",
+  "minimum_chrome_version": "111",
+  "description": "Unofficial open-source theme for karasu.live: a cleaner interface with a reworked match room, leaderboard and profiles.",
+  "homepage_url": "https://github.com/iStar57/karasu-metro",
+  "permissions": [
+    "storage"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "Karasu Metro",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://karasu.live/*",
+        "https://*.karasu.live/*"
+      ],
+      "css": [
+        "theme.css"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": false
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "fonts/*.woff2"
+      ],
+      "matches": [
+        "https://karasu.live/*",
+        "https://*.karasu.live/*"
+      ]
+    }
+  ]
+}
