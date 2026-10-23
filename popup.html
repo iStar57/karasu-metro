@@ -99,7 +99,66 @@
     .sw:hover { box-shadow: 0 0 0 2px var(--bg), 0 0 0 3.5px var(--text-3); }
     .sw[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--bg), 0 0 0 3.5px var(--text); }
     .sw.custom { background: conic-gradient(#ff3b3b, #ffd23b, #3bff6e, #3bd8ff, #6b3bff, #ff3bd2, #ff3b3b); }
-    .sw.custom input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+
+    /* Selector de color propio (el nativo del navegador es una ventana blanca) */
+    .picker { margin-top: 14px; }
+    .sv {
+      --h: 190;
+      position: relative;
+      height: 116px;
+      border-radius: 8px;
+      background:
+        linear-gradient(to top, #000, transparent),
+        linear-gradient(to right, #fff, hsl(var(--h) 100% 50%));
+      cursor: crosshair;
+      touch-action: none;
+    }
+    .hue {
+      position: relative;
+      height: 10px;
+      margin-top: 12px;
+      border-radius: 999px;
+      background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+      cursor: pointer;
+      touch-action: none;
+    }
+    .knob {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+      translate: -50% -50%;
+      pointer-events: none;
+    }
+    .hue .knob { top: 50%; background: hsl(var(--h, 190) 100% 50%); }
+    .hexrow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 0 10px;
+      height: 32px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      cursor: text;
+    }
+    .hexrow:focus-within { border-color: var(--accent); }
+    .chip { width: 14px; height: 14px; border-radius: 4px; background: var(--accent); }
+    .hash { color: var(--text-3); font: 500 12px ui-monospace, "Cascadia Mono", monospace; }
+    #hex-in {
+      flex: 1;
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      outline: 0;
+      background: none;
+      color: var(--text);
+      font: 500 12px ui-monospace, "Cascadia Mono", monospace;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
 
     .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
     .row b { font-weight: 600; }
@@ -165,8 +224,16 @@
       <button class="sw" type="button" style="--c:#f5b700" data-c="#f5b700" data-i18n-title="gold" data-i18n-aria="gold"></button>
       <button class="sw" type="button" style="--c:#22d36b" data-c="#22d36b" data-i18n-title="emerald" data-i18n-aria="emerald"></button>
       <button class="sw" type="button" style="--c:#a24bff" data-c="#a24bff" data-i18n-title="violet" data-i18n-aria="violet"></button>
-      <label class="sw custom" id="custom" data-i18n-title="custom" data-i18n-aria="custom">
-        <input type="color" id="accent">
+      <button class="sw custom" id="custom" type="button" aria-expanded="false" aria-controls="picker" data-i18n-title="custom" data-i18n-aria="custom"></button>
+    </div>
+    <input type="color" id="accent" hidden>
+    <div class="picker" id="picker" hidden>
+      <div class="sv" id="sv" tabindex="0" role="slider" aria-label="Saturation and brightness"><span class="knob" id="sv-knob"></span></div>
+      <div class="hue" id="hue" tabindex="0" role="slider" aria-label="Hue" aria-valuemin="0" aria-valuemax="360"><span class="knob" id="hue-knob"></span></div>
+      <label class="hexrow">
+        <span class="chip" id="chip"></span>
+        <span class="hash">#</span>
+        <input id="hex-in" maxlength="7" spellcheck="false" autocomplete="off" aria-label="Hex">
       </label>
     </div>
   </section>

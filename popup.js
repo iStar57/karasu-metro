@@ -46,6 +46,7 @@ function render() {
   $custom.setAttribute("aria-pressed", !preset);
   $accent.value = accent;
   $reset.disabled = accent === DEFAULTS.accent;
+  syncPicker();
 }
 let savedTimer;
 function flashSaved() {
@@ -76,3 +77,84 @@ chrome.storage.onChanged.addListener((changes, area) => {
   }
 });
 $("notices-reset").addEventListener("click", () => chrome.storage.local.set({ dismissedAlerts: [] }, flashSaved));
+
+// Selector de color propio: cuadro de saturación/brillo, barra de tono y
+// campo hex. Escribe en el input de color oculto (#accent), así guarda
+// igual que antes (con su pequeña espera para no guardar a cada píxel).
+const $picker = $("picker"), $sv = $("sv"), $svKnob = $("sv-knob"), $hue = $("hue"), $hueKnob = $("hue-knob"), $hexIn = $("hex-in");
+let hsv = { h: 190, s: 0.8, v: 1 };
+function hexToHsv(hex) {
+  const n = parseInt(hex.slice(1), 16), r = (n >> 16) / 255, g = ((n >> 8) & 255) / 255, b = (n & 255) / 255;
+  const max = Math.max(r, g, b), d = max - Math.min(r, g, b);
+  let h = 0;
+  if (d) h = max === r ? ((g - b) / d) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
+  return { h: (h * 60 + 360) % 360, s: max ? d / max : 0, v: max };
+}
+function hsvToHex({ h, s, v }) {
+  const f = (k) => { const x = (k + h / 60) % 6; return v - v * s * Math.max(0, Math.min(x, 4 - x, 1)); };
+  return "#" + [f(5), f(3), f(1)].map((c) => Math.round(c * 255).toString(16).padStart(2, "0")).join("");
+}
+function paintPicker() {
+  $sv.style.setProperty("--h", hsv.h);
+  $hue.style.setProperty("--h", hsv.h);
+  $svKnob.style.left = hsv.s * 100 + "%";
+  $svKnob.style.top = (1 - hsv.v) * 100 + "%";
+  $hueKnob.style.left = (hsv.h / 360) * 100 + "%";
+  $hue.setAttribute("aria-valuenow", Math.round(hsv.h));
+  if (document.activeElement !== $hexIn) $hexIn.value = hsvToHex(hsv).slice(1).toUpperCase();
+}
+function syncPicker() {
+  // render() puede llegar antes de que este bloque se haya evaluado
+  queueMicrotask(() => {
+    if ($picker.hidden || $picker.contains(document.activeElement)) return;
+    hsv = hexToHsv(state.accent);
+    paintPicker();
+  });
+}
+function commit() {
+  $accent.value = hsvToHex(hsv);
+  $accent.dispatchEvent(new Event("input"));
+  paintPicker();
+}
+function drag(el, onMove) {
+  el.addEventListener("pointerdown", (e) => {
+    el.setPointerCapture(e.pointerId);
+    el.focus();
+    const move = (ev) => {
+      const r = el.getBoundingClientRect();
+      onMove(Math.min(1, Math.max(0, (ev.clientX - r.left) / r.width)), Math.min(1, Math.max(0, (ev.clientY - r.top) / r.height)));
+      commit();
+    };
+    move(e);
+    el.addEventListener("pointermove", move);
+    el.addEventListener("pointerup", () => el.removeEventListener("pointermove", move), { once: true });
+  });
+}
+drag($sv, (x, y) => { hsv.s = x; hsv.v = 1 - y; });
+drag($hue, (x) => { hsv.h = Math.min(359.9, x * 360); });
+$sv.addEventListener("keydown", (e) => {
+  const d = { ArrowLeft: [-0.02, 0], ArrowRight: [0.02, 0], ArrowUp: [0, 0.02], ArrowDown: [0, -0.02] }[e.key];
+  if (!d) return;
+  e.preventDefault();
+  hsv.s = Math.min(1, Math.max(0, hsv.s + d[0]));
+  hsv.v = Math.min(1, Math.max(0, hsv.v + d[1]));
+  commit();
+});
+$hue.addEventListener("keydown", (e) => {
+  const d = { ArrowLeft: -5, ArrowDown: -5, ArrowRight: 5, ArrowUp: 5 }[e.key];
+  if (!d) return;
+  e.preventDefault();
+  hsv.h = (hsv.h + d + 360) % 360;
+  commit();
+});
+$hexIn.addEventListener("input", () => {
+  const v = $hexIn.value.replace(/[^0-9a-f]/gi, "").slice(0, 6);
+  if (v.length === 6) { hsv = hexToHsv("#" + v.toLowerCase()); commit(); }
+});
+$hexIn.addEventListener("blur", paintPicker);
+$custom.addEventListener("click", () => {
+  $picker.hidden = !$picker.hidden;
+  $custom.setAttribute("aria-expanded", !$picker.hidden);
+  hsv = hexToHsv(state.accent);
+  paintPicker();
+});
