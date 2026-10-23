@@ -5021,21 +5021,23 @@ html.kft .settings-measure form button[aria-haspopup], html.kft .settings-measur
   background: var(--kft-card) !important;
 }
 
-/* Guardar: fantasma si no hay cambios, acento si los hay */
-html.kft .settings-measure button[class*="bg-[hsl(var(--tac-amber))]"]:not(#kft) {
+/* Guardar: fantasma si no hay cambios, acento si los hay. Solo el fondo
+   sólido exacto: las opciones seleccionadas de Cosmetics llevan
+   "bg-[hsl(var(--tac-amber))]/10" y no son botones de guardar */
+html.kft .settings-measure button:is([class*="bg-[hsl(var(--tac-amber))] "], [class$="bg-[hsl(var(--tac-amber))]"]):not(#kft) {
   height: 40px !important;
   min-width: 96px;
   border-radius: 6px !important;
   font-size: 12px !important;
   letter-spacing: 0.08em !important;
 }
-html.kft .settings-measure button[class*="bg-[hsl(var(--tac-amber))]"]:not(#kft):disabled {
+html.kft .settings-measure button:is([class*="bg-[hsl(var(--tac-amber))] "], [class$="bg-[hsl(var(--tac-amber))]"]):not(#kft):disabled {
   opacity: 1 !important;
   background: transparent !important;
   box-shadow: inset 0 0 0 1px var(--kft-line-2) !important;
   color: var(--kft-text-3) !important;
 }
-html.kft .settings-measure button[class*="bg-[hsl(var(--tac-amber))]"]:not(#kft):not(:disabled) {
+html.kft .settings-measure button:is([class*="bg-[hsl(var(--tac-amber))] "], [class$="bg-[hsl(var(--tac-amber))]"]):not(#kft):not(:disabled) {
   background: var(--kft-accent-hex) !important;
   box-shadow: 0 6px 18px -8px hsl(var(--kft-accent) / 0.8) !important;
   color: var(--kft-on-accent) !important;
@@ -5979,4 +5981,11 @@ html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="footer
 html.kft .animate-bell,
 html.kft .animate-ping {
   animation-iteration-count: 3 !important;
+}
+
+/* Cosmetics: la opción elegida, con borde de acento (sin brillo) */
+html.kft main button[title][class*="bg-[hsl(var(--tac-amber))]/10"]:not(#kft) {
+  border-color: var(--kft-accent-hex) !important;
+  background: hsl(var(--kft-accent) / 0.08) !important;
+  box-shadow: none !important;
 }
