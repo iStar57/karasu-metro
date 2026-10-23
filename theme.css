@@ -5924,8 +5924,10 @@ html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="conten
 html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] div.h-px {
   display: none !important;
 }
-html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] [data-sidebar="menu-item"]:has(> a[href="/play"]) {
-  margin-top: 4px !important;
+/* Barra plegada: sin el botón de Buscar (el buscador está en la barra de
+   arriba). Sigue en la página, oculto: es el que abre la búsqueda */
+html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] [data-sidebar="menu-item"]:has(> button[data-sidebar="menu-button"]):not(#kft) {
+  display: none !important;
 }
 
 /* Barra plegada: el cuervo entero (su caja recortaba el pico) */
