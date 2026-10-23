@@ -224,7 +224,7 @@ html.kft .pre-loader::after {
   border-top-color: var(--kft-accent-hex) !important;
 }
 
-/* ---------- Barra lateral (nav izquierda) ---------- */
+/* Barra lateral (nav izquierda) */
 html.kft [data-sidebar="sidebar"] {
   background: var(--kft-app) !important;
 }
@@ -603,7 +603,7 @@ html.kft div.w-14.border-l.flex-col:has(> button svg.lucide-bell) > button[data-
   translate: 0 -50%;
 }
 
-/* ---------- Barra superior (header) ---------- */
+/* Barra superior (header) */
 html.kft main > header,
 html.kft header.sticky.top-0 {
   height: 64px !important;
@@ -1743,7 +1743,7 @@ html.kft [data-kft-play="maps"] { order: 4; margin-top: 24px; }
 html.kft [data-kft-play="bans"] { order: 6; margin-top: 28px; }
 html.kft [data-kft-play="streams"] { order: 7; margin-top: 28px; }
 
-/* --- Módulo superior: franja de datos --- */
+/* Módulo superior: franja de datos */
 html.kft [data-kft-play="stats"] {
   display: flex !important;
   gap: 0 !important;
@@ -1794,7 +1794,7 @@ html.kft [data-kft-play="stats"] > div:first-child > div:nth-child(2) {
   color: var(--kft-accent-hex) !important;
 }
 
-/* --- Módulo: el grupo --- */
+/* Módulo: el grupo */
 html.kft [data-kft-play="party"] {
   position: relative;
   padding: 22px 24px 26px !important;
@@ -1916,7 +1916,7 @@ html.kft [data-kft-play="party"] div[style*="grid-template-columns"] > div:has(>
   font-weight: 600;
 }
 
-/* --- Módulo: botón de jugar, cierra la consola por abajo --- */
+/* Módulo: botón de jugar, cierra la consola por abajo */
 html.kft [data-kft-play="right"] > button {
   position: relative;
   width: 100%;
@@ -1966,7 +1966,7 @@ html.kft [data-kft-play="right"] > :not(button:first-child) {
   margin-top: 12px;
 }
 
-/* --- Mapas --- */
+/* Mapas */
 html.kft [data-kft-play="maps"] {
   padding: 20px 24px !important;
   border: 1px solid rgba(255, 255, 255, 0.07) !important;
@@ -2053,7 +2053,7 @@ html.kft [data-kft-play="maps"] [class*="grid-cols-7"] > button > span:last-chil
   letter-spacing: 0.01em !important;
 }
 
-/* --- Secundario: baneos recientes y directos --- */
+/* Secundario: baneos recientes y directos */
 html.kft :is([data-kft-play="bans"], [data-kft-play="streams"]) > div:first-child {
   margin-bottom: 10px !important;
 }
@@ -2825,7 +2825,7 @@ html.kft.kft-fx body::after {
     radial-gradient(32% 28% at 4% 100%, hsl(var(--kft-accent) / 0.05), transparent 70%);
 }
 
-/* ---------- Tarjetas: profundidad ---------- */
+/* Tarjetas: profundidad */
 html.kft.kft-fx :is(.bg-card, [class^="bg-card/"], [class*=" bg-card/"], .rounded-xl.border, .rounded-lg.border):not(.bg-card *):not([style*="background"]) {
   background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 42%) !important;
   box-shadow: var(--kft-edge), 0 1px 2px rgba(0, 0, 0, 0.45) !important;
@@ -2915,7 +2915,7 @@ html.kft.kft-fx :is(button.bg-primary, .tac-amber-cta, button[class*="shadow-[0_
   box-shadow: none !important;
 }
 
-/* ---------- Botón secundario ---------- */
+/* Botón secundario */
 html.kft.kft-fx :is(button[class*="rounded-md"][class*="border"]:not(.bg-primary), a[class*="rounded-md"][class*="border-input"], button.border-input):hover:not(:disabled) {
   background: var(--kft-tile) !important;
   border-color: hsl(var(--kft-accent) / 0.55) !important;
@@ -2930,7 +2930,7 @@ html.kft.kft-fx :is(button[aria-label^="Desplazar"], button[aria-label^="Scroll"
   box-shadow: 0 6px 16px -6px var(--kft-glow) !important;
 }
 
-/* ---------- Grupos segmentados y sub-pestañas ---------- */
+/* Grupos segmentados y sub-pestañas */
 html.kft.kft-fx :is(button[class*="rounded-[2px]"][class*="text-xs"], button[class*="tracking-[0.2em]"][class*="uppercase"], button.rounded[class*="tracking-[0.12em]"]):hover {
   background: var(--kft-tile) !important;
 }
@@ -3003,7 +3003,7 @@ html.kft.kft-fx [role="tab"]:is([data-state="active"], [aria-selected="true"]) {
   text-shadow: 0 0 18px var(--kft-glow);
 }
 
-/* ---------- Títulos ---------- */
+/* Títulos */
 html.kft.kft-fx h1 {
   background-image: linear-gradient(180deg, #fff 25%, #b4b4b4 100%);
   -webkit-background-clip: text;
@@ -3025,7 +3025,7 @@ html.kft.kft-fx div[class*="tracking-[0.24em]"] a:hover {
   color: var(--kft-accent-hex) !important;
 }
 
-/* ---------- Cabecera de partida (match room) ---------- */
+/* Cabecera de partida (match room) */
 html.kft.kft-fx header[class*="[background:linear-gradient"] {
   background-image: radial-gradient(70% 120% at 50% -30%, hsl(var(--kft-accent) / 0.14), transparent 60%) !important;
   box-shadow: var(--kft-edge), 0 30px 60px -30px rgba(0, 0, 0, 0.9) !important;
@@ -3044,7 +3044,7 @@ html.kft.kft-fx table tbody tr:hover > :first-child {
   box-shadow: inset 2px 0 0 var(--kft-accent-hex);
 }
 
-/* ---------- Medidor de nivel ---------- */
+/* Medidor de nivel */
 html.kft.kft-fx [data-kft-level]:hover {
   scale: 1.15;
   filter: drop-shadow(0 0 6px var(--kft-lvl));
@@ -3053,7 +3053,7 @@ html.kft.kft-fx [data-kft-level="10"] {
   filter: drop-shadow(0 0 5px rgba(254, 31, 0, 0.55));
 }
 
-/* ---------- Formularios: foco con anillo de acento ---------- */
+/* Formularios: foco con anillo de acento */
 html.kft.kft-fx [class*="group/input-group"] {
   transition: border-color var(--kft-t) var(--kft-ease), box-shadow var(--kft-t) var(--kft-ease);
 }
@@ -3070,7 +3070,7 @@ html.kft.kft-fx :is(button, a):focus-visible {
   box-shadow: 0 0 0 5px hsl(var(--kft-accent) / 0.2) !important;
 }
 
-/* ---------- Menús y popovers: cristal ---------- */
+/* Menús y popovers: cristal */
 html.kft.kft-fx :is([role="menu"], [role="listbox"], [role="dialog"],
   [data-radix-popper-content-wrapper] > div, [data-reka-popper-content-wrapper] > div) {
   background: rgba(18, 18, 18, 0.78) !important;
@@ -3090,7 +3090,7 @@ html.kft.kft-fx ::selection {
   background: hsl(var(--kft-accent) / 0.55);
 }
 
-/* ---------- Movimiento ---------- */
+/* Movimiento */
 @keyframes kft-rise { from { opacity: 0; translate: 0 14px; } }
 @keyframes kft-rise-sm { from { opacity: 0; translate: 0 6px; } }
 @keyframes kft-blur-in { from { opacity: 0; translate: 0 6px; filter: blur(8px); } }
@@ -4146,7 +4146,7 @@ html.kft [data-kft-prof="merc"] { order: 4; }
 html.kft [data-kft-prof="queue"] { order: 5; }
 html.kft [data-kft-prof="clips"] { order: 6; }
 
-/* --- Ficha: compacta, sin el JUGAR repetido --- */
+/* Ficha: compacta, sin el JUGAR repetido */
 html.kft [data-kft-prof="hero"] {
   gap: 16px !important;
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr) !important;
@@ -4242,7 +4242,7 @@ html.kft [data-kft-prof="hero"] > div > div > div.relative[class*="min-h-[150px]
   min-height: 140px !important;
 }
 
-/* --- Estadísticas --- */
+/* Estadísticas */
 html.kft [data-kft-prof="stats"] div.grid[class*="lg:grid-cols-5"] {
   gap: 12px !important;
 }
@@ -4306,7 +4306,7 @@ html.kft [data-kft-prof="stats"] div.grid[class*="lg:grid-cols-3"] > div:first-c
   overflow: hidden;
 }
 
-/* --- Fila secundaria: tres columnas compactas --- */
+/* Fila secundaria: tres columnas compactas */
 html.kft :is([data-kft-prof="merc"], [data-kft-prof="queue"], [data-kft-prof="clips"]) {
   min-width: 0;
   margin: 0 !important;
@@ -4745,7 +4745,7 @@ html.kft header[class*="bg-[linear-gradient(180deg,hsl(var(--card)/0.55)"]:has(+
 /* Leaderboard "standings" */
 html.kft { --kft-gold: 232 190 72; --kft-silver: 190 198 208; --kft-bronze: 200 132 78; }
 
-/* --- Podio: orden de Karasu [#2, #1, #3] --- */
+/* Podio: orden de Karasu [#2, #1, #3] */
 html.kft [data-kft-podium]:not(#kft) {
   display: grid !important;
   grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
@@ -4895,7 +4895,7 @@ html.kft [data-kft-podium] > a:is(:nth-child(1), :nth-child(3)) > div > div:nth-
   font-size: 12px !important;
 }
 
-/* --- Tabla --- */
+/* Tabla */
 html.kft table[data-kft-standings] [data-kft-hidecol] {
   display: none !important;
 }
@@ -5284,7 +5284,7 @@ html.kft header[data-kft-head]:not(:has(> div:nth-child(4))) {
 
 /* Pestañas de la sala más compactas */
 
-/* --- Economy --- */
+/* Economy */
 /* Gráficas más bajas (Chart.js se ajusta a su contenedor) */
 html.kft .match-tabs div.h-\[320px\]:has(> canvas),
 html.kft .match-tabs div[class*="sm:h-[340px]"]:has(> canvas) {
@@ -5342,7 +5342,7 @@ html.kft .match-tabs div.rounded-md.p-3.grid.gap-3:has(> div.grid > div.flex.ite
   padding: 10px 12px !important;
 }
 
-/* --- Clutches: cada clutch en una ficha de una línea --- */
+/* Clutches: cada clutch en una ficha de una línea */
 html.kft .match-tabs div.border-2.rounded-sm.flex-col:has(> span.font-extrabold) {
   flex-direction: row !important;
   justify-content: space-between;
@@ -5365,7 +5365,7 @@ html.kft .match-tabs div.flex.flex-col.gap-2.min-w-0 > div.pb-2.border-b {
   margin-bottom: 2px;
 }
 
-/* --- Roles: cada jugador en una fila (ficha | 3 métricas) --- */
+/* Roles: cada jugador en una fila (ficha | 3 métricas) */
 html.kft .match-tabs div.rounded-md[data-kft-role]:not(#kft) {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
