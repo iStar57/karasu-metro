@@ -40,7 +40,7 @@ function render() {
   document.body.classList.toggle("off", !state.enabled);
   $("status-text").textContent = state.enabled ? messages.active : messages.paused;
   $("hex").textContent = accent.toUpperCase();
-  for (const key of ["enabled", "uppercase", "fx"]) $(key).checked = !!state[key];
+  for (const key of ["enabled"]) $(key).checked = !!state[key];
   let preset = false;
   swatches.forEach((sw) => { const on = sw.dataset.c === accent; preset ||= on; sw.setAttribute("aria-pressed", on); });
   $custom.setAttribute("aria-pressed", !preset);
@@ -59,7 +59,7 @@ chrome.storage.sync.get({ ...DEFAULTS, accentV2: false }, (stored) => {
   delete stored.accentV2; state = { ...DEFAULTS, ...stored }; render();
 });
 chrome.storage.local.get({ siteLanguage: "" }, ({ siteLanguage }) => { if (siteLanguage) applyLanguage(siteLanguage); });
-for (const key of ["enabled", "uppercase", "fx"]) $(key).addEventListener("change", (e) => save({ [key]: e.target.checked }));
+for (const key of ["enabled"]) $(key).addEventListener("change", (e) => save({ [key]: e.target.checked }));
 swatches.forEach((sw) => sw.addEventListener("click", () => save({ accent: sw.dataset.c })));
 let accentTimer;
 $accent.addEventListener("input", () => { state.accent = $accent.value; render(); clearTimeout(accentTimer); accentTimer = setTimeout(() => save({ accent: $accent.value }), 250); });

@@ -56,8 +56,10 @@
 
   function apply() {
     root.classList.toggle("kft", settings.enabled);
-    root.classList.toggle("kft-upper", settings.enabled && settings.uppercase);
-    root.classList.toggle("kft-fx", settings.enabled && settings.fx);
+    // Mayúsculas y efectos son parte del tema (ya no son opciones): siempre
+    // activos, aunque una versión antigua guardara uppercase/fx = false
+    root.classList.toggle("kft-upper", settings.enabled);
+    root.classList.toggle("kft-fx", settings.enabled);
     const triplet = hexToHslTriplet(settings.accent);
     if (settings.enabled && triplet) {
       root.style.setProperty("--kft-accent", triplet, "important");
