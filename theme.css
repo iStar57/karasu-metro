@@ -5995,3 +5995,49 @@ html.kft main button[title][class*="bg-[hsl(var(--tac-amber))]/10"]:not(#kft) {
 html.kft main button[title] > span:nth-child(2) > :not(svg):not(span):empty {
   display: none !important;
 }
+
+/* ------------------------------------------------------------------ */
+/* 11u. Selectores con indicador deslizante (Utility, Economy…)        */
+/*      Karasu pinta la opción activa con un bloque de acento macizo y */
+/*      brillo, y el texto en negro: con el cian apenas se lee. Aquí:  */
+/*      tinte suave + borde fino, y el texto activo en el acento.      */
+/* ------------------------------------------------------------------ */
+html.kft span.pointer-events-none.absolute[class*="bg-[hsl(var(--tac-amber))]"][class*="shadow-[0_0_12px"]:not(#kft) {
+  background: hsl(var(--kft-accent) / 0.14) !important;
+  box-shadow: inset 0 0 0 1px hsl(var(--kft-accent) / 0.55) !important;
+}
+html.kft div:has(> span.pointer-events-none.absolute[class*="shadow-[0_0_12px"]) button[class*="text-black"]:not(#kft) {
+  color: var(--kft-accent-hex) !important;
+}
+html.kft div:has(> span.pointer-events-none.absolute[class*="shadow-[0_0_12px"]) button[class*="text-black"] * {
+  color: inherit !important;
+  opacity: 1 !important;
+}
+/* Las inactivas, legibles (Karasu las deja al 35-40 %) */
+html.kft div:has(> span.pointer-events-none.absolute[class*="shadow-[0_0_12px"]) button:not([class*="text-black"]):not(:disabled) {
+  color: var(--kft-text-2) !important;
+}
+html.kft div:has(> span.pointer-events-none.absolute[class*="shadow-[0_0_12px"]) button:not([class*="text-black"]):not(:disabled) * {
+  opacity: 1 !important;
+}
+html.kft div:has(> span.pointer-events-none.absolute[class*="shadow-[0_0_12px"]) button:not([class*="text-black"]):not(:disabled):hover {
+  color: var(--kft-text) !important;
+}
+
+/* Utility: la leyenda (Smoke, Flash…) va sobre el mapa; con fondo propio
+   para que las líneas del mapa no se crucen con el texto */
+html.kft .utility-board-chips button:not(#kft) {
+  background: rgba(10, 10, 10, 0.92) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: var(--kft-text-2) !important;
+}
+html.kft .utility-board-chips button[aria-pressed="true"]:not(#kft) {
+  border-color: hsl(var(--kft-accent) / 0.6) !important;
+  color: var(--kft-text) !important;
+}
+html.kft .utility-board-chips button > span[aria-hidden] {
+  opacity: 1 !important;
+}
+html.kft .utility-board-key {
+  color: var(--kft-text-2) !important;
+}
