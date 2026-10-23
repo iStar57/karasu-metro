@@ -33,7 +33,7 @@ function applyLanguage(rawLang) {
   if (group) group.setAttribute("aria-label", messages.accentSwatches);
 }
 let state = { ...DEFAULTS };
-applyLanguage("en"); // sin dato de la web: inglés; luego el idioma elegido en Karasu
+applyLanguage("en");
 function render() {
   const accent = state.accent.toLowerCase();
   document.documentElement.style.setProperty("--accent", accent);
@@ -78,9 +78,6 @@ chrome.storage.onChanged.addListener((changes, area) => {
 });
 $("notices-reset").addEventListener("click", () => chrome.storage.local.set({ dismissedAlerts: [] }, flashSaved));
 
-// Selector de color propio: cuadro de saturación/brillo, barra de tono y
-// campo hex. Escribe en el input de color oculto (#accent), así guarda
-// igual que antes (con su pequeña espera para no guardar a cada píxel).
 const $picker = $("picker"), $sv = $("sv"), $svKnob = $("sv-knob"), $hue = $("hue"), $hueKnob = $("hue-knob"), $hexIn = $("hex-in");
 let hsv = { h: 190, s: 0.8, v: 1 };
 function hexToHsv(hex) {
@@ -104,7 +101,6 @@ function paintPicker() {
   if (document.activeElement !== $hexIn) $hexIn.value = hsvToHex(hsv).slice(1).toUpperCase();
 }
 function syncPicker() {
-  // render() puede llegar antes de que este bloque se haya evaluado
   queueMicrotask(() => {
     if ($picker.hidden || $picker.contains(document.activeElement)) return;
     hsv = hexToHsv(state.accent);

@@ -14,3 +14,4 @@ Thumbs.db
 build-chrome.ps1
 build-firefox.ps1
 sign-firefox.ps1
+CHROME-WEB-STORE.md

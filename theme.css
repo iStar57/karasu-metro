@@ -1,27 +1,9 @@
-/* =====================================================================
-   Karasu Metro
-   Paleta base: fondo app #060606, tarjetas #121212, bloques internos
-   rgba(241,241,241,.05), divisores #242424, borde outline #383838,
-   texto #F1F1F1 / #A7A7A7 / #5D5D5D, acento #FF4B00, fuente Geist,
-   botones 32px 14px/700 uppercase +0.42px radio 4px.
 
-   karasu.live usa shadcn-vue + Tailwind. Sus variables CSS se escriben
-   también en línea en <html>, así que aquí van con !important.
-   Todo va acotado a html.kft para poder apagarlo desde el popup.
-   ===================================================================== */
 
-/* Las fuentes (Geist y Michroma, licencia OFL) las declara content.js con
-   runtime.getURL: la URL de la extensión es distinta en Chrome
-   (chrome-extension://) y en Firefox (moz-extension://<uuid>). */
-
-/* ------------------------------------------------------------------ */
-/* 1. Tokens                                                          */
-/* ------------------------------------------------------------------ */
+/* Tokens */
 html.kft {
   --kft-accent: 189 100% 61%;           /* #38E1FF, el cian de Karasu */
   --kft-accent-hex: #38e1ff;
-  /* Texto sobre el acento (content.js lo pone oscuro si el acento es claro)
-     y tono de hover; dependen del acento elegido */
   --kft-on-accent: #0b1215;
   --kft-accent-hover: color-mix(in oklab, var(--kft-accent-hex) 84%, #fff);
   --kft-app: #060606;
@@ -34,7 +16,6 @@ html.kft {
   --kft-outline: #383838;
   --kft-text: #f1f1f1;
   --kft-text-2: #a7a7a7;
-  /* Texto secundario: mantiene jerarquía y supera 4.5:1 sobre #060606 y #121212. */
   --kft-text-3: #858585;
   --kft-win: #6ade43;
   --kft-loss: #ef0000;
@@ -101,9 +82,7 @@ html.kft .dark {
   --topnav-ring: var(--kft-accent) !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 2. Tipografía: Geist en todo, sin monoespaciadas "tácticas"        */
-/* ------------------------------------------------------------------ */
+/* Tipografía: Geist en todo, sin monoespaciadas "tácticas" */
 html.kft,
 html.kft body,
 html.kft .font-sans,
@@ -118,9 +97,6 @@ html.kft h1, html.kft h2, html.kft h3, html.kft h4, html.kft h5, html.kft h6 {
   font-family: var(--kft-font) !important;
   font-stretch: normal !important;
 }
-/* Componentes con estilos scoped (data-v-…) declaran Oxanium por su cuenta.
-   Especificidad mínima: cualquier regla de fuente más concreta de este
-   archivo (p. ej. el logotipo) sigue ganando. */
 html.kft :where(#__nuxt, #teleports) * {
   font-family: var(--kft-font) !important;
 }
@@ -132,8 +108,6 @@ html.kft body {
   font-feature-settings: "tnum" 0;
 }
 
-/* Las etiquetas pequeñas en mayúsculas con mucho espaciado son el sello
-   de Karasu; aquí se usa texto gris normal. */
 html.kft [class*="tracking-[0.1"],
 html.kft [class*="tracking-[0.2"],
 html.kft [class*="tracking-[0.3"],
@@ -158,7 +132,6 @@ html.kft [class*="tabular-nums"] {
   font-variant-numeric: tabular-nums;
 }
 
-/* Títulos de página: sin texto duplicado con contorno ni degradado */
 html.kft [aria-hidden="true"][class*="-webkit-text-stroke"] {
   display: none !important;
 }
@@ -169,7 +142,6 @@ html.kft [class*="bg-clip-text"][class*="text-transparent"] {
   color: var(--kft-text) !important;
 }
 
-/* Cabecera de partida: nombres de equipo y marcador como en el match room */
 html.kft div[class*="[font-stretch:80%]"][class*="uppercase"] {
   text-transform: none !important;
   font-size: 28px !important;
@@ -196,8 +168,6 @@ html.kft div[class*="border-[hsl(var(--tac-amber)/0.4)]"] > span {
   color: var(--kft-text) !important;
   text-transform: uppercase !important;
 }
-/* Marco del avatar del perfil: borde y fondo naranja, más alto que la foto,
-   así que asomaba como dos rayas a la izquierda */
 html.kft span[class*="border-[hsl(var(--tac-amber)_/_0.4)]"][class*="bg-[hsl(var(--tac-amber)_/_0.12)]"] {
   border-color: transparent !important;
   background: transparent !important;
@@ -224,25 +194,17 @@ html.kft h1 {
   text-transform: none !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 3. Fondo y estructura                                              */
-/* ------------------------------------------------------------------ */
+/* Fondo y estructura */
 
-/* Fondo topográfico animado -> negro plano (aparece en el layout principal
-   y otra vez dentro de páginas sueltas como /login) */
 html.kft div.fixed.inset-0.pointer-events-none[aria-hidden="true"] > svg,
 html.kft div.fixed.inset-0.pointer-events-none[aria-hidden="true"] canvas,
 html.kft svg:has(> g > path.animate-topo-flow, > path.animate-topo-flow) {
-  /* display:none, no opacidad: así sus 18 trazos animados en bucle dejan de
-     recalcular estilos cada fotograma (~230 veces por segundo en reposo) */
   display: none !important;
 }
 html.kft div.fixed.inset-0.pointer-events-none[aria-hidden="true"] > .bg-background {
   background: var(--kft-app) !important;
 }
 
-/* Marcadores "HUD": guiones naranjas delante de etiquetas y esquinas en
-   corchete alrededor de avatares y cabeceras */
 html.kft span[class*="h-[2px]"][class*="bg-[hsl(var(--tac-amber))]"],
 html.kft .absolute[class*="border-[hsl(var(--tac-amber))]"]:is([class*="border-l-2"], [class*="border-r-2"]) {
   display: none !important;
@@ -356,9 +318,6 @@ html.kft [data-sidebar="menu-button"][aria-current="page"] svg {
 html.kft [data-sidebar="menu-button"][href="/plus"] {
   color: var(--kft-accent-hex) !important;
 }
-/* El botón de usuario del pie tiene dos líneas (nombre + iconos de baneo/VAC
-   y ELO) y su contenido mide 48px: con los 40px fijos de arriba se
-   desbordaba hacia arriba y se montaba sobre "Instalar app" */
 html.kft [data-sidebar="footer"] [data-sidebar="menu-button"][aria-haspopup="menu"] {
   height: auto !important;
   min-height: 56px;
@@ -370,19 +329,6 @@ html.kft [data-sidebar="footer"] button {
   color: var(--kft-text) !important;
 }
 
-/* ---------- Barra lateral reorganizada ----------
-   Karasu agrupa sin criterio ("Cola" fuera de "Jugar", lineups y clips bajo
-   "Social"), su CTA más llamativa es "Instalar app" y hace falta scroll.
-   Se reordena SIN mover nodos de Vue: grupos y listas pasan a
-   display: contents, así todas las entradas son hermanas y "order" las
-   coloca; los títulos de grupo nuevos son ::before de la primera entrada.
-     Buscar · JUGAR
-     Tu juego: Mis estadísticas, Utilidad (lineups)
-     Competir: Torneos, Liga, Scrims, Servidores públicos
-     Ver: En directo, Highlights
-     Comunidad: Equipos, Clasificación
-     Arsenal: Inventario, Personalización
-     Karasu+ (insignia)  ·  pie: Discord + Instalar en una fila */
 html.kft .group[data-side="left"] [data-sidebar="content"] {
   gap: 2px !important;
   padding: 4px 8px 10px;
@@ -394,9 +340,6 @@ html.kft .group[data-side="left"] [data-sidebar="content"] [data-sidebar="menu"]
 html.kft .group[data-side="left"] [data-sidebar="content"] :is([data-sidebar="group-label"], [role="none"].h-px) {
   display: none !important;
 }
-/* Orden: lo diario siempre visible; el resto en carpetas (content.js crea
-   las cabeceras .kft-folder y marca con data-kft-folded las entradas de
-   las carpetas cerradas) */
 html.kft .group[data-side="left"] [data-sidebar="content"] [data-sidebar="menu-item"] { order: 80; }
 html.kft .group[data-side="left"] [data-sidebar="content"] [data-sidebar="menu-item"]:has(> button[data-sidebar="menu-button"]) { order: 1; }
 html.kft .group[data-side="left"] [data-sidebar="content"] [data-sidebar="menu-item"]:has(> a[href="/play"]) { order: 2; }
@@ -480,7 +423,6 @@ html.kft .kft-folder[aria-expanded="true"] {
 html.kft .kft-folder[aria-expanded="true"] .kft-folder-chev {
   rotate: 90deg;
 }
-/* Carpeta cerrada que contiene la página actual: marca de acento */
 html.kft .kft-folder.has-active:not([aria-expanded="true"]) {
   color: var(--kft-text);
   box-shadow: inset 2px 0 0 var(--kft-accent-hex);
@@ -504,9 +446,6 @@ html.kft .group[data-side="left"] [data-sidebar="content"] [data-sidebar="menu-i
   }
 }
 
-/* Barra plegada (solo iconos): las carpetas quedan como un icono cada una
-   (su nombre al pasar el ratón); al pulsarla se despliega la barra con la
-   carpeta abierta. Sus entradas no se repiten aquí. */
 html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] [data-sidebar="menu-item"][data-kft-in-folder] {
   display: none !important;
 }
@@ -516,12 +455,10 @@ html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="conten
   padding-left: 0;
 }
 
-/* Entradas algo más compactas: todo cabe sin scroll a 900px de alto */
 html.kft .group[data-side="left"] [data-sidebar="content"] [data-sidebar="menu-button"] {
   height: 32px !important;
 }
 
-/* Buscar: con aspecto de campo de búsqueda (abre la paleta, Ctrl K) */
 html.kft .group[data-side="left"] [data-sidebar="content"] button[data-sidebar="menu-button"] {
   height: 36px !important;
   margin-bottom: 4px;
@@ -564,9 +501,6 @@ html.kft .group[data-side="left"] [data-sidebar="content"] a[href="/plus"][data-
   background: hsl(var(--kft-accent) / 0.08) !important;
 }
 
-/* Pie en cuadrícula: fila 1 Discord (icono) + Instalar app (botón discreto,
-   ya no compite con JUGAR); fila 2 el usuario. Estructura de Karasu:
-   ul > [li Discord, div > li Instalar, li usuario] */
 html.kft .group[data-side="left"] [data-sidebar="footer"] > [data-sidebar="menu"] {
   display: grid !important;
   grid-template-columns: 40px 1fr;
@@ -607,7 +541,6 @@ html.kft .group[data-side="left"] [data-sidebar="footer"] > [data-sidebar="menu"
   border-color: #5d5d5d !important;
 }
 
-/* Barra plegada (solo iconos): sin títulos; Buscar y JUGAR como iconos */
 html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] [data-sidebar="menu-item"]::before {
   display: none !important;
 }
@@ -623,11 +556,6 @@ html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="footer
   grid-template-columns: 1fr;
 }
 
-/* ---------- Rail derecho: bloques + etiqueta al pasar el ratón ----------
-   Seis iconos sin texto, en orden aleatorio. Se ordenan en tres bloques
-   (Notificaciones │ Lobby · Amigos · Chat · Voz │ Partidas recientes) y cada
-   uno muestra su nombre a la izquierda en hover. content.js les pone además
-   aria-label, que no traían. */
 html.kft div.w-14.border-l.flex-col:has(> button svg.lucide-bell) > button:has(svg.lucide-bell) { order: 1; }
 html.kft div.w-14.border-l.flex-col:has(> button svg.lucide-bell) > button:has(svg.lucide-tent) { order: 3; }
 html.kft div.w-14.border-l.flex-col:has(> button svg.lucide-bell) > button:has(svg.lucide-users) { order: 4; }
@@ -711,11 +639,8 @@ html.kft main > header [data-orientation="vertical"][role="none"] {
   display: none !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 4. Superficies                                                     */
-/* ------------------------------------------------------------------ */
+/* Superficies */
 
-/* Cabeceras de página "HUD": sin caja, sin degradado, sin corchetes */
 html.kft header[class*="bg-[linear-gradient"],
 html.kft header[class*="[background:linear-gradient"] {
   background: transparent !important;
@@ -768,7 +693,6 @@ html.kft .shadow-md,
 html.kft .shadow-lg {
   box-shadow: none !important;
 }
-/* Barrita de color a la izquierda de las tarjetas de estadísticas */
 html.kft span[aria-hidden="true"].absolute.left-0[class*="w-[2px]"] {
   display: none !important;
 }
@@ -833,9 +757,7 @@ html.kft span[class*="rounded"][class*="border-border/60"][class*="tabular-nums"
   color: var(--kft-text) !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 5. Botones                                                         */
-/* ------------------------------------------------------------------ */
+/* Botones */
 html.kft button,
 html.kft [role="button"],
 html.kft a.inline-flex {
@@ -882,8 +804,6 @@ html.kft .tac-amber-cta {
   min-height: 48px;
   font-size: 16px !important;
 }
-/* CTA de la cola ("Jugar" / "Inicia sesión para jugar"): su fondo va en
-   línea, así que se fuerza aquí */
 html.kft button[class*="shadow-[0_4px_20px_hsl(var(--primary)"] {
   background: var(--kft-accent-hex) !important;
   color: var(--kft-on-accent) !important;
@@ -925,8 +845,6 @@ html.kft a[class*="rounded-md"][class*="border-input"]:hover {
   border-color: #5d5d5d !important;
 }
 
-/* Grupos segmentados (Global/Semanal/País, 5v5/2v2/1v1, Todos/T/CT):
-   la opción activa es un contorno blanco sobre fondo transparente */
 html.kft [class*="inline-flex"][class*="rounded-[3px]"].border,
 html.kft [class*="inline-flex"][class*="rounded"][class*="bg-card"][class*="p-1"] {
   background: transparent !important;
@@ -966,15 +884,12 @@ html.kft button[class*="tracking-[0.2em]"]:is([class^="bg-[hsl(var(--tac-amber)"
   background: transparent !important;
 }
 
-/* Sub-pestañas (General / Puntería / Trades…): activa con contorno blanco */
 html.kft button.rounded[class*="tracking-[0.12em]"] {
   border: 1px solid transparent !important;
   border-radius: 4px !important;
   padding: 6px 12px !important;
   font-weight: 700 !important;
 }
-/* Ojo con [class*=]: "hover:bg-[…/0.18]" también contiene la cadena; solo
-   vale cuando la clase empieza ahí */
 html.kft button:is([class^="bg-[hsl(var(--tac-amber)/0.18)]"], [class*=" bg-[hsl(var(--tac-amber)/0.18)]"]) {
   background: transparent !important;
   border: 1px solid var(--kft-text) !important;
@@ -992,9 +907,7 @@ html.kft button[aria-label^="Scroll"] {
   color: var(--kft-text) !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 6. Pestañas (reka-ui Tabs) -> pestañas primarias         */
-/* ------------------------------------------------------------------ */
+/* Pestañas (reka-ui Tabs) -> pestañas primarias */
 html.kft [role="tablist"] {
   background: transparent !important;
   border-radius: 0 !important;
@@ -1025,15 +938,12 @@ html.kft [role="tab"][aria-selected="true"] {
   color: var(--kft-accent-hex) !important;
   box-shadow: inset 0 -2px 0 var(--kft-accent-hex) !important;
 }
-/* Indicador deslizante propio de Karasu: lo sustituye el subrayado */
 html.kft [role="tablist"] > [class*="absolute"][class*="bottom-0"],
 html.kft [role="tablist"] > [class*="TabsIndicator"] {
   display: none !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 7. Encabezados de sección ("Partidas en directo", etc.)            */
-/* ------------------------------------------------------------------ */
+/* Encabezados de sección ("Partidas en directo", etc.) */
 html.kft div[class*="tracking-[0.24em]"][class*="uppercase"] {
   font-size: 16px !important;
   font-weight: 700 !important;
@@ -1053,9 +963,7 @@ html.kft div[class*="tracking-[0.24em]"] a:hover {
   color: var(--kft-text) !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 8. Tablas (clasificación, marcador)                                */
-/* ------------------------------------------------------------------ */
+/* Tablas (clasificación, marcador) */
 html.kft table thead tr,
 html.kft table thead th {
   background-color: transparent !important;
@@ -1081,7 +989,6 @@ html.kft table td {
   font-size: 14px;
 }
 
-/* Medidor de nivel (content.js añade data-kft-level y el color) */
 html.kft [data-kft-level] {
   --kft-lvl-deg: calc(var(--kft-lvl-n, 1) * 27deg);
   display: inline-flex !important;
@@ -1101,9 +1008,7 @@ html.kft [data-kft-level] {
   vertical-align: middle;
 }
 
-/* ------------------------------------------------------------------ */
-/* 9. Formularios                                                     */
-/* ------------------------------------------------------------------ */
+/* Formularios */
 html.kft input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
 html.kft textarea,
 html.kft select {
@@ -1113,8 +1018,6 @@ html.kft select {
   color: var(--kft-text) !important;
   height: 40px;
 }
-/* Input sin borde dentro de un grupo (icono + campo): el marco lo pone el
-   grupo, no el input */
 html.kft input.border-0:not([type="checkbox"]):not([type="radio"]):not([type="range"]) {
   border: 0 !important;
   background: transparent !important;
@@ -1161,9 +1064,7 @@ html.kft [role="option"][data-highlighted] {
   background: var(--kft-tile) !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 10. Colores fijos de Karasu (cian) -> acento                       */
-/* ------------------------------------------------------------------ */
+/* Colores fijos de Karasu (cian) -> acento */
 html.kft .text-\[\#38e1ff\],
 html.kft .text-sky-300,
 html.kft .text-sky-400,
@@ -1217,9 +1118,7 @@ html.kft :is([class^="text-muted-foreground/"], [class*=" text-muted-foreground/
   color: var(--kft-text-3) !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 11. Selección y scrollbars                                         */
-/* ------------------------------------------------------------------ */
+/* Selección y scrollbars */
 html.kft ::selection {
   background: hsl(var(--kft-accent) / 0.45);
   color: #fff;
@@ -1233,9 +1132,7 @@ html.kft ::-webkit-scrollbar-track { background: transparent; }
 html.kft ::-webkit-scrollbar-thumb { background: #2e2e2e; border-radius: 4px; }
 html.kft ::-webkit-scrollbar-thumb:hover { background: #383838; }
 
-/* ------------------------------------------------------------------ */
-/* 11a. Avisos de Karasu: botón de cerrar (lo añade content.js)       */
-/* ------------------------------------------------------------------ */
+/* Avisos de Karasu: botón de cerrar (lo añade content.js) */
 html.kft .alert-row [role="alert"]:has(> .kft-close) {
   padding-right: 52px !important;
 }
@@ -1264,7 +1161,6 @@ html.kft .kft-close:hover {
   background: var(--kft-tile);
   color: var(--kft-text);
 }
-/* Karasu ya monta la fila como grid de 1fr: plegarla es pasar a 0fr */
 html.kft .alert-row[data-kft-closing] {
   grid-template-rows: 0fr !important;
   opacity: 0;
@@ -1273,14 +1169,8 @@ html.kft .alert-row[data-kft-dismissed] {
   display: none !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 11b. Inventario (/apps/inventory)                                  */
-/*      El contenedor raíz lleva --acc en línea: es el color del bando */
-/*      (CT azul / T), así que se respeta para selección y bando.      */
-/* ------------------------------------------------------------------ */
+/* Inventario (/apps/inventory) */
 
-/* Rareza: Karasu la pinta con un border-left en línea. Se traduce a una
-   variable para poder usarla también en brillos y anillos. */
 html.kft [style*="--acc:"] button[style*="176, 195, 217"] { --kft-r: 176 195 217; }
 html.kft [style*="--acc:"] button[style*="94, 152, 217"] { --kft-r: 94 152 217; }
 html.kft [style*="--acc:"] button[style*="75, 105, 255"] { --kft-r: 75 105 255; }
@@ -1335,7 +1225,6 @@ html.kft [style*="--acc:"] button.group.rounded-lg.border[style*="border-left"] 
 html.kft [style*="--acc:"] button.group.rounded-lg.border:hover {
   background-color: var(--kft-card-2) !important;
 }
-/* Tipo de arma ("P2000", "ZEUS X27"): de 8-9px gris oscuro a legible */
 html.kft [style*="--acc:"] button.group.rounded-lg.border :is([class*="text-f8"], [class*="text-f9"])[class*="uppercase"] {
   font-size: 10.5px !important;
   font-weight: 600 !important;
@@ -1360,12 +1249,10 @@ html.kft [style*="--acc:"] button.group.rounded-lg.border:is([class^="border-[co
   border-left-color: var(--acc) !important;
 }
 
-/* Las tarjetas del selector marcan la rareza abajo, no a la izquierda */
 html.kft [style*="--acc:"] button.group.rounded-lg.border[style*="border-bottom"] {
   border-bottom-color: rgb(var(--kft-r, 241 241 241)) !important;
 }
 
-/* Filtro por tipo de cuchillo / guantes en el selector (content.js) */
 html.kft [data-kft-hide] {
   display: none !important;
 }
@@ -1474,22 +1361,12 @@ html.kft .kft-empty {
   }
 }
 
-/* ---------- Distribución nueva: filas de compra + selector lateral ----------
-   Original: loadout en 4 columnas y el selector de skins en una franja
-   inferior de 34vh (eliges arriba, buscas abajo, scroll, vuelves arriba).
-   Nuevo: el loadout son 4 filas de 5 ranuras como el menú de compra de CS2,
-   visible entero, y el selector es un panel lateral a toda altura junto a
-   lo que estás editando. Solo cuando hay sitio (container query); en
-   pantallas estrechas se queda el original, que ahí funciona mejor. */
 html.kft [style*="--acc:"] div:has(> section.absolute.inset-x-0.bottom-0) {
   container: kft-inv / inline-size;
 }
 
 @container kft-inv (min-width: 1000px) {
-  /* Loadout: columna de filas con scroll propio, hueco a la derecha */
   html.kft [style*="--acc:"] div.relative.isolate.flex[style*="padding-bottom"] {
-    /* Alto de fila = (alto del loadout − 4 encabezados − rellenos) / 4, para
-       que las 4 filas llenen la pantalla sin scroll; nunca menos de 112px */
     container-type: size;
     --kft-row: clamp(112px, (100cqh - 172px) / 4, 220px);
     flex-direction: column !important;
@@ -1539,7 +1416,6 @@ html.kft [style*="--acc:"] div:has(> section.absolute.inset-x-0.bottom-0) {
     min-height: 0 !important;
     height: auto !important;
   }
-  /* Equipo: cuchillo, guantes, agente + bloque 3x2 con los extras */
   html.kft [style*="--acc:"] div.relative.isolate.flex[style*="padding-bottom"] aside .grid.grid-cols-2 {
     grid-column: span 2;
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
@@ -1563,7 +1439,6 @@ html.kft [style*="--acc:"] div:has(> section.absolute.inset-x-0.bottom-0) {
     line-height: 1.2 !important;
     font-size: 9.5px !important;
   }
-  /* Pie de tarjeta: nombre arriba, float y desgaste debajo a todo el ancho */
   html.kft [style*="--acc:"] div.relative.isolate.flex[style*="padding-bottom"] button.group > div.flex.items-end.justify-between {
     flex-direction: column !important;
     align-items: stretch !important;
@@ -1598,7 +1473,6 @@ html.kft [style*="--acc:"] div:has(> section.absolute.inset-x-0.bottom-0) {
     gap: 8px !important;
     padding: 14px 16px !important;
   }
-  /* Buscador a todo el ancho, primero; el botón de plegar sobra en lateral */
   html.kft [style*="--acc:"] section.absolute.inset-x-0.bottom-0 > .flex-none > div > div.border-b > div[class*="w-[220px]"] {
     order: -1;
     flex: 1 1 100% !important;
@@ -1619,9 +1493,6 @@ html.kft [style*="--acc:"] div:has(> section.absolute.inset-x-0.bottom-0) {
     padding: 14px 16px 24px !important;
   }
 
-  /* Focused: fila rail · escaparate (el selector ya va a la derecha). Aquí
-     el protagonista es el escaparate, así que el selector es compacto:
-     360px y siempre dos columnas de miniaturas. */
   html.kft [style*="--acc:"] div:has(> section.absolute.inset-x-0.bottom-0):has(nav.animate-rail-in) > * {
     --kft-pick-w: 360px;
   }
@@ -1630,13 +1501,9 @@ html.kft [style*="--acc:"] div:has(> section.absolute.inset-x-0.bottom-0) {
     grid-auto-rows: 200px !important;
     gap: 10px !important;
   }
-  /* Visor apaisado (2:1), centrado: la cámara 3D de Karasu está encuadrada
-     para un lienzo ancho; en uno alto y estrecho recortaba el arma */
   html.kft [style*="--acc:"] .animate-view-in div.relative.z-\[2\].flex.min-h-0.flex-1 {
     align-items: center !important;
   }
-  /* Sus capas de resplandor, rejilla y viñeta acababan en seco en el borde
-     del visor y lo convertían en una caja; la luz ya la pone la vitrina */
   html.kft [style*="--acc:"] .animate-view-in div[class*="min-h-[320px]"] > span.absolute.inset-0 {
     display: none !important;
   }
@@ -1665,14 +1532,6 @@ html.kft [style*="--acc:"] div:has(> section.absolute.inset-x-0.bottom-0) {
     min-width: 0;
     padding: 16px !important;
   }
-  /* Patrón y desgaste: franja abajo, a todo el ancho, para no tapar el modelo.
-     Karasu aparta el modelo 3D a la izquierda la mitad del ANCHO de este
-     contenedor (para que no quede debajo del panel). Así que el contenedor
-     se queda con ancho 0, el modelo se centra, y los paneles de dentro se
-     dibujan a todo el ancho del escaparate. */
-  /* Hueco reservado para la franja (96px de alto + 4 de aire): el visor se
-     apoya justo encima, así sus controles quedan a ~20px de los paneles a
-     cualquier alto, y el espacio sobrante se va arriba, bajo el título */
   html.kft [style*="--acc:"] .animate-view-in > div.rounded-2xl > div.relative.flex.flex-col {
     padding-bottom: 100px;
   }
@@ -1689,8 +1548,6 @@ html.kft [style*="--acc:"] div:has(> section.absolute.inset-x-0.bottom-0) {
     overflow: visible !important;
   }
   html.kft [style*="--acc:"] .animate-view-in div[class*="w-[308px]"] > div {
-    /* 100cqi = caja de contenido del escaparate; menos borde (2) y
-       relleno (64) de la vitrina = ancho interior exacto */
     width: calc(100cqi - 66px);
     flex-direction: row !important;
     align-items: stretch;
@@ -1699,7 +1556,6 @@ html.kft [style*="--acc:"] div:has(> section.absolute.inset-x-0.bottom-0) {
   html.kft [style*="--acc:"] .animate-view-in div[class*="w-[308px]"] > div {
     gap: 12px !important;
   }
-  /* Los dos paneles con el mismo esquema: etiqueta arriba, valor debajo */
   html.kft [style*="--acc:"] .animate-view-in div[class*="w-[308px]"] > div > .animate-sheet-in {
     display: flex !important;
     flex: 1 1 0;
@@ -1724,7 +1580,6 @@ html.kft [style*="--acc:"] div:has(> section.absolute.inset-x-0.bottom-0) {
     font-weight: 700 !important;
     line-height: 1 !important;
   }
-  /* Desgaste: "WEAR" a la izquierda y el estado (Factory New) a la derecha */
   html.kft [style*="--acc:"] .animate-view-in div[class*="w-[308px]"] .animate-sheet-in > div.items-baseline {
     justify-content: space-between;
   }
@@ -1740,7 +1595,6 @@ html.kft [style*="--acc:"] div:has(> section.absolute.inset-x-0.bottom-0) {
     font-size: 12px !important;
   }
 }
-/* Escaparate estrecho: título arriba y botones en una segunda línea */
 @container kft-hero (max-width: 760px) {
   html.kft [style*="--acc:"] .animate-view-in .over-art {
     flex-direction: column !important;
@@ -1754,13 +1608,7 @@ html.kft [style*="--acc:"] div:has(> section.absolute.inset-x-0.bottom-0) {
     font-size: 36px !important;
   }
 }
-/* ---------- Modo FOCUSED: rail · escaparate · selector ----------
-   Karasu cambia el loadout por un rail de miniaturas (nav.animate-rail-in)
-   y un escaparate del objeto con visor 3D (.animate-view-in). Aquí: el rail
-   a la izquierda, el escaparate a toda altura en el centro y el selector a
-   la derecha, en el mismo sitio que en el modo Loadout. */
 
-/* Rarezas también para el escaparate (lo deduce de su resplandor en línea) */
 html.kft [style*="--acc:"] .animate-view-in > div:has(> span[style*="176, 195, 217"]) { --kft-r: 176 195 217; }
 html.kft [style*="--acc:"] .animate-view-in > div:has(> span[style*="94, 152, 217"]) { --kft-r: 94 152 217; }
 html.kft [style*="--acc:"] .animate-view-in > div:has(> span[style*="75, 105, 255"]) { --kft-r: 75 105 255; }
@@ -1769,8 +1617,6 @@ html.kft [style*="--acc:"] .animate-view-in > div:has(> span[style*="211, 44, 23
 html.kft [style*="--acc:"] .animate-view-in > div:has(> span[style*="235, 75, 75"]) { --kft-r: 235 75 75; }
 html.kft [style*="--acc:"] .animate-view-in > div:has(> span[style*="228, 174, 57"]) { --kft-r: 228 174 57; }
 
-/* Rail: miniaturas con barra de rareza (la regla general de botones
-   secundarios les ponía borde gris y se la quitaba) */
 html.kft [style*="--acc:"] nav.animate-rail-in {
   background: #0a0a0a;
   border-right-color: var(--kft-line) !important;
@@ -1801,7 +1647,6 @@ html.kft [style*="--acc:"] nav.animate-rail-in button.group:is([class^="border-[
   box-shadow: 0 0 0 1px var(--acc), 0 0 18px -4px var(--acc) !important;
 }
 
-/* Escaparate: vitrina con foco cenital, suelo con reflejo de la rareza */
 html.kft [style*="--acc:"] .animate-view-in > div.rounded-2xl {
   border-radius: 14px !important;
   border-color: rgb(var(--kft-r, 241 241 241) / 0.16) !important;
@@ -1827,8 +1672,6 @@ html.kft [style*="--acc:"] .animate-view-in .over-art [class*="text-f9"][class*=
   font-weight: 600 !important;
   letter-spacing: 0.14em !important;
 }
-/* Karasu le pone un text-shadow oscuro; con relleno transparente se veía
-   a través y el título parecía hueco. La sombra pasa a drop-shadow. */
 html.kft [style*="--acc:"] .animate-view-in .over-art h2 {
   font-size: 44px !important;
   font-weight: 800 !important;
@@ -1870,7 +1713,6 @@ html.kft [style*="--acc:"] .animate-view-in div[class*="w-[308px]"] [class*="tex
   font-weight: 600 !important;
 }
 
-/* 420px = dos columnas de 176px (mínimo de Karasu) + relleno + scrollbar */
 html.kft [style*="--acc:"] {
   --kft-pick-w: 420px;
 }
@@ -1880,14 +1722,7 @@ html.kft [style*="--acc:"] {
   }
 }
 
-/* ------------------------------------------------------------------ */
-/* 11c. /play: consola de lobby                                       */
-/*      content.js marca las piezas con data-kft-play. Las dos         */
-/*      columnas de Karasu pasan a display: contents y todo se apila   */
-/*      en una sola columna centrada:                                  */
-/*        [estadísticas] [grupo] [botón de jugar]  ← un único módulo   */
-/*        mapas · baneos · directos (secundarios)                      */
-/* ------------------------------------------------------------------ */
+/* /play: consola de lobby */
 html.kft [data-kft-play="root"] {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr);
@@ -1973,7 +1808,6 @@ html.kft [data-kft-play="party"] {
   box-shadow: none !important;
   animation: none !important;
 }
-/* Cabecera: modos de juego a la izquierda, ocupación a la derecha */
 html.kft [data-kft-play="party"] > div:first-child {
   margin-bottom: 20px !important;
   gap: 6px !important;
@@ -1998,7 +1832,6 @@ html.kft [data-kft-play="party"] div[style*="grid-template-columns"] > div {
   border-radius: 14px !important;
   transition: translate 0.3s var(--kft-ease, ease), box-shadow 0.3s var(--kft-ease, ease), border-color 0.3s;
 }
-/* Jugador: carta oscura con luz cenital y avatar grande con anillo */
 html.kft [data-kft-play="party"] div[style*="grid-template-columns"] > div:not(:has(> button)) {
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   background:
@@ -2103,7 +1936,6 @@ html.kft [data-kft-play="right"][data-kft-play="right"] > button[class]:not(:dis
 html.kft [data-kft-play="right"][data-kft-play="right"] > button[class]:not(:disabled):not(:disabled):hover {
   filter: brightness(1.08);
 }
-/* Desactivado ("Solo el líder…"): es un aviso, no un botón roto */
 html.kft [data-kft-play="right"][data-kft-play="right"] > button[class]:disabled:disabled {
   display: flex;
   align-items: center;
@@ -2130,7 +1962,6 @@ html.kft [data-kft-play="right"][data-kft-play="right"] > button[class]:disabled
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='11' width='18' height='11' rx='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E") center / contain no-repeat;
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='11' width='18' height='11' rx='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E") center / contain no-repeat;
 }
-/* Cualquier otra cosa de la columna derecha (estado de cola…) va debajo */
 html.kft [data-kft-play="right"] > :not(button:first-child) {
   margin-top: 12px;
 }
@@ -2158,7 +1989,6 @@ html.kft [data-kft-play="maps"] > div > div:first-child > span:nth-child(2) {
   color: var(--kft-text-3) !important;
   font-size: 12px !important;
 }
-/* Competitive / Wingman / Duel: mismo estilo que 5v5 / 2v2 / 1v1 */
 html.kft [data-kft-play="maps"] > div > div:first-child button {
   padding: 6px 14px !important;
   border: 1px solid transparent !important;
@@ -2246,19 +2076,8 @@ html.kft [data-kft-play="bans"] [class*="snap-x"] span[class*="border-[hsl(var(-
   letter-spacing: 0.04em !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 11d. Sala de partida (/matches/<id>)                               */
-/*      content.js marca: turn (banner del veto), veto (rejilla),      */
-/*      credit (Mercurial), data-kft-prelive en la tabla sin datos,    */
-/*      data-kft-elo / data-kft-mine en la cabecera y data-kft-myturn. */
-/* ------------------------------------------------------------------ */
+/* Sala de partida (/matches/<id>) */
 
-/* Cabecera compacta, en una franja:
-     [equipo 1]   FINISHED · hace 29 min   [equipo 2]
-                     0  :  1
-                 BO1 · Europe · Dusseldorf
-   Las 4 filas de Karasu pasan a una rejilla de 3 columnas: la fila de
-   equipos (display: contents) reparte sus hijos a los lados y al centro. */
 html.kft header:has([data-kft-elo]) {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
@@ -2274,8 +2093,6 @@ html.kft header:has([data-kft-elo]) > div:first-child {
   gap: 8px !important;
   margin: 0 !important;
 }
-/* Menú ⋮ en la fila de estado del centro: en la esquina chocaba con la
-   etiqueta VICTORIA cuando gana el equipo de la derecha */
 html.kft header:has([data-kft-elo]) > div:first-child > div.ml-auto {
   margin: 0 !important;
 }
@@ -2359,9 +2176,6 @@ html.kft header:has([data-kft-elo]) span[class*="tracking-[0.3em]"] {
   color: var(--kft-text-3) !important;
 }
 
-/* Banner de turno del veto: una barra a todo el ancho, igual en sus dos
-   modos (content.js marca data-kft-turn = you | wait). Sin brillos: el
-   turno propio se marca con borde y franja lateral del acento. */
 html.kft [data-kft-match="turn"]:not(#kft) {
   max-width: none !important;
   margin: 0 !important;
@@ -2377,7 +2191,6 @@ html.kft [data-kft-match="turn"][data-kft-myturn]:not(#kft) {
   background: linear-gradient(90deg, hsl(var(--kft-accent) / 0.08), transparent 45%), #101010 !important;
   box-shadow: inset 3px 0 0 var(--kft-accent-hex) !important;
 }
-/* Urgente (últimos segundos): Karasu pinta en rojo la franja o la cifra */
 html.kft [data-kft-match="turn"]:has(.bg-destructive, span.text-destructive) {
   --kft-turn: #ff4d4d;
 }
@@ -2437,8 +2250,6 @@ html.kft [data-kft-match="turn"][data-kft-turn="wait"] > div:first-child > span:
   content: "s";
 }
 
-/* Modo "you": la franja de Karasu se deshace en la misma fila
-     [TU TURNO]  BANEA UN MAPA / equipo ............ [51s] */
 html.kft [data-kft-match="turn"][data-kft-turn="you"]:not(#kft) {
   display: grid !important;
   grid-template-columns: auto minmax(0, 1fr) auto;
@@ -2499,8 +2310,6 @@ html.kft [data-kft-match="turn"][data-kft-turn="you"] > div:last-child:not(:firs
   grid-area: bar;
 }
 
-/* Opciones del veto (mapas, servidores, bandos): una rejilla que reparte
-   todo el ancho; los 7 mapas caben en una fila */
 html.kft [data-kft-match="veto"]:not(#kft) {
   display: grid !important;
   grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
@@ -2613,7 +2422,6 @@ html.kft [data-kft-match="vetoblock"].flex-col > [data-orientation],
 html.kft [data-kft-match="vetoblock"].flex-col > [role="none"] {
   display: none !important;
 }
-/* Historial del veto en curso: miniaturas sin el icono encima del nombre */
 html.kft [data-kft-match="vetoblock"] .picks-grid > .pick-card > div:first-child > div.flex-col > img {
   display: none !important;
 }
@@ -2622,20 +2430,12 @@ html.kft [data-kft-match="vetoblock"] .picks-grid > .pick-card > div:first-child
   padding: 0 0 6px !important;
 }
 
-/* Distribución de la sala de partida:
-     [alineación 1] [centro: mapa, veto, comms, chat] [alineación 2]
-     [pestañas de estadísticas a todo el ancho]
-   Las alineaciones (.kft-rosters) las pinta content.js. */
-/* La consulta mide al padre: un contenedor no puede consultarse a sí mismo */
 html.kft :has(> [data-kft-match="body"]) {
   container: kft-room / inline-size;
 }
 @container kft-room (min-width: 1000px) {
   html.kft [data-kft-match="body"] {
     grid-template-columns: minmax(240px, 1fr) minmax(340px, 400px) minmax(240px, 1fr) !important;
-    /* Fila 1: veto (en curso o terminado). Centro en filas: conectar, mapa,
-       chat, comms; las alineaciones abarcan esas filas y la de relleno (1fr)
-       se queda el sobrante, así no se abren huecos entre piezas del centro */
     grid-template-areas:
       "veto veto veto"
       "t0 c1 t1"
@@ -2655,7 +2455,6 @@ html.kft :has(> [data-kft-match="body"]) {
   html.kft [data-kft-match="body"] [data-kft-match="connect"] { grid-area: c1; }
   html.kft [data-kft-match="body"] [data-kft-match="map"] { grid-area: c2; }
   html.kft [data-kft-match="body"] [data-kft-match="chat"] { grid-area: c3; }
-  /* Comms: panel flotante sobre el chat, se abre con el botón "Voz" */
   html.kft [data-kft-match="body"] [data-kft-match="comms"] {
     grid-area: c3;
     align-self: start;
@@ -2688,8 +2487,6 @@ html.kft :has(> [data-kft-match="body"]) {
 html.kft .kft-rosters {
   display: contents;
 }
-/* La columna de estadísticas de Karasu (veto + crédito + pestañas) se
-   deshace para que cada pieza ocupe su fila: el veto, arriba del todo */
 html.kft [data-kft-match="body"] > [data-kft-match="tabs"],
 html.kft [data-kft-match="body"] > [data-kft-match="tabs"] > div.min-w-0 {
   display: contents !important;
@@ -2697,9 +2494,6 @@ html.kft [data-kft-match="body"] > [data-kft-match="tabs"] > div.min-w-0 {
 html.kft [data-kft-match="vetoblock"] {
   padding-bottom: 8px !important;
 }
-/* Dentro del veto, en filas a todo el ancho: el turno, las opciones
-   (servidores, mapas o bandos) y el historial como franja de casillas,
-   la misma que queda arriba cuando el veto termina */
 html.kft [data-kft-match="vetoblock"] > div.min-h-0 {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -2712,7 +2506,6 @@ html.kft [data-kft-match="vetoblock"] > div.min-h-0 > * {
 html.kft [data-kft-match="vetoblock"] > div.min-h-0 > div.h-px {
   display: none !important;
 }
-/* Mapas: cartas cuadradas, así la fila de 7 no se come la pantalla */
 html.kft [data-kft-match="vetoblock"] [data-kft-match="veto"] > div:not([class*="w-[180px]"]) > div {
   aspect-ratio: 1;
 }
@@ -2752,19 +2545,16 @@ html.kft [data-kft-match="vetoblock"] .picks-grid > .pick-card--placeholder:not(
   min-height: 80px !important;
   height: auto !important;
 }
-/* El contenedor de opciones de Karasu lleva relleno y ancho propios */
 html.kft [data-kft-match="vetoblock"] .container {
   max-width: none !important;
   padding: 0 !important;
 }
-/* Jugadores justo bajo el marcador; los highlights de vídeo, después */
 html.kft div.flex.flex-col:has(> [data-kft-match="body"]) > [data-kft-match="body"] {
   order: 2;
 }
 html.kft div.flex.flex-col:has(> [data-kft-match="body"]) > :not(header):not([data-kft-match="body"]) {
   order: 3;
 }
-/* Con las alineaciones a los lados, la tabla previa sin datos sobra */
 html.kft [data-kft-match="body"]:has(.kft-rosters) table[data-kft-prelive] {
   display: none !important;
 }
@@ -2936,8 +2726,6 @@ html.kft [data-kft-match="comms"]:not([data-kft-open]) > :not(:first-child) {
   display: none !important;
 }
 
-/* Veto de mapas terminado: franja de arriba, misma estructura que la barra
-   de baneos (una fila con los 7 mapas en orden) */
 html.kft [data-kft-match="vetohist"] > div > div {
   padding: 12px !important;
   border: 1px solid rgba(255, 255, 255, 0.06) !important;
@@ -2963,7 +2751,6 @@ html.kft [data-kft-match="credit"] {
   opacity: 0.6;
 }
 
-/* Antes de empezar: el marcador sin datos son las dos alineaciones */
 html.kft table[data-kft-prelive] {
   display: grid !important;
   grid-template-columns: 1fr 1fr;
@@ -2997,19 +2784,6 @@ html.kft table[data-kft-prelive] > tbody tr {
   background: #101010;
 }
 
-/* =====================================================================
-   12. Capa Pro: luz, profundidad y movimiento
-   Va bajo html.kft.kft-fx (interruptor "Efectos" del popup). Sin esa
-   clase queda el tema plano de las secciones 1-11.
-   Criterios:
-    - Solo se elevan las tarjetas que se pueden pulsar; las informativas
-      ganan profundidad pero no fingen ser botones.
-    - Se animan translate/scale sueltos, nunca transform, para no pisar
-      los transform que Tailwind pone en los mismos elementos.
-    - Cristal solo donde hay contenido detrás (cabecera fija, menús).
-    - El movimiento va dentro de prefers-reduced-motion: no-preference.
-   ===================================================================== */
-
 @property --kft-i { syntax: "<integer>"; inherits: false; initial-value: 0; }
 /* Registrada para poder animar el arco del medidor de nivel */
 @property --kft-lvl-deg { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
@@ -3026,15 +2800,10 @@ html.kft.kft-fx {
   --kft-edge: inset 0 1px 0 rgba(255, 255, 255, 0.045);
   --kft-lift: 0 24px 48px -20px rgba(0, 0, 0, 0.95), 0 12px 28px -16px var(--kft-glow-soft);
 
-  /* El CTA de Karasu (JUGAR) ya pinta un degradado con estas dos variables;
-     la réplica plana las igualaba, aquí recuperan los dos extremos. */
   --tac-amber-cta-from: var(--kft-accent-hi) !important;
   --tac-amber-cta-to: var(--kft-accent-deep) !important;
 }
 
-/* Curva y duración comunes. :where() deja la especificidad a cero para que
-   cualquier regla concreta de abajo pueda cambiarlas. Incluye transform y
-   rotate para no romper las transiciones propias de Karasu (chevrons…). */
 html.kft.kft-fx :where(button, a, [role="button"], [role="tab"], [role="menuitem"], [role="option"],
   input, textarea, select, tbody tr, tbody td, img, [data-kft-level], [data-sidebar="menu-button"] svg) {
   transition-property: color, background-color, border-color, outline-color, outline-offset, box-shadow,
@@ -3044,16 +2813,12 @@ html.kft.kft-fx :where(button, a, [role="button"], [role="tab"], [role="menuitem
   transition-timing-function: var(--kft-ease);
 }
 
-/* ---------- Luz ambiente ----------
-   Dos focos del color de acento muy tenues en las esquinas, por encima de
-   todo y sin capturar el ratón: se ven como luz que cae sobre la página. */
 html.kft.kft-fx body::after {
   content: "";
   position: fixed;
   inset: -15%;
   z-index: 2147483000;
   pointer-events: none;
-  /* Capa propia en la GPU: su deriva lenta (translate) no repinta la página */
   will-change: translate;
   background:
     radial-gradient(38% 32% at 88% 4%, hsl(var(--kft-accent) / 0.085), transparent 70%),
@@ -3061,19 +2826,14 @@ html.kft.kft-fx body::after {
 }
 
 /* ---------- Tarjetas: profundidad ---------- */
-/* Las que traen fondo en línea (podio de la clasificación) conservan el suyo */
 html.kft.kft-fx :is(.bg-card, [class^="bg-card/"], [class*=" bg-card/"], .rounded-xl.border, .rounded-lg.border):not(.bg-card *):not([style*="background"]) {
   background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 42%) !important;
   box-shadow: var(--kft-edge), 0 1px 2px rgba(0, 0, 0, 0.45) !important;
 }
-/* Puesto #1 del podio: Karasu le da un tinte dorado en línea; se le
-   devuelve el filo y el halo dorados que la réplica plana le quitaba */
 html.kft.kft-fx .rounded-xl.border[style*="250, 201, 56"] {
   box-shadow: inset 0 0 0 1px rgba(250, 201, 56, 0.45), 0 18px 50px -24px rgba(250, 201, 56, 0.6) !important;
 }
 
-/* Tarjetas pulsables: borde de luz, sombra profunda y un foco que sigue
-   al cursor (content.js escribe --kft-mx/--kft-my). */
 html.kft.kft-fx :is(
   :is(a, button, [role="button"], .cursor-pointer):is(.bg-card, [class^="bg-card/"], [class*=" bg-card/"], .rounded-xl.border, .rounded-lg.border, [class^="bg-muted/30"], [class*=" bg-muted/30"]),
   [class*="hover:shadow-primary"],
@@ -3095,12 +2855,10 @@ html.kft.kft-fx :is(
   box-shadow: inset 0 0 0 1px hsl(var(--kft-accent) / 0.3), var(--kft-lift) !important;
 }
 
-/* ---------- Avatares: anillo de acento al pasar por su enlace ---------- */
 html.kft.kft-fx :is(a, button, [role="button"]):hover :is(img.rounded-full, span.rounded-full.overflow-hidden:has(> img)) {
   box-shadow: 0 0 0 2px var(--kft-app), 0 0 0 4px var(--kft-accent-hex);
 }
 
-/* ---------- Cerrar aviso: la × gira y la fila se pliega ---------- */
 html.kft.kft-fx .kft-close svg {
   transition: rotate 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -3111,7 +2869,6 @@ html.kft.kft-fx .alert-row {
   transition: grid-template-rows 0.3s var(--kft-ease), opacity 0.25s var(--kft-ease);
 }
 
-/* ---------- Inventario: la luz toma el color de la rareza ---------- */
 html.kft.kft-fx [style*="--acc:"] button.group.rounded-lg.border:hover {
   background-image:
     radial-gradient(360px circle at var(--kft-mx, 50%) var(--kft-my, -20%), rgb(var(--kft-r, 241 241 241) / 0.13), transparent 45%),
@@ -3129,7 +2886,6 @@ html.kft.kft-fx [style*="--acc:"] button.group.rounded-lg.border:hover img {
   filter: drop-shadow(0 6px 14px rgb(var(--kft-r, 241 241 241) / 0.45));
 }
 
-/* ---------- Botón primario: degradado, brillo que cruza y halo ---------- */
 html.kft.kft-fx :is(button.bg-primary:not([class*="rounded-[2px]"]), a.bg-primary, .tac-amber-cta,
   a:is([class^="bg-[hsl(var(--tac-amber)/0.08)]"], [class*=" bg-[hsl(var(--tac-amber)/0.08)]"]), a:is([class^="bg-[hsl(var(--tac-amber)/0.1"], [class*=" bg-[hsl(var(--tac-amber)/0.1"]),
   button[class*="shadow-[0_4px_20px_hsl(var(--primary)"], a[class*="var(--tac-amber-cta-from)"]) {
@@ -3185,7 +2941,6 @@ html.kft.kft-fx :is(button[class*="rounded-[2px]"][class*="text-xs"].bg-primary,
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 6px 18px -10px rgba(255, 255, 255, 0.35) !important;
 }
 
-/* ---------- Barra lateral: el activo se "rellena" de acento ---------- */
 html.kft.kft-fx [data-sidebar="menu-button"] {
   background-image: linear-gradient(90deg, hsl(var(--kft-accent) / 0.16), hsl(var(--kft-accent) / 0) 75%) !important;
   background-repeat: no-repeat !important;
@@ -3205,7 +2960,6 @@ html.kft.kft-fx [data-sidebar="menu-button"]:is(.router-link-active, [data-activ
   filter: drop-shadow(0 0 6px var(--kft-glow));
 }
 
-/* Logotipo: destello que recorre el wordmark cada pocos segundos */
 html.kft.kft-fx [data-sidebar="header"] > a > span {
   background: linear-gradient(100deg, var(--kft-text) 42%, var(--kft-accent-hi) 50%, var(--kft-text) 58%) 100% 0 / 300% 100% no-repeat;
   -webkit-background-clip: text;
@@ -3221,7 +2975,6 @@ html.kft.kft-fx [data-sidebar="header"] > a:hover > span::after {
   rotate: 20deg;
 }
 
-/* ---------- Cabecera superior: cristal + filo de luz ---------- */
 html.kft.kft-fx :is(main > header, header.sticky.top-0) {
   background-color: rgba(6, 6, 6, 0.72) !important;
   background-image: linear-gradient(90deg, transparent, hsl(var(--kft-accent) / 0.35) 50%, transparent) !important;
@@ -3232,7 +2985,6 @@ html.kft.kft-fx :is(main > header, header.sticky.top-0) {
   backdrop-filter: blur(16px) saturate(160%);
 }
 
-/* ---------- Pestañas: subrayado que crece desde el centro + halo ---------- */
 html.kft.kft-fx [role="tab"] {
   background-image:
     linear-gradient(90deg, var(--kft-accent-hi), var(--kft-accent-deep)),
@@ -3282,7 +3034,6 @@ html.kft.kft-fx span[class*="[font-stretch:80%]"][class*="font-extrabold"]:is([c
   text-shadow: 0 0 28px rgba(106, 222, 67, 0.45);
 }
 
-/* ---------- Tablas: fila activa con barra de acento ---------- */
 html.kft.kft-fx table tbody tr:hover {
   background-color: rgba(241, 241, 241, 0.06) !important;
 }
@@ -3354,11 +3105,6 @@ html.kft.kft-fx ::selection {
     animation: kft-aurora 24s ease-in-out infinite alternate;
   }
 
-  /* Entrada escalonada de tarjetas y filas. "backwards" aplica el primer
-     fotograma durante el retardo y desaparece al terminar, así el hover
-     puede volver a usar translate. Se excluyen los skeletons (animate-*)
-     y lo que gestiona reka-ui (data-state), que espera sus propias
-     animaciones para desmontar. */
   html.kft.kft-fx :is(.bg-card, [class^="bg-card/"], [class*=" bg-card/"], .rounded-xl.border, .rounded-lg.border):not(.bg-card *):not([class*="animate-"]):not([data-state]):not(.animate-grid-in *) {
     animation: kft-rise 0.55s var(--kft-ease) backwards;
     animation-delay: calc(var(--kft-i) * 45ms);
@@ -3391,15 +3137,11 @@ html.kft.kft-fx ::selection {
     animation: kft-gauge 1.1s var(--kft-ease) 0.15s backwards;
   }
 
-  /* El destello del logo pasa al pasar el ratón (antes, en bucle infinito,
-     obligaba a repintar el texto en cada fotograma) */
   html.kft.kft-fx [data-sidebar="header"] > a:hover > span {
     animation: kft-sheen 1.4s ease-in-out;
   }
 
   /* El CTA de la cola "respira" mientras está disponible */
-  /* Dos respiraciones al aparecer y quieto: el drop-shadow animado en bucle
-     repintaba el botón en cada fotograma */
   html.kft.kft-fx button[class*="shadow-[0_4px_20px_hsl(var(--primary)"]:not(:disabled) {
     animation: kft-breathe 3.2s ease-in-out 2;
   }
@@ -3439,10 +3181,7 @@ html.kft.kft-fx ::selection {
   }
 }
 
-/* ------------------------------------------------------------------ */
-/* 11e. Sala de partida compacta: todo cabe al 100% de zoom en una     */
-/*      pantalla de 900px de alto (antes ocupaba ~1.115px)             */
-/* ------------------------------------------------------------------ */
+/* Sala de partida compacta: todo cabe al 100% de zoom en una */
 html.kft header:has([data-kft-elo]) {
   padding: 10px 20px !important;
   row-gap: 2px;
@@ -3485,7 +3224,6 @@ html.kft :is([data-kft-match="vetohist"], [data-kft-match="vetoblock"]) .pick-ca
   font-size: 10px !important;
 }
 
-/* Tarjetas de jugador en una fila: avatar · nombre/ELO · estadísticas */
 html.kft .kft-team {
   container: kft-team / inline-size;
   gap: 6px;
@@ -3536,7 +3274,6 @@ html.kft .kft-player-stats b {
   }
 }
 
-/* Centro: mapa más bajo y chat de altura fija con scroll propio */
 html.kft [data-kft-match="map"] img {
   max-height: 120px;
   object-fit: cover;
@@ -3577,7 +3314,6 @@ html.kft .kft-voice.is-open {
 }
 html.kft .kft-voice.is-live { color: var(--kft-win); }
 
-/* Alineaciones: las 5 tarjetas llenan toda la altura de la columna */
 html.kft .kft-team {
   align-self: stretch;
 }
@@ -3592,8 +3328,6 @@ html.kft .kft-player-av {
 html.kft .kft-player {
   grid-template-columns: 44px minmax(0, 1fr) auto;
 }
-/* Con las tarjetas a toda altura: nombre arriba y estadísticas debajo,
-   así los nombres no se cortan y cabe HS% */
 html.kft .kft-team > .kft-player {
   grid-template-columns: 44px minmax(0, 1fr);
   grid-template-rows: auto auto;
@@ -3614,10 +3348,7 @@ html.kft .kft-team > .kft-player .kft-player-stats > span {
   align-items: flex-start;
 }
 
-/* ------------------------------------------------------------------ */
-/* 11f. Partida en curso en la barra superior: píldora compacta        */
-/*      ● EN DIRECTO  [avatares]  vs  [avatares]                       */
-/* ------------------------------------------------------------------ */
+/* Partida en curso en la barra superior: píldora compacta */
 html.kft div[class*="md:flex"][class*="h-12"][class*="backdrop-blur-sm"]:has(span[class*="text-red-400"]) {
   height: 40px !important;
   gap: 10px !important;
@@ -3668,7 +3399,6 @@ html.kft div[class*="md:flex"][class*="h-12"][class*="backdrop-blur-sm"]:has(spa
   border-radius: 50% !important;
   box-shadow: 0 0 0 2px #0e0e0e;
 }
-/* Estado del jugador: punto pequeño abajo a la derecha, sin pulso */
 html.kft div[class*="md:flex"][class*="h-12"][class*="backdrop-blur-sm"]:has(span[class*="text-red-400"]) span.absolute.h-2.w-2 {
   top: auto !important;
   bottom: -1px !important;
@@ -3694,9 +3424,6 @@ html.kft div[class*="md:flex"][class*="h-12"][class*="backdrop-blur-sm"]:has(spa
   height: 28px !important;
 }
 
-/* /play: datos y grupo son un solo panel. Antes eran dos cajas pegadas
-   (fondos distintos + borde doble en el corte). Mismo fondo, una línea
-   divisoria interior y el brillo del grupo empieza por debajo de ella. */
 html.kft [data-kft-play="stats"] {
   background: #0e0e0e !important;
   border-bottom: 0 !important;
@@ -3711,15 +3438,10 @@ html.kft [data-kft-play="party"] {
     radial-gradient(60% 70% at 50% 0%, hsl(var(--kft-accent) / 0.08), transparent 70%),
     linear-gradient(180deg, #0e0e0e 0%, #0b0b0b 100%) !important;
 }
-/* Tarjeta de Karasu que solo tiene contenido en ciertos estados (cola…):
-   vacía se veía como una franja hueca encima de los datos */
 html.kft [data-kft-play="left"] > div:not(:has(*)) {
   display: none !important;
 }
 
-/* Pie sin "Instalar app" (ya instalada, o navegador que no la ofrece):
-   Discord pasa de icono suelto a botón completo con su texto. El texto es
-   el que pone Karasu, así sale traducido al idioma del jugador. */
 html.kft .group[data-side="left"] [data-sidebar="footer"] > [data-sidebar="menu"]:not(:has(> div [data-sidebar="menu-button"])) > [data-sidebar="menu-item"]:has(> a[href*="discord"]) {
   grid-column: 1 / -1;
 }
@@ -3750,8 +3472,6 @@ html.kft .kft-folder .kft-folder-count {
   display: none !important;
 }
 
-/* Buscador en la barra superior (content.js); el de la barra lateral se
-   oculta pero sigue existiendo: es el que abre la búsqueda */
 html.kft .group[data-side="left"]:not([data-collapsible="icon"]) [data-sidebar="content"] [data-sidebar="menu-item"]:has(> button[data-sidebar="menu-button"]) {
   display: none !important;
 }
@@ -3802,22 +3522,14 @@ html.kft .kft-search-kbd {
   html.kft .kft-search { width: 34px; padding: 0; justify-content: center; }
   html.kft .kft-search > :not(svg) { display: none; }
 }
-/* La ruta de Karasu ocupa todo el ancho (flex-1); con su ancho natural el
-   buscador queda justo a su derecha */
 html.kft main header nav[aria-label="breadcrumb"]:has(+ .kft-search) {
   flex: 0 1 auto !important;
 }
 
-/* Paleta de búsqueda (Ctrl+K): Karasu la monta DENTRO de la cabecera. Con
-   el cristal (backdrop-filter) la cabecera se vuelve el marco de todo lo
-   "fixed" que contiene: el fondo oscuro de la paleta solo cubría la franja
-   superior. Mientras haya un diálogo abierto dentro, sin cristal. */
 html.kft :is(main > header, header.sticky.top-0):has([role="dialog"], div.fixed.inset-0) {
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }
-/* Campo de la paleta: sin caja propia, ya está dentro de la fila */
-/* :not(#kft) sube la prioridad por encima de las reglas de foco de inputs */
 html.kft div.fixed.inset-0[class*="backdrop-blur"] div.border-b > input[placeholder]:not(#kft),
 html.kft div.fixed.inset-0[class*="backdrop-blur"] div.border-b > input[placeholder]:not(#kft):focus {
   height: auto !important;
@@ -3829,7 +3541,6 @@ html.kft div.fixed.inset-0[class*="backdrop-blur"] div.border-b > input[placehol
   font-size: 15px !important;
 }
 
-/* Buscador escribible: campo de texto real dentro de .kft-search */
 html.kft .kft-search {
   cursor: text;
 }
@@ -3857,8 +3568,6 @@ html.kft .kft-search-input::-webkit-search-cancel-button {
 html.kft .kft-search:focus-within .kft-search-kbd {
   display: none;
 }
-/* Mientras se busca: la paleta de Karasu sin fondo ni ventana, solo su
-   panel de resultados, colocado bajo el campo (content.js da la posición) */
 html.kft.kft-inline-search div.fixed.inset-0[class*="backdrop-blur"] {
   background: transparent !important;
   -webkit-backdrop-filter: none !important;
@@ -3878,7 +3587,6 @@ html.kft.kft-inline-search div.fixed.inset-0[class*="backdrop-blur"] > div {
   background: rgba(16, 16, 16, 0.97) !important;
   box-shadow: 0 24px 50px -16px rgba(0, 0, 0, 0.95) !important;
 }
-/* Su fila de búsqueda sobra (se escribe arriba); se quedan los filtros */
 html.kft.kft-inline-search div.fixed.inset-0[class*="backdrop-blur"] > div > div.border-b {
   justify-content: flex-end;
   padding: 8px 12px !important;
@@ -3889,17 +3597,11 @@ html.kft.kft-inline-search div.fixed.inset-0[class*="backdrop-blur"] > div > div
   pointer-events: none !important;
   width: 1px !important;
 }
-/* Las tarjetas crecen para llenar la columna, pero nunca encogen por debajo
-   de su contenido (si no, nombre y datos se salían de la casilla) */
 html.kft .kft-team > .kft-player {
   flex: 1 0 auto !important;
   min-height: 0 !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 11g. Tabla de estadísticas compacta: filas de ~36px en vez de 67px, */
-/*      así se ven los 10 jugadores y las opciones sin hacer scroll    */
-/* ------------------------------------------------------------------ */
 html.kft [data-kft-match="stats"] table :is(td, th) {
   padding: 4px 10px !important;
   height: auto !important;
@@ -3939,8 +3641,6 @@ html.kft [data-kft-match="stats"] .match-tabs__header {
 html.kft [data-kft-match="stats"] [role="tab"] {
   height: 44px !important;
 }
-/* Columna del jugador más ancha (nombre + ELO + variación en una línea);
-   si aun así no cabe, el nombre se recorta con "…" sin pisar "Bajas" */
 html.kft [data-kft-match="stats"] table :is(td, th):first-child {
   width: 300px !important;
   min-width: 300px !important;
@@ -3959,9 +3659,6 @@ html.kft [data-kft-match="stats"] table tbody td:first-child a.grid .text-left.t
 html.kft [data-kft-match="stats"] table tbody td:first-child a.grid .text-left.text-sm > :not(:first-child) {
   flex: none;
 }
-/* Tabla de estadísticas, ajuste de aire (la versión compacta quedaba
-   apretada): filas de 48px, avatar de 32px encuadrado, nombre y ELO
-   separados y un hueco claro entre los dos equipos */
 html.kft [data-kft-match="stats"] table tbody td {
   padding: 8px 12px !important;
 }
@@ -4008,9 +3705,6 @@ html.kft [data-kft-match="stats"] table thead ~ thead th {
   border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 11h. Pestaña Roles: leyenda + la barra que decide el rol resaltada  */
-/* ------------------------------------------------------------------ */
 html.kft { --kft-c-sniper: 167 139 250; --kft-c-entry: 248 113 113; --kft-c-support: 56 189 248; --kft-c-rifler: 161 161 170; }
 html.kft .kft-role-legend {
   display: grid;
@@ -4068,9 +3762,7 @@ html.kft div.rounded-md[data-kft-role="rifler"] [data-kft-metric] {
   opacity: 0.7;
 }
 
-/* ------------------------------------------------------------------ */
-/* 11i. /play: malla ondulante en perspectiva (canvas de content.js)   */
-/* ------------------------------------------------------------------ */
+/* /play: malla ondulante en perspectiva (canvas de content.js) */
 html.kft main:has(> canvas.kft-wave) {
   isolation: isolate;
 }
@@ -4084,7 +3776,6 @@ html.kft canvas.kft-wave {
   -webkit-mask: linear-gradient(180deg, transparent 50%, #000 85%);
   mask: linear-gradient(180deg, transparent 50%, #000 85%);
 }
-/* El panel del grupo deja ver la malla: es el "escenario" del lobby */
 html.kft main:has(> canvas.kft-wave) [data-kft-play="party"] {
   background:
     radial-gradient(60% 70% at 50% 0%, hsl(var(--kft-accent) / 0.1), transparent 70%),
@@ -4094,10 +3785,7 @@ html.kft main:has(> canvas.kft-wave) [data-kft-play="party"] div[style*="grid-te
   background: rgba(10, 10, 10, 0.35) !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 11j. /play: baneos recientes como franja fina arriba del todo       */
-/*      [Baneos recientes]  (av) nombre · BANEO · motivo · hace 3 h  … */
-/* ------------------------------------------------------------------ */
+/* /play: baneos recientes como franja fina arriba del todo */
 html.kft [data-kft-play="bans"] {
   order: 0 !important;
   display: flex !important;
@@ -4196,8 +3884,6 @@ html.kft [data-kft-play="bans"] [class*="snap-x"] > div > div > div:last-child >
   display: none !important;
 }
 
-/* /play cabe en una pantalla sin scroll: menos relleno y espacios, y fuera
-   la sección de directos (no aporta en la página de jugar) */
 html.kft [data-kft-play="root"] {
   padding-bottom: 8px !important;
 }
@@ -4225,9 +3911,7 @@ html.kft [data-kft-play="streams"] {
   display: none !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 11k. /play con profundidad: luz, materiales y asientos              */
-/* ------------------------------------------------------------------ */
+/* /play con profundidad: luz, materiales y asientos */
 /* Consola: filo de acento arriba */
 html.kft [data-kft-play="stats"] {
   position: relative;
@@ -4402,7 +4086,6 @@ html.kft [data-kft-play="right"][data-kft-play="right"] > button[class]:disabled
   color: var(--kft-text-3) !important;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
 }
-/* Competitive / Wingman / Duel: mismo control segmentado que 5v5/2v2/1v1 */
 html.kft [data-kft-play="maps"] > div > div:first-child button:not(#kft) {
   padding: 6px 16px !important;
   border: 0 !important;
@@ -4416,16 +4099,12 @@ html.kft [data-kft-play="maps"] > div > div:first-child button.bg-primary:not(#k
   color: var(--kft-text) !important;
   box-shadow: inset 0 0 0 1px hsl(var(--kft-accent) / 0.6), 0 6px 18px -8px hsl(var(--kft-accent) / 0.8) !important;
 }
-/* Ranuras siempre del ancho de 5v5 (una quinta parte), centradas: en 2v2 y
-   1v1 ya no se estiran a todo el ancho */
 html.kft [data-kft-play="party"] div[style*="grid-template-columns"]:not(#kft) {
   grid-template-columns: repeat(auto-fit, calc((100% - 4 * 14px) / 5)) !important;
   grid-auto-flow: row !important;
   justify-content: center;
 }
 
-/* /play: los avisos de Karasu junto al botón ("Matchmaking is closed…" y
-   similares) suben a una barra roja a todo el ancho bajo la cabecera */
 html.kft div.overflow-auto:has([data-kft-play="root"]) {
   position: relative;
 }
@@ -4450,11 +4129,7 @@ html.kft [data-kft-play="root"]:has([data-kft-play="right"] > p[class*="text-des
   padding-top: 40px !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 11l. Perfil de jugador: estadísticas primero                        */
-/*      [ficha + ELO] → [estadísticas] → [partidas] →                  */
-/*      [Mercurial | En cola con | Highlights]                         */
-/* ------------------------------------------------------------------ */
+/* Perfil de jugador: estadísticas primero */
 html.kft [data-kft-prof="col"] {
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -4489,8 +4164,6 @@ html.kft [data-kft-prof="hero"] > header span[class*="h-[156px]"] > img {
   width: 88px !important;
   height: 88px !important;
 }
-/* Separadores vacíos del bloque de estadísticas: fuera (en la rejilla
-   creaban huecos) */
 html.kft [data-kft-prof="statswrap"] > :not([data-kft-prof]) {
   display: none !important;
 }
@@ -4513,7 +4186,6 @@ html.kft [data-kft-prof="hero"] > header > div.mt-auto {
 html.kft [data-kft-prof="hero"] > header > div.mt-auto > div:first-child {
   padding-top: 14px !important;
 }
-/* El DOM real agrupa Rating + progreso en una fila, y la racha en otra. */
 html.kft [data-kft-prof="hero"] > header > div.mt-auto > div:first-child > div:first-child {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) minmax(132px, 28%);
@@ -4561,7 +4233,6 @@ html.kft [data-kft-prof="hero"] > header > div.mt-auto > div:first-child > div:f
   font-size: 10px !important;
   letter-spacing: 0.04em !important;
 }
-/* Labels y microtexto del perfil: contraste suficiente sobre las tarjetas. */
 html.kft [data-kft-prof="hero"] :is(.text-muted-foreground, [class*="text-gray-500"], [class*="text-zinc-500"], [class*="text-neutral-500"], [class*="text-slate-500"]),
 html.kft [data-kft-prof="stats"] :is(.text-muted-foreground, [class*="text-gray-500"], [class*="text-zinc-500"], [class*="text-neutral-500"], [class*="text-slate-500"]) {
   color: #a7a7a7 !important;
@@ -4640,7 +4311,6 @@ html.kft :is([data-kft-prof="merc"], [data-kft-prof="queue"], [data-kft-prof="cl
   min-width: 0;
   margin: 0 !important;
 }
-/* Mercurial resumido: sin las cinco cajas, tres informes como mucho */
 html.kft [data-kft-prof="merc"] {
   padding: 16px !important;
 }
@@ -4662,20 +4332,16 @@ html.kft [data-kft-prof="queue"] > div.grid > a {
 html.kft [data-kft-prof="clips"] [class*="snap-x"] > div {
   width: 100% !important;
 }
-/* Ficha: la gráfica de ELO con altura fija; antes estiraba toda la fila */
 html.kft [data-kft-prof="hero"] div.relative[class*="min-h-[150px]"] {
   flex: none !important;
   min-height: 0 !important;
   height: 200px !important;
 }
-/* Filtros (Todo / Competitivo… y U30 / 7D / 90D): el indicador deslizante
-   era cian sólido y tapaba el texto gris */
 html.kft [data-kft-prof="stats"] div.relative.max-w-full > div.absolute.pointer-events-none,
 html.kft [data-kft-prof="stats"] div.relative.max-w-full > span.absolute.pointer-events-none {
   background: hsl(var(--kft-accent) / 0.2) !important;
   box-shadow: inset 0 0 0 1px hsl(var(--kft-accent) / 0.55) !important;
 }
-/* Radar de mapas más compacto: la columna izquierda iguala a la gráfica */
 html.kft [data-kft-prof="stats"] div.grid[class*="lg:grid-cols-3"] > div:first-child > div:last-child > div:first-child {
   padding: 14px 18px 0 !important;
 }
@@ -4693,7 +4359,6 @@ html.kft [data-kft-prof="queue"] a > div:first-child * {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-/* Mercurial: cada informe en una línea; "Ver informe" queda en su icono */
 html.kft [data-kft-prof="merc"] > div.space-y-1\.5 > div {
   flex-wrap: nowrap !important;
 }
@@ -4705,8 +4370,6 @@ html.kft [data-kft-prof="merc"] > div.space-y-1\.5 > div > a svg {
   width: 14px;
   height: 14px;
 }
-/* En cola con: el jugador se queda el espacio; a la derecha solo partidas
-   y % de victorias (sin la fecha) */
 html.kft [data-kft-prof="queue"] > div.grid > a > a {
   flex: 1 1 auto;
   min-width: 0;
@@ -4724,20 +4387,12 @@ html.kft [data-kft-prof="queue"] > div.grid > a > div.shrink-0 span.inline-flex.
   display: none !important;
 }
 
-/* Pestañas de gráfica (HLTV, ADR…) y filtros: la activa trae texto negro
-   de Karasu, pensado para su fondo sólido; sobre el indicador translúcido
-   va en blanco */
 html.kft [data-kft-prof="stats"] button.text-black {
   color: color-mix(in oklab, var(--kft-accent-hex) 70%, #fff) !important;
   font-weight: 800 !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 11m. Ficha del jugador con carácter                                 */
-/*      Fondo: su propia foto ampliada y difuminada (tipo banner) +    */
-/*      luz del color de acento; avatar con anillo; rating destacado;  */
-/*      racha legible                                                  */
-/* ------------------------------------------------------------------ */
+/* Ficha del jugador con carácter */
 html.kft [data-kft-prof="hero"] > header {
   position: relative;
   isolation: isolate;
@@ -4783,15 +4438,12 @@ html.kft [data-kft-prof="hero"] > header > div.mt-auto span.text-2xl:not([data-k
   -webkit-text-fill-color: transparent;
   filter: drop-shadow(0 0 16px hsl(var(--kft-accent) / 0.35));
 }
-/* El nivel conserva su círculo compacto; el tooltip lo explica al pasar el cursor. */
 html.kft [data-kft-prof="hero"] [data-kft-profile-level] { cursor: help; }
-/* Barra hacia el siguiente nivel: del color de acento y con brillo */
 html.kft [data-kft-prof="hero"] > header > div.mt-auto [class*="rounded-full"][class*="h-1"] > *,
 html.kft [data-kft-prof="hero"] > header > div.mt-auto [class*="rounded"][style*="width"] {
   background: linear-gradient(90deg, color-mix(in oklab, var(--kft-accent-hex) 60%, #fff), var(--kft-accent-hex)) !important;
   box-shadow: 0 0 10px hsl(var(--kft-accent) / 0.6);
 }
-/* Racha reciente: casillas claras, sin halo que distraiga del estado */
 html.kft [data-kft-prof="hero"] > header > div.mt-auto div.flex.flex-wrap.items-center.gap-1\.5 {
   gap: 5px !important;
 }
@@ -4809,17 +4461,7 @@ html.kft [data-kft-prof="hero"] > header > div.mt-auto div.flex.flex-wrap.items-
   box-shadow: none !important;
 }
 
-
-/* ------------------------------------------------------------------ */
-/* 0b. Fondo global de la app                                          */
-/*     Un único lenguaje de luz para todas las páginas:                */
-/*      · foco suave del color de acento arriba (donde está la acción) */
-/*      · retícula de puntos de 1px, casi invisible, que se desvanece  */
-/*        hacia abajo y hacia los lados                                */
-/*      · viñeta en los bordes                                         */
-/*     Va en el <main> más interno: el contenido hace scroll dentro    */
-/*     de él, así que el fondo queda fijo.                             */
-/* ------------------------------------------------------------------ */
+/* Fondo global de la app */
 html.kft main:not(:has(main)) {
   background-color: var(--kft-app) !important;
   background-image:
@@ -4831,8 +4473,6 @@ html.kft main:not(:has(main)) {
   background-position: 0 0, 0 0, 0 0, 11px 11px !important;
   background-repeat: no-repeat, no-repeat, no-repeat, repeat !important;
 }
-/* La retícula se apaga hacia abajo: una capa del color de fondo por encima
-   de los puntos, transparente arriba */
 html.kft main:not(:has(main))::after {
   content: "";
   position: absolute;
@@ -4844,19 +4484,14 @@ html.kft main:not(:has(main))::after {
 html.kft main:not(:has(main)) {
   isolation: isolate;
 }
-/* Los contenedores de Karasu con bg-background taparían el fondo */
 html.kft main:not(:has(main)) :is(.bg-background):not([role="dialog"]):not([class*="fixed"]):not(section) {
   background-color: transparent !important;
 }
-/* Ficha: aire entre la racha y el botón de acción (Añadir como amigo…) */
 html.kft [data-kft-prof="hero"] > header > div.mt-auto > div:last-child:not(:first-child) {
   margin-top: 16px !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 11n. Perfil: pestañas Desglose y ELO compactas                      */
-/* ------------------------------------------------------------------ */
-/* Desglose: [radar + puntuaciones + áreas a mejorar] | [Regularidad] */
+/* Perfil: pestañas Desglose y ELO compactas */
 html.kft [role="tabpanel"] > div.flex.flex-col:has(div[class*="h-[260px]"]):has(> div:nth-child(2)) {
   display: grid !important;
   grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
@@ -4947,10 +4582,7 @@ html.kft [role="tabpanel"] div.grid.gap-3[class*="sm:grid-cols-3"] div.flex.item
   white-space: nowrap;
 }
 
-/* ------------------------------------------------------------------ */
-/* 11o. Ajustes de la cuenta (/settings)                               */
-/* ------------------------------------------------------------------ */
-/* Menú lateral: neutro; la sección activa con tinte y barra de acento */
+/* Ajustes de la cuenta (/settings) */
 html.kft a[data-settings-tab-active]:not(#kft) {
   height: 38px !important;
   border-radius: 8px !important;
@@ -4978,7 +4610,6 @@ html.kft a[data-settings-tab-active="true"]:not(#kft) {
 html.kft a[data-settings-tab-active="true"]:not(#kft) svg {
   color: var(--kft-accent-hex) !important;
 }
-/* El indicador deslizante de Karasu sobra con la barra de la izquierda */
 html.kft nav:has(> div > div > a[data-settings-tab-active]) > div.absolute.pointer-events-none {
   display: none !important;
 }
@@ -5013,7 +4644,6 @@ html.kft .settings-measure form label:not(#kft) {
   letter-spacing: 0.08em !important;
   text-transform: uppercase !important;
 }
-/* Selectores (idioma, país) con el mismo aspecto que los campos */
 html.kft .settings-measure form button[aria-haspopup], html.kft .settings-measure form button[role="combobox"] {
   height: 40px !important;
   border: 1px solid var(--kft-line-2) !important;
@@ -5021,9 +4651,6 @@ html.kft .settings-measure form button[aria-haspopup], html.kft .settings-measur
   background: var(--kft-card) !important;
 }
 
-/* Guardar: fantasma si no hay cambios, acento si los hay. Solo el fondo
-   sólido exacto: las opciones seleccionadas de Cosmetics llevan
-   "bg-[hsl(var(--tac-amber))]/10" y no son botones de guardar */
 html.kft .settings-measure button:is([class*="bg-[hsl(var(--tac-amber))] "], [class$="bg-[hsl(var(--tac-amber))]"]):not(#kft) {
   height: 40px !important;
   min-width: 96px;
@@ -5043,12 +4670,6 @@ html.kft .settings-measure button:is([class*="bg-[hsl(var(--tac-amber))] "], [cl
   color: var(--kft-on-accent) !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 11p. Cabeceras de página (Teams, Leaderboard, Highlights, Ajustes…) */
-/*      Una cabecera no es una tarjeta: barra de título limpia, igual  */
-/*      en todas las páginas. Título con barrita de acento, subtítulo, */
-/*      acción a la derecha y línea fina debajo.                       */
-/* ------------------------------------------------------------------ */
 html.kft header[class*="bg-[linear-gradient(180deg,hsl(var(--card)/0.55)"]:not(#kft) {
   margin-bottom: 4px;
   padding: 6px 0 18px !important;
@@ -5114,8 +4735,6 @@ html.kft header[class*="bg-[linear-gradient(180deg,hsl(var(--card)/0.55)"]:not(#
   font-size: 12px !important;
   letter-spacing: 0.06em !important;
 }
-/* Separador de Karasu justo debajo de la cabecera: ya la lleva la propia
-   cabecera */
 html.kft header[class*="bg-[linear-gradient(180deg,hsl(var(--card)/0.55)"] + div[role="none"].h-px {
   display: none !important;
 }
@@ -5123,12 +4742,7 @@ html.kft header[class*="bg-[linear-gradient(180deg,hsl(var(--card)/0.55)"]:has(+
   margin-bottom: 20px;
 }
 
-/* ------------------------------------------------------------------ */
-/* 11q. Leaderboard "standings"                                        */
-/*      Sin brillos: el color solo como acento tipográfico.            */
-/*      Podio con jerarquía: #1 protagonista a la izquierda, #2 y #3   */
-/*      apilados a la derecha. Tabla con distancia al #1 junto al ELO. */
-/* ------------------------------------------------------------------ */
+/* Leaderboard "standings" */
 html.kft { --kft-gold: 232 190 72; --kft-silver: 190 198 208; --kft-bronze: 200 132 78; }
 
 /* --- Podio: orden de Karasu [#2, #1, #3] --- */
@@ -5381,8 +4995,6 @@ html.kft table[data-kft-standings] [data-kft-level]:not(#kft) {
   height: 24px !important;
   font-size: 11px !important;
 }
-/* Franja de datos: una línea sin cajas; "Top ELO" fuera (ya está en el
-   podio) */
 html.kft [data-kft-lbstats]:not(#kft) {
   display: flex !important;
   align-items: stretch;
@@ -5436,7 +5048,6 @@ html.kft [data-kft-lbstats] > div [class*="text-xl"]:not(#kft) {
   color: var(--kft-text) !important;
 }
 
-/* /play: baneos recientes como ticker (content.js mueve el scroll) */
 html.kft [data-kft-play="bans"] > div:first-child span:not(:empty):last-of-type::after {
   content: ":";
 }
@@ -5451,18 +5062,14 @@ html.kft [data-kft-ticker] > * {
 html.kft [data-kft-ticker].kft-ticker-fade {
   opacity: 0;
 }
-/* Ticker de baneos: fundido suave en los dos bordes (entrada y salida) */
 html.kft [data-kft-play="bans"] [class*="snap-x"]:not(#kft) {
   -webkit-mask: linear-gradient(90deg, transparent 0, #000 48px, #000 calc(100% - 72px), transparent 100%);
   mask: linear-gradient(90deg, transparent 0, #000 48px, #000 calc(100% - 72px), transparent 100%);
 }
-/* Los dos puntos pegados al texto: la etiqueta es flex con hueco (gap-2) */
 html.kft [data-kft-play="bans"] > div:first-child span:not(:empty):last-of-type::after {
   margin-left: -0.5rem;
 }
 
-/* /play: el aviso rojo se ancla al bloque de la página (debajo de los
-   avisos de Karasu), no a lo alto del área de scroll, donde los pisaba */
 html.kft div.overflow-auto:has([data-kft-play="root"]):not(#kft) {
   position: static !important;
 }
@@ -5473,8 +5080,6 @@ html.kft [data-kft-play="right"] > p[class*="text-destructive"]:not(:empty):not(
   border-radius: 8px;
 }
 
-/* Avisos de Karasu (azul / amarillo): una línea; al pasar el ratón,
-   el texto completo */
 html.kft .alert-row [role="alert"]:not(#kft) {
   align-items: center !important;
   padding-top: 7px !important;
@@ -5511,9 +5116,6 @@ html.kft .alert-row [role="alert"] > div.min-w-0 > p:last-child:not(:first-child
 html.kft .alert-row [role="alert"]:hover > div.min-w-0 > p:last-child:not(:first-child) {
   white-space: pre-line !important;
 }
-/* Aviso rojo a todo el ancho del área de contenido en cualquier pantalla:
-   el bloque de /play tiene ancho máximo, así que la barra se estira al
-   ancho del área de scroll (unidad cqw de su contenedor) y se centra */
 html.kft div.overflow-auto:has([data-kft-play="root"]) {
   container-type: inline-size;
 }
@@ -5525,9 +5127,7 @@ html.kft [data-kft-play="right"] > p[class*="text-destructive"]:not(:empty):not(
   border-radius: 0 !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 11r. Logo: cuervo de papiroflexia + KARASU + 烏                      */
-/* ------------------------------------------------------------------ */
+/* Logo: cuervo de papiroflexia + KARASU + 烏 */
 html.kft [data-sidebar="header"] > a:not(#kft) {
   display: flex !important;
   align-items: center !important;
@@ -5593,13 +5193,7 @@ html.kft [data-sidebar="header"] > a > span.kft-logo-kanji::after {
   display: none !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 11s. Sala de partida: cabecera en una sola franja                   */
-/*   [● LIVE]  Equipo 1 ........  VS / BO1 · Europe / Server  ........ */
-/*             ........ Equipo 2  [COMPETITIVE] [⋮]                    */
-/*   Las filas de Karasu (estado, equipos, formato, servidor) se       */
-/*   deshacen con display: contents y se recolocan en una rejilla.     */
-/* ------------------------------------------------------------------ */
+/* Sala de partida: cabecera en una sola franja */
 html.kft header[data-kft-head]:not(#kft) {
   display: grid !important;
   grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr) auto;
@@ -5688,11 +5282,7 @@ html.kft header[data-kft-head]:not(:has(> div:nth-child(4))) {
   }
 }
 
-/* ------------------------------------------------------------------ */
-/* 11t. Pestañas de la sala más compactas                              */
-/*      Economy, Clutches, Roles y Map Analysis ocupaban 2-3 pantallas: */
-/*      piezas en paralelo, gráficas más bajas y fichas en una línea.  */
-/* ------------------------------------------------------------------ */
+/* Pestañas de la sala más compactas */
 
 /* --- Economy --- */
 /* Gráficas más bajas (Chart.js se ajusta a su contenedor) */
@@ -5713,7 +5303,6 @@ html.kft .match-tabs div.rounded-xl:has(div.h-\[320px\] > canvas) > div:first-ch
     gap: 16px !important;
     align-items: start;
   }
-  /* Tipos de compra: gráfica a la izquierda, tabla de jugadores a la derecha */
   html.kft .match-tabs div.grid.gap-5:has(> div[class*="sm:h-[340px]"]) {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 16px !important;
@@ -5794,12 +5383,10 @@ html.kft .match-tabs div.grid:has(> div.rounded-md[data-kft-role]) {
   gap: 6px !important;
 }
 
-/* --- Map Analysis: el mapa no pasa de lo que cabe en pantalla --- */
 html.kft .match-tabs div[class*="max-w-[760px]"]:has(> div.aspect-square) {
   max-width: min(560px, 62vh) !important;
 }
 
-/* Cabecera con marcador: el "vs" cede su sitio a los dos puntos */
 html.kft header[data-kft-head]:has(span[class*="font-extrabold"]) > div:nth-child(2) > div:nth-child(2) span[class*="tracking-[0.3em]"]:not(#kft) {
   padding: 0 !important;
   border: 0 !important;
@@ -5809,7 +5396,6 @@ html.kft header[data-kft-head] > div:nth-child(2) > div:nth-child(2) span[class*
   font-size: 22px !important;
 }
 
-/* Economy, tipos de compra: jugadores en filas finas (avatar · nombre · ELO) */
 html.kft .match-tabs div.grid.gap-5 div[class*="lg:grid-cols-2"] a.grid:not(#kft) {
   min-height: 0 !important;
   grid-template-columns: 28px 1fr !important;
@@ -5839,8 +5425,6 @@ html.kft .match-tabs div.border-2.rounded-sm.flex-col:has(> span.font-extrabold)
   white-space: nowrap;
 }
 
-/* Barra plegada: el pie es una columna de iconos centrada (Discord e
-   Instalar app como iconos cuadrados, sin texto; el usuario, solo avatar) */
 html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="footer"] > [data-sidebar="menu"]:not(#kft) {
   display: flex !important;
   flex-direction: column;
@@ -5867,9 +5451,6 @@ html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="footer
   margin: 0 !important;
 }
 
-/* Barra plegada: todos los iconos en el mismo eje, botones de 32px
-   centrados, y separadores finos entre bloques:
-   [Buscar · JUGAR] │ [Inicio · Ver] │ [Competir · Comunidad · Arsenal] │ [Karasu+] */
 html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] [data-sidebar="menu-item"]:not(#kft) {
   display: flex;
   justify-content: center;
@@ -5911,7 +5492,6 @@ html.kft .group[data-side="left"][data-collapsible="icon"] .kft-folder.has-activ
   color: var(--kft-accent-hex) !important;
   box-shadow: none !important;
 }
-/* Separadores: antes de Inicio, de la primera carpeta y de Karasu+ */
 html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] [data-sidebar="menu-item"]:has(> a[href="/me"]),
 html.kft .group[data-side="left"][data-collapsible="icon"] .kft-folder[data-folder="compete"],
 html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] [data-sidebar="menu-item"]:has(> a[href="/plus"]) {
@@ -5930,12 +5510,9 @@ html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="conten
   translate: -50% 0;
   background: rgba(255, 255, 255, 0.12);
 }
-/* Los separadores propios de Karasu sobran con la barra plegada */
 html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] div.h-px {
   display: none !important;
 }
-/* Barra plegada: sin el botón de Buscar (el buscador está en la barra de
-   arriba). Sigue en la página, oculto: es el que abre la búsqueda */
 html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] [data-sidebar="menu-item"]:has(> button[data-sidebar="menu-button"]):not(#kft) {
   display: none !important;
 }
@@ -5952,7 +5529,6 @@ html.kft .group[data-collapsible="icon"] [data-sidebar="header"] > a:not(#kft) {
   padding: 0 !important;
   overflow: visible !important;
 }
-/* Barra plegada: el avatar entero y centrado, sin nombre ni flechas */
 html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="footer"] button[aria-haspopup="menu"]:not(#kft) {
   justify-content: center !important;
   width: 32px !important;
@@ -5971,34 +5547,21 @@ html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="footer
   display: none !important;
 }
 
-/* Rendimiento: la campana y el punto de notificaciones de Karasu se animan
-   en bucle infinito (en pantallas de 144-240 Hz, cientos de recálculos por
-   segundo con la página quieta). Avisan tres veces y se quedan quietos; el
-   punto sigue visible mientras haya notificaciones. */
 html.kft .animate-bell,
 html.kft .animate-ping {
   animation-iteration-count: 3 !important;
 }
 
-/* Cosmetics: la opción elegida, con borde de acento (sin brillo) */
 html.kft main button[title][class*="bg-[hsl(var(--tac-amber))]/10"]:not(#kft) {
   border-color: var(--kft-accent-hex) !important;
   background: hsl(var(--kft-accent) / 0.08) !important;
   box-shadow: none !important;
 }
-/* Cosmetics: Karasu deja sus iconos de check/candado como etiquetas vacías
-   (<check>, <lock>) que no dibujan nada pero ocupan su hueco y descentran
-   el nombre. Fuera. */
 html.kft main button[title] > span:nth-child(2) > :not(svg):not(span):empty {
   display: none !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 11u. Selectores con indicador deslizante (Utility, Economy…)        */
-/*      Karasu pinta la opción activa con un bloque de acento macizo y */
-/*      brillo, y el texto en negro: con el cian apenas se lee. Aquí:  */
-/*      tinte suave + borde fino, y el texto activo en el acento.      */
-/* ------------------------------------------------------------------ */
+/* Selectores con indicador deslizante (Utility, Economy…) */
 html.kft span.pointer-events-none.absolute[class*="bg-[hsl(var(--tac-amber))]"][class*="shadow-[0_0_12px"]:not(#kft) {
   background: hsl(var(--kft-accent) / 0.14) !important;
   box-shadow: inset 0 0 0 1px hsl(var(--kft-accent) / 0.55) !important;
@@ -6021,8 +5584,6 @@ html.kft div:has(> span.pointer-events-none.absolute[class*="shadow-[0_0_12px"])
   color: var(--kft-text) !important;
 }
 
-/* Utility: la leyenda (Smoke, Flash…) va sobre el mapa; con fondo propio
-   para que las líneas del mapa no se crucen con el texto */
 html.kft .utility-board-chips button:not(#kft) {
   background: rgba(10, 10, 10, 0.92) !important;
   border-color: rgba(255, 255, 255, 0.12) !important;
@@ -6039,12 +5600,7 @@ html.kft .utility-board-key {
   color: var(--kft-text-2) !important;
 }
 
-/* ------------------------------------------------------------------ */
-/* 11v. Utility (/utility/<mapa>): biblioteca de lineups               */
-/*      Vacía, solo enseñaba controles sin efecto. Con data-kft-util-  */
-/*      empty: el hueco vacío explica qué es y da los pasos, la acción */
-/*      principal se destaca y el resto pierde peso (sigue usable).    */
-/* ------------------------------------------------------------------ */
+/* Utility (/utility/<mapa>): biblioteca de lineups */
 html.kft [data-kft-util-help]:not(#kft) {
   display: flex;
   flex-direction: column;
@@ -6062,7 +5618,6 @@ html.kft [data-kft-util-help] > p:first-child {
   font-size: 17px !important;
   font-weight: 800 !important;
 }
-/* El "Widen the filters, or record one…" de Karasu lo sustituyen los pasos */
 html.kft [data-kft-util-help] > p:nth-child(2) {
   display: none !important;
 }
@@ -6108,7 +5663,6 @@ html.kft [data-kft-util-empty] > :last-child > div:first-child > div:last-child 
 html.kft [data-kft-util-empty] > :last-child > div:first-child > div:last-child:is(:hover, :focus-within) {
   opacity: 1;
 }
-/* La clave "Squares = origin · Dots = landing" no tiene nada que explicar */
 html.kft [data-kft-util-empty] .utility-board-key {
   display: none !important;
 }

@@ -36,7 +36,6 @@
     button { font: inherit; }
     :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-    /* ---------- Cabecera: marca, estado e interruptor en una fila ---------- */
     .top {
       display: grid;
       grid-template-columns: auto 1fr auto;
@@ -100,7 +99,6 @@
     .sw[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--bg), 0 0 0 3.5px var(--text); }
     .sw.custom { background: conic-gradient(#ff3b3b, #ffd23b, #3bff6e, #3bd8ff, #6b3bff, #ff3bd2, #ff3b3b); }
 
-    /* Selector de color propio (el nativo del navegador es una ventana blanca) */
     .picker { margin-top: 14px; }
     .sv {
       --h: 190;
@@ -188,7 +186,7 @@
     }
     .saved { color: var(--text-3); font-size: 11.5px; transition: color 0.2s ease; }
     .saved.on { color: #6ade43; }
-  </style>
+</style>
 </head>
 <body>
   <header class="top">

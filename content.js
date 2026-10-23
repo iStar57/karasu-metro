@@ -1,5 +1,3 @@
-// Activa el tema añadiendo la clase "kft" al <html>. Todo el CSS de theme.css
-// está acotado a html.kft, así que quitar la clase apaga el tema al instante.
 (() => {
   const root = document.documentElement;
   const DEFAULTS = { enabled: true, accent: "#38e1ff", uppercase: true, fx: true };
@@ -12,10 +10,6 @@
   savePageLanguage();
   new MutationObserver(savePageLanguage).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
 
-  // Fuentes empaquetadas (Geist y Michroma, licencia OFL). Se declaran aquí
-  // con runtime.getURL porque la URL de la extensión cambia entre navegadores
-  // (chrome-extension://<id> en Chrome, moz-extension://<uuid> en Firefox) y
-  // el CSS de un content script no puede resolverla en ambos.
   const FONTS = [
     ["Geist", "100 900", "geist-latin.woff2", "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD"],
     ["Geist", "100 900", "geist-latin-ext.woff2", "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF"],
@@ -56,8 +50,6 @@
 
   function apply() {
     root.classList.toggle("kft", settings.enabled);
-    // Mayúsculas y efectos son parte del tema (ya no son opciones): siempre
-    // activos, aunque una versión antigua guardara uppercase/fx = false
     root.classList.toggle("kft-upper", settings.enabled);
     root.classList.toggle("kft-fx", settings.enabled);
     const triplet = hexToHslTriplet(settings.accent);
@@ -72,10 +64,6 @@
     }
   }
 
-  // Texto sobre el acento: blanco mientras se lea (contraste WCAG ≥ 3:1, el
-  // mínimo para texto grande/negrita, que es lo que va sobre el acento) y
-  // casi negro solo con acentos claros. Naranja → blanco (3.3:1);
-  // cian de Karasu → oscuro (el blanco daría 1.6:1), como hace la web.
   function onAccent(hex) {
     const n = parseInt(hex.replace("#", ""), 16);
     const lin = (c) => ((c /= 255) <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
@@ -83,9 +71,6 @@
     return 1.05 / (L + 0.05) >= 3 ? "#fff" : "#0b1215";
   }
 
-  // Karasu escribe los títulos de sección como "PARTIDAS.EN.DIRECTO";
-  // aquí se muestran como frases normales ("Partidas en directo").
-  // Exige al menos una letra: "0.0020" (float de un skin) no es un título.
   const DOTTED = /^(?=.*\p{Lu})[\p{Lu}\d]+(?:\.[\p{Lu}\d]+)+$/u;
   const originals = new WeakMap();
 
@@ -123,12 +108,7 @@
     for (let n = walker.nextNode(); n; n = walker.nextNode()) prettify(n);
   }
 
-  // Avisos de Karasu ("If you like what you see", "Bug Abusing"): botón para
-  // cerrarlos. Se recuerdan por su texto, así que un aviso nuevo o editado
-  // vuelve a aparecer.
   let dismissed = new Set();
-  // Icono × construido con el DOM (sin innerHTML: el validador de
-  // addons.mozilla.org lo marca aunque el contenido sea fijo)
   function closeIcon() {
     const NS = "http://www.w3.org/2000/svg";
     const svg = document.createElementNS(NS, "svg");
@@ -150,7 +130,6 @@
   function dismissAlert(row, key) {
     dismissed.add(key);
     chrome.storage.local.set({ dismissedAlerts: [...dismissed] });
-    // Se pliega primero (CSS anima grid-template-rows) y luego se oculta
     row.dataset.kftClosing = "";
     setTimeout(() => {
       row.dataset.kftDismissed = "";
@@ -183,11 +162,6 @@
     }
   }
 
-  // Inventario: filtro por tipo de cuchillo (o de guantes) en el selector.
-  // Karasu no lo tiene y su buscador no combina términos ("karambit fade" no
-  // da nada), así que se filtran las tarjetas por el nombre interno que lleva
-  // su imagen (…/weapon_knife_karambit_am_doppler_1a2b3c4d.webp) y el
-  // buscador queda libre para el nombre del skin.
   const ITEM_TYPES = [
     ["weapon_bayonet", "Bayonet", "knife"],
     ["weapon_knife_m9_bayonet", "M9 Bayonet", "knife"],
@@ -218,8 +192,6 @@
     ["studded_bloodhound_gloves", "Bloodhound", "gloves"],
     ["studded_brokenfang_gloves", "Broken Fang", "gloves"],
   ];
-  // El prefijo más largo primero: "weapon_knife_survival_bowie" antes que
-  // cualquier otro que pudiera empezar igual
   const TYPE_MATCH = [...ITEM_TYPES].sort((a, b) => b[0].length - a[0].length);
   const TYPE_INFO = Object.fromEntries(ITEM_TYPES.map(([k, label, family]) => [k, { label, family }]));
   const FILTER_ALL = { es: "Todos", fr: "Tout", de: "Alle", pt: "Todos", it: "Tutti", ru: "Все", ja: "すべて", zh: "全部", ko: "전체" };
@@ -334,7 +306,6 @@
     const first = types.find(Boolean);
     const family = first ? TYPE_INFO[first].family : null;
     if (!family) {
-      // Ranura sin tipos (pistolas, rifles…), o lista vacía por la búsqueda
       if (typeFilter.family && items.length > 1) removeTypeUi();
       return;
     }
@@ -346,15 +317,10 @@
 
     let visible = 0;
     items.forEach((it, i) => {
-      // Se ocultan también las que tienen imagen pero ningún tipo (guantes por
-      // defecto); la tarjeta "+ Craft" no lleva imagen y se queda siempre
       const hide = !!typeFilter.active && types[i] !== typeFilter.active && !!it.querySelector("img");
       it.toggleAttribute("data-kft-hide", hide);
       if (!hide && types[i]) visible++;
     });
-
-    // No hace falta forzar la carga: Karasu carga por scroll y, si lo visible
-    // no llena el panel, sigue cargando solo hasta llenarlo.
 
     // Mensaje si, terminada la carga, no queda ninguno de ese tipo
     const note = grid.querySelector(":scope > .kft-empty");
@@ -379,26 +345,18 @@
     document.querySelectorAll(".kft-type").forEach((ui) => toggleTypeMenu(ui, false));
   });
 
-  // Rail derecho: reutiliza nombres localizados que Karasu ya haya añadido.
   function labelRail() {
     if (!settings.enabled) return;
     for (const svg of document.querySelectorAll('div.w-14.border-l > button svg[class*="lucide-"]')) {
       const m = /lucide-(bell|tent|users|message-square|mic|clock|chevrons-left|chevrons-right)\b/.exec(svg.getAttribute("class"));
       const btn = svg.closest("button");
       if (!m || !btn) continue;
-      // Reuse Karasu's localized accessible name when it provides one.
-      // Never replace it with a hard-coded translation from the extension.
       const label = btn.getAttribute("aria-label") || btn.getAttribute("title") ||
         btn.querySelector('[class*="sr-only"]')?.textContent.trim() || "";
       if (label && btn.dataset.kftTip !== label) btn.dataset.kftTip = label;
     }
   }
 
-  // Barra lateral en carpetas. Lo diario (Buscar, Jugar, Estadísticas, Ver)
-  // queda siempre visible; el resto va en carpetas tipo acordeón: una abierta
-  // a la vez y la de la página actual se abre sola al navegar. Las cabeceras
-  // son botones propios añadidos al final del contenedor de Karasu (Vue no
-  // los toca); el CSS las coloca con "order".
   const FOLDERS = [
     ["compete", ["/tournaments", "/league", "/scrims", "/public-servers"],
       "M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22M18 2H6v7a6 6 0 0 0 12 0V2Z"],
@@ -407,7 +365,7 @@
     ["arsenal", ["/apps/inventory", "/settings/cosmetics", "/utility"],
       "M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16ZM3.3 7 12 12l8.7-5M12 22V12"],
   ];
-  let openFolder = null; // null = aún no decidido (se abre la de la página actual)
+  let openFolder = null;
   let lastPath = "";
 
   function svgIcon(d, cls) {
@@ -432,7 +390,6 @@
     const labels = items.map((item) => item.closest('[data-sidebar="group"]')
       ?.querySelector('[data-sidebar="group-label"]')?.textContent.trim()).filter(Boolean);
     if (labels.length) return labels.sort((a, b) => labels.filter((v) => v === b).length - labels.filter((v) => v === a).length)[0];
-    // Some layouts omit group headings; reuse the localized route names.
     return items.map((item) => item.querySelector('a[data-sidebar="menu-button"]')?.textContent.trim())
       .filter(Boolean).slice(0, 2).join(" · ");
   }
@@ -496,16 +453,9 @@
     }
   }
 
-  // /play: marca las piezas de la página (data-kft-play) para que el CSS
-  // pueda reorganizarlas sin depender de clases genéricas de Tailwind.
-  // También limpia los nombres de mapa ("de_ancient" → "Ancient") y marca el
-  // contador de tiempo cuando está vacío ("--:--", fuera de cola).
   function setPlay(el, name) {
     if (el && el.dataset.kftPlay !== name) el.dataset.kftPlay = name;
   }
-  // /play: los baneos recientes como ticker. Se desliza solo hacia la
-  // derecha; al llegar al final, fundido y vuelta al principio. Pausa con el
-  // ratón encima. Sin animación si todo cabe o con "reducir movimiento".
   const ticker = { el: null, raf: 0, last: 0, pos: 0, wait: 0 };
   function startBansTicker(el) {
     if (!el || ticker.el === el) return;
@@ -513,9 +463,6 @@
     ticker.pos = el.scrollLeft;
     ticker.last = 0;
     el.dataset.kftTicker = "";
-    // Rueda del ratón encima de la barra: abajo avanza, arriba retrocede.
-    // Mientras el cursor está encima el ticker está en pausa; al salir sigue
-    // desde donde la dejó el usuario.
     if (!el.dataset.kftWheel) {
       el.dataset.kftWheel = "";
       el.addEventListener("wheel", (e) => {
@@ -530,7 +477,7 @@
       }, { passive: false });
     }
     cancelAnimationFrame(ticker.raf);
-    const SPEED = 30; // px por segundo
+    const SPEED = 30;
     const step = (now) => {
       ticker.raf = requestAnimationFrame(step);
       const cur = ticker.el;
@@ -547,12 +494,10 @@
         ticker.wait -= dt;
         return;
       }
-      // Si el usuario ha desplazado la lista (rueda, arrastre), seguir desde ahí
       if (Math.abs(cur.scrollLeft - ticker.pos) > 2) ticker.pos = cur.scrollLeft;
       ticker.pos = Math.min(max, ticker.pos + SPEED * dt);
       cur.scrollLeft = ticker.pos;
       if (ticker.pos >= max) {
-        // Final: pausa breve, fundido, vuelta al inicio y fundido de entrada
         ticker.wait = 1.6;
         setTimeout(() => cur.classList.add("kft-ticker-fade"), 1000);
         setTimeout(() => {
@@ -566,15 +511,10 @@
   }
 
   function decoratePlay() {
-    // Ojo: "/players/…" también empieza por "/play"; solo vale /play exacto
     if (!settings.enabled || !/^\/play\/?$/.test(location.pathname)) {
-      // Al salir de /play por navegación interna, quitar las marcas que queden
       document.querySelectorAll("[data-kft-play]").forEach((el) => delete el.dataset.kftPlay);
       return;
     }
-    // La página puede estar en español o inglés según el idioma de la cuenta.
-    // Ancla el rediseño por la estructura de las tres tarjetas de estadísticas,
-    // no por el texto localizado de sus rótulos.
     const stats = [...document.querySelectorAll("main div.grid")].find((grid) => {
       const cards = [...grid.children];
       return cards.length === 3 && cards.every((card) =>
@@ -611,11 +551,6 @@
     }
   }
 
-  // /matches/<id>: marca las piezas de la sala (data-kft-match) y añade datos
-  // que Karasu no muestra: ELO medio de cada equipo (en la cabecera, vía
-  // atributo + ::after, sin meter nodos en el árbol de Vue), si el turno del
-  // veto es de TU equipo, y si el marcador aún no tiene datos (antes de
-  // empezar se muestra como dos alineaciones en lugar de 110 rayas).
   function setMatch(el, name) {
     if (el && el.dataset.kftMatch !== name) el.dataset.kftMatch = name;
   }
@@ -625,7 +560,6 @@
       if (key in el.dataset) delete el.dataset[key];
     } else if (el.dataset[key] !== value) el.dataset[key] = value;
   }
-  // Tu nombre, del botón de usuario del pie: el texto que no es bandera ni ELO
   function myName() {
     const b = document.querySelector('[data-sidebar="footer"] button[aria-haspopup="menu"]');
     const leaf = b && [...b.querySelectorAll("*")].find((e) => {
@@ -640,10 +574,6 @@
     const main = document.querySelector("main");
     if (!main) return;
 
-    // Banner de turno (VetoTurnBanner). Vue reutiliza el mismo nodo en sus dos
-    // modos, así que el modo se recalcula en cada pasada:
-    //   "you":  franja "Your Turn · 51s" + titular (+ subtítulo) + barra
-    //   "wait": fila [equipo · acción · BAN] [segundos] + barra
     const turn = main.querySelector('div.mx-auto.max-w-lg.overflow-hidden.rounded-md[class*="backdrop-blur"]');
     setMatch(turn, "turn");
     if (turn) {
@@ -653,9 +583,6 @@
       const activeName = turn.querySelector('span.truncate[class*="tac-amber"]');
       setData(turn, "kftMyturn", you || activeName ? "" : null);
     }
-    // Bloque del veto en curso (región, localización o mapas): el hijo de la
-    // columna de estadísticas que lo contiene sube a la fila de la cabecera.
-    // Al terminar, Karasu muestra el historial en la columna central.
     const tabsCol = main.querySelector('[data-kft-match="tabs"]');
     const vetoRoot = (el) => {
       while (el && el.parentElement && el.parentElement.parentElement !== tabsCol) el = el.parentElement;
@@ -667,16 +594,13 @@
     const vetoCard = [...main.querySelectorAll("div")].find((d) => /^relative w-\[1[5-9]0px\]/.test(String(d.className)));
     setMatch(vetoCard?.parentElement, "veto");
 
-    // Cabecera de la sala (equipos + VS/marcador): se compacta en una franja
     for (const h of main.querySelectorAll("header")) {
       setData(h, "kftHead", String(h.children[1]?.className).includes("grid-cols-[1fr_auto_1fr]") ? "" : null);
     }
 
-    // Crédito de Mercurial: locate its provider link independent of the label.
     const credit = main.querySelector('a[href*="mercurial"]');
     setMatch(credit?.closest("div.rounded-md"), "credit");
 
-    // Marcador: alineaciones, ELO medio, mi equipo y si ya hay datos
     decorateRoles(main);
     const table = main.querySelector("table");
     if (!table) return;
@@ -697,7 +621,6 @@
     const prelive = stats.length > 0 && stats.every((td) => !/\d/.test(td.textContent));
     setData(table, "kftPrelive", prelive ? "" : null);
 
-    // Cabecera: ELO medio bajo cada nombre (Alineación 1 a la izquierda, 2 a la derecha)
     const header = [...main.querySelectorAll("header")].find((h) =>
       h.querySelectorAll(":scope > div:nth-child(2) > div").length >= 3 &&
       h.querySelectorAll(".flip-stat__char").length >= 2);
@@ -724,10 +647,6 @@
 
   }
 
-  // Alineaciones a los lados, como en las salas de partida clásicas. Karasu solo las
-  // tiene dentro de la tabla del marcador (en una pestaña), así que se leen
-  // de ahí y se pintan en tarjetas propias. Solo se rehace si los datos
-  // cambian. Las columnas se localizan por su cabecera, no por posición.
   const STAT_COLS = { k: /Bajas|Kills|Eliminaciones|Frags/i, a: /Asistencias|Assists/i, d: /Muertes|Deaths/i, kd: /^K\s*\/\s*D$/i, hs: /HS\s*%|Headshot/i, adr: /^ADR$/i };
   let rosterSig = "";
   function renderRosters(main, table, teams, scores) {
@@ -737,7 +656,6 @@
     const center = body.children[0];
     setMatch(center, "center");
     setMatch(body.children[1], "tabs");
-    // Piezas del centro: conectar, mapa (+ historial del veto), chat, comms
     for (const kid of center.children) {
       if (kid.querySelector(".lucide-headphones")) setMatch(kid, "comms");
       else if (kid.querySelector("form")) setMatch(kid, "chat");
@@ -748,7 +666,6 @@
         }
       } else setMatch(kid, "connect");
     }
-    // Botón "Voz" en la cabecera del chat: abre/cierra el panel de comms
     const chatBar = center.querySelector(':scope > [data-kft-match="chat"] div.mb-2');
     const commsPanel = center.querySelector(':scope > [data-kft-match="comms"]');
     if (chatBar && commsPanel) {
@@ -775,7 +692,6 @@
       if (vbtn.lastChild.textContent !== label) vbtn.lastChild.textContent = label;
       vbtn.classList.toggle("is-live", count !== "0");
     }
-    // Comms de equipo: desplegable, cerrado por defecto (casi todos usan el chat)
     const comms = center.querySelector(':scope > [data-kft-match="comms"]');
     const commsHead = comms?.firstElementChild;
     if (commsHead && !commsHead.dataset.kftToggle) {
@@ -810,16 +726,11 @@
           const leaves = [...c0.querySelectorAll("*")].filter((e) => e.childElementCount === 0 && e.textContent.trim());
           const link = c0.querySelector('a[href^="/players/"]');
           const txt = (e) => e.textContent.trim();
-          // Hojas: bandera (sin letras ni dígitos), nombre, ELO y, al terminar,
-          // la variación ("▲+34" / "▼-20")
           const name = leaves.map(txt).find((t) => /\p{L}/u.test(t) && !/^[▲▼+\-]?\s*[+\-]?\d+$/.test(t)) || "";
           const flag = leaves.map(txt).find((t) => !/[\p{L}\d]/u.test(t) && !/^[▲▼]$/.test(t)) || "";
           const elo = leaves.map(txt).find((t) => /^\d{2,5}$/.test(t)) || "";
           const delta = (/[▲▼]?\s*([+\-]\d+)/.exec(leaves.map(txt).find((t) => /^[▲▼]?\s*[+\-]\d+$/.test(t)) || "") || [])[1] || "";
           const stat = (k) => {
-            // Karasu pinta cada valor como un grupo .flip-stat (una cifra por
-            // elemento) y algunas celdas llevan dos (ADR + daño total): se
-            // toma el primer grupo, que es el valor principal
             const cell = idx[k] > 0 ? cells[idx[k]] : null;
             const first = cell?.querySelector(".flip-stat");
             const t = (first || cell)?.textContent.trim() || "";
@@ -905,12 +816,6 @@
     }));
   }
 
-  // Buscador en la barra superior, tras la ruta (PANEL › …), en el que se
-  // escribe directamente. Los resultados son los de la paleta de Karasu
-  // (Ctrl+K): se abre por detrás, se le pasa lo escrito y se muestra como
-  // desplegable bajo el campo, sin fondo oscuro ni ventana. Así se conservan
-  // su búsqueda, filtros y enlaces. El buscador de la barra lateral queda
-  // oculto por CSS; su texto se reutiliza, así sale en el idioma del jugador.
   const PALETTE = 'div.fixed.inset-0[class*="backdrop-blur"]';
   const palette = () => [...document.querySelectorAll(PALETTE)].find((o) => o.querySelector("input"));
   const setNative = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set;
@@ -977,12 +882,11 @@
           input.blur();
           return;
         }
-        // Flechas y Enter se reenvían a la paleta (selección de resultado)
         if (["ArrowDown", "ArrowUp", "Enter"].includes(e.key)) {
           const pi = palette()?.querySelector("input");
           if (!pi) return;
           e.preventDefault();
-          e.stopPropagation(); // si no, la paleta recibe la tecla dos veces
+          e.stopPropagation();
           pi.dispatchEvent(new KeyboardEvent("keydown", { key: e.key, code: e.code, bubbles: true }));
         }
       });
@@ -1010,16 +914,12 @@
       original.getAttribute("aria-label") || original.title || box.querySelector("input").placeholder;
     const input = box.querySelector("input");
     if (text && input.placeholder !== text) input.placeholder = text;
-    // Si la paleta se cerró por su cuenta (p. ej. al elegir un resultado)
     if (root.classList.contains("kft-inline-search") && !palette()) {
       root.classList.remove("kft-inline-search");
       input.value = "";
     }
   }
 
-  // Pestaña "Roles" de la partida: cada jugador tiene tres barras (Sniper,
-  // Entry, Utilidad) y una etiqueta de rol. Se marca qué barra decide su rol
-  // (las otras se atenúan) y se añade una leyenda con el significado.
   const ROLE_OF = {
     sniper: "sniper", awper: "sniper", atirador: "sniper", "tireur d'élite": "sniper", снайпер: "sniper", "狙击手": "sniper", "スナイパー": "sniper",
     entry: "entry", "entry fragger": "entry", entrada: "entry", "fragger de entrada": "entry", энтри: "entry",
@@ -1066,10 +966,6 @@
     }
   }
 
-  // /play: fondo de malla en perspectiva que ondula (canvas). Un suelo de
-  // líneas hacia el horizonte con relieve senoidal que se mueve despacio;
-  // más brillante cerca y desvanecido al fondo. 30 fps, en pausa con la
-  // pestaña oculta y apagado con "reducir movimiento".
   const wave = { canvas: null, raf: 0, last: 0, t: 0, color: "56,225,255", colorAt: 0 };
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -1105,7 +1001,7 @@
     const horizon = h * 0.52, f = h * 0.7, camH = 1.1, cx = w / 2;
     const X0 = -22, X1 = 22, Z0 = 1.3, Z1 = 16, COLS = 72, ROWS = 32;
     const dz = (Z1 - Z0) / ROWS;
-    const drift = (t * 0.55) % dz; // el suelo avanza hacia el espectador
+    const drift = (t * 0.55) % dz;
     const height = (x, z) =>
       0.42 * Math.sin(x * 0.42 + t * 0.8) * Math.cos(z * 0.33 - t * 0.55) +
       0.22 * Math.sin(z * 0.75 - t * 1.25 + x * 0.12);
@@ -1131,7 +1027,6 @@
       }
       g.stroke();
     }
-    // Líneas de fuga (hacia el horizonte), tramo a tramo para degradar
     for (let c = 0; c <= COLS; c++) {
       const x = X0 + ((X1 - X0) * c) / COLS;
       for (let r = 0; r < ROWS; r++) {
@@ -1148,8 +1043,6 @@
   }
 
   function updateWaveBg() {
-    // Karasu anida dos <main>; el canvas va en el más interno (el exterior
-    // queda tapado por el fondo opaco del interior)
     const main = document.querySelector('[data-kft-play="root"]')?.closest("main");
     const want = settings.enabled && !reduceMotion.matches && !!main;
     if (!want) {
@@ -1172,11 +1065,7 @@
     wave.raf = requestAnimationFrame(drawWave);
   }
 
-  // Perfil de jugador (/players/<id>): marca las secciones (data-kft-prof)
-  // para reordenarlas por CSS y añade a cada cifra una valoración
-  // (Bajo / Medio / Bueno) según referencias habituales de CS2.
   const STAT_TIERS = [
-    // [regex de la etiqueta, umbral "medio", umbral "bueno", más alto = mejor]
     [/victorias|win/i, 45, 55, true],
     [/^ADR$/i, 65, 85, true],
     [/^K\/D$/i, 0.9, 1.1, true],
@@ -1234,7 +1123,6 @@
       }
     }
 
-    // Aclara el badge de nivel sin añadir texto duplicado a la ficha.
     const levelBadgeEl = header?.querySelector("[data-kft-level]");
     if (levelBadgeEl) {
       const lang = (document.documentElement.lang || "en").toLowerCase().split(/[-_]/)[0];
@@ -1244,8 +1132,6 @@
       levelBadgeEl.dataset.kftProfileLevel = "";
     }
 
-    // Los SVG de gráficas suelen guardar el dato accesible en aria-label,
-    // data-* o <title>. Refleja ese mismo dato en el tooltip nativo si falta.
     const eloChart = hero.querySelector('div.relative[class*="min-h-[150px"]');
     for (const point of eloChart?.querySelectorAll("svg circle, svg [role=img], svg [data-value]") || []) {
       if (point.hasAttribute("title")) continue;
@@ -1255,17 +1141,6 @@
     }
   }
 
-  // Leaderboard ("standings"): marca el podio y la tabla para el CSS, y
-  // calcula para cada fila su distancia al #1 (barra junto al ELO). Fuera
-  // la columna de país: la bandera ya va con el nombre.
-  // /utility/<mapa>: la biblioteca de lineups. Vacía (lo normal hoy) solo
-  // enseñaba controles que no hacen nada. Se marca el estado vacío para que
-  // el CSS explique qué es y lleve a la única acción útil (Practice Server).
-  // El texto va en un atributo (pintado con ::before), sin nodos en Vue.
-  // Textos propios del tema, en el idioma que el jugador eligió en Karasu
-  // (<html lang>, que Karasu cambia al cambiar de idioma). Sin dato o con un
-  // idioma que no está aquí: inglés. El resto de textos que se ven son los
-  // de Karasu, que ya llegan traducidos.
   const I18N = {
     en: {
       wins: " wins", veto: "VETO", lead: (n) => `+${n} ELO over #2`,
@@ -1312,8 +1187,6 @@
     const base = String(document.documentElement.lang || "").toLowerCase().split(/[-_]/)[0];
     return I18N[base] || I18N.en;
   }
-  // Textos que pinta el CSS (content: var(--kft-t-…)): se actualizan si el
-  // jugador cambia el idioma de Karasu
   let textsLang = "";
   function applyTexts() {
     const lang = document.documentElement.lang || "";
@@ -1341,7 +1214,6 @@
     if (!settings.enabled || !/^\/leaderboard/.test(location.pathname)) return;
     const podium = [...document.querySelectorAll("main div.grid")].find((d) => d.children.length === 3 && [...d.children].every((a) => a.matches("a.rounded-xl.border")));
     if (podium && podium.dataset.kftPodium !== "") podium.dataset.kftPodium = "";
-    // Franja de 4 tarjetas de datos (jugadores, tu puesto, tu ELO, top ELO)
     const strip = [...document.querySelectorAll("main div.grid")].find((d) => d.children.length === 4 && [...d.children].every((c) => String(c.className).includes("bg-card/60")));
     if (strip && strip.dataset.kftLbstats !== "") strip.dataset.kftLbstats = "";
     // Ventaja del #1 sobre el #2 (orden de Karasu: [#2, #1, #3])
@@ -1370,7 +1242,6 @@
     const top = Math.max(...elos), low = Math.min(...elos);
     for (const { tr, cells, rank, elo } of rows) {
       cells.forEach((td, i) => td.toggleAttribute("data-kft-hidecol", i === idxCountry));
-      // Segunda línea del jugador vacía ("—"): fuera, solo ensucia la fila
       const sub = tr.querySelector("td a.grid .text-left > div:nth-child(2)");
       if (sub) sub.toggleAttribute("data-kft-empty", sub.textContent.trim() === "—" || sub.textContent.trim() === "");
       const pos = rank === 1 ? "1" : rank === 2 ? "2" : rank === 3 ? "3" : null;
@@ -1384,8 +1255,6 @@
     }
   }
 
-  // Logo: cuervo (烏, "karasu") de papiroflexia, facetas plateadas y el ojo
-  // en el color de acento, junto al nombre y el kanji. Se dibuja una vez.
   const CROW = [
     ["4,12 9,6 17,4.5 22,7.5 18.5,12.5", "#f1f3f5"],
     ["22,7.5 30,11.5 18.5,12.5", "#d9dde2"],
@@ -1535,13 +1404,8 @@
     }).observe(document.body, { childList: true, subtree: true, characterData: true });
   }
 
-  // Aplicar en seguida (antes del primer pintado) con los valores por defecto,
-  // y corregir cuando lleguen los ajustes guardados.
   apply();
   chrome.storage.sync.get({ ...DEFAULTS, accentV2: false }, (stored) => {
-    // v1.3: el acento por defecto pasa del naranja antiguo al cian de Karasu.
-    // Quien tenía guardado el naranja de antes pasa al cian una sola vez;
-    // si después elige el naranja a mano, se respeta.
     if (!stored.accentV2) {
       if (stored.accent === "#ff4b00") stored.accent = DEFAULTS.accent;
       chrome.storage.sync.set({ accent: stored.accent, accentV2: true });
@@ -1576,8 +1440,6 @@
     }
   });
 
-  // Foco de luz que sigue al cursor sobre las tarjetas pulsables. Mismo
-  // selector que en la sección 12 de theme.css; el CSS lee --kft-mx/--kft-my.
   const SPOTLIGHT = [
     ':is(a, button, [role="button"], .cursor-pointer):is(.bg-card, [class^="bg-card/"], [class*=" bg-card/"], .rounded-xl.border, .rounded-lg.border, [class^="bg-muted/30"], [class*=" bg-muted/30"])',
     '[class*="hover:shadow-primary"]',
@@ -1603,8 +1465,6 @@
     { passive: true }
   );
 
-  // Nuxt/unhead puede reescribir el atributo class del <html>; volver a poner
-  // nuestras clases si desaparecen.
   new MutationObserver(() => {
     if (settings.enabled && !root.classList.contains("kft")) apply();
   }).observe(root, { attributes: true, attributeFilter: ["class"] });
