@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Karasu Metro",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "minimum_chrome_version": "111",
   "description": "Unofficial open-source theme for karasu.live: a cleaner interface with a reworked match room, leaderboard and profiles.",
   "homepage_url": "https://github.com/iStar57/karasu-metro",

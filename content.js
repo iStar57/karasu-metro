@@ -1256,6 +1256,41 @@
   // Leaderboard ("standings"): marca el podio y la tabla para el CSS, y
   // calcula para cada fila su distancia al #1 (barra junto al ELO). Fuera
   // la columna de país: la bandera ya va con el nombre.
+  // /utility/<mapa>: la biblioteca de lineups. Vacía (lo normal hoy) solo
+  // enseñaba controles que no hacen nada. Se marca el estado vacío para que
+  // el CSS explique qué es y lleve a la única acción útil (Practice Server).
+  // El texto va en un atributo (pintado con ::before), sin nodos en Vue.
+  const UTIL_HELP = {
+    en: [
+      "Lineups are saved grenade throws: where to stand, where to aim and where it lands.",
+      "",
+      "1   Open a Practice Server (top of the map)",
+      "2   Throw the grenade in game",
+      "3   Save it: it shows up here and on the map",
+      "",
+      "Using filters? Clear them to see everything.",
+    ].join("\n"),
+    es: [
+      "Un lineup es una granada guardada: dónde ponerte, dónde apuntar y dónde cae.",
+      "",
+      "1   Abre un Practice Server (arriba del mapa)",
+      "2   Lanza la granada en el juego",
+      "3   Guárdala: aparece aquí y en el mapa",
+      "",
+      "¿Tienes filtros puestos? Quítalos para verlo todo.",
+    ].join("\n"),
+  };
+  function decorateUtility() {
+    if (!settings.enabled || !/^\/utility\/[^/]+/.test(location.pathname)) return;
+    const board = document.querySelector(".utility-board");
+    const root = board?.parentElement;
+    if (!root) return;
+    setData(root, "kftUtil", "");
+    const empty = root.querySelector("div.border-dashed.text-center");
+    setData(root, "kftUtilEmpty", empty ? "" : null);
+    if (empty) setData(empty, "kftUtilHelp", UTIL_HELP[/^es/i.test(document.documentElement.lang) ? "es" : "en"]);
+  }
+
   function decorateLeaderboard() {
     if (!settings.enabled || !/^\/leaderboard/.test(location.pathname)) return;
     const podium = [...document.querySelectorAll("main div.grid")].find((d) => d.children.length === 3 && [...d.children].every((a) => a.matches("a.rounded-xl.border")));
@@ -1353,13 +1388,16 @@
     rosterSig = "";
     document.querySelectorAll("[data-kft-result]").forEach((el) => delete el.dataset.kftResult);
     document.querySelectorAll("[data-kft-match]").forEach((el) => delete el.dataset.kftMatch);
-    document.querySelectorAll("[data-kft-prelive], [data-kft-elo], [data-kft-mine], [data-kft-myturn], [data-kft-turn], [data-kft-head]").forEach((el) => {
+    document.querySelectorAll("[data-kft-prelive], [data-kft-elo], [data-kft-mine], [data-kft-myturn], [data-kft-turn], [data-kft-head], [data-kft-util], [data-kft-util-empty], [data-kft-util-help]").forEach((el) => {
       delete el.dataset.kftPrelive;
       delete el.dataset.kftElo;
       delete el.dataset.kftMine;
       delete el.dataset.kftMyturn;
       delete el.dataset.kftTurn;
       delete el.dataset.kftHead;
+      delete el.dataset.kftUtil;
+      delete el.dataset.kftUtilEmpty;
+      delete el.dataset.kftUtilHelp;
     });
     document.querySelectorAll("[data-kft-play]").forEach((el) => delete el.dataset.kftPlay);
     document.querySelectorAll("[data-kft-prof], [data-kft-tier]").forEach((el) => { delete el.dataset.kftProf; delete el.dataset.kftTier; delete el.dataset.kftTierText; });
@@ -1416,6 +1454,7 @@
       decoratePlay();
       decorateProfile();
       decorateLeaderboard();
+      decorateUtility();
       updateWaveBg();
       decorateMatch();
       placeSearch();
@@ -1432,6 +1471,7 @@
     decoratePlay();
     decorateProfile();
     decorateLeaderboard();
+    decorateUtility();
     decorateMatch();
     placeSearch();
     brandLogo();

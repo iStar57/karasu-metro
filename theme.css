@@ -6041,3 +6041,77 @@ html.kft .utility-board-chips button > span[aria-hidden] {
 html.kft .utility-board-key {
   color: var(--kft-text-2) !important;
 }
+
+/* ------------------------------------------------------------------ */
+/* 11v. Utility (/utility/<mapa>): biblioteca de lineups               */
+/*      Vacía, solo enseñaba controles sin efecto. Con data-kft-util-  */
+/*      empty: el hueco vacío explica qué es y da los pasos, la acción */
+/*      principal se destaca y el resto pierde peso (sigue usable).    */
+/* ------------------------------------------------------------------ */
+html.kft [data-kft-util-help]:not(#kft) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 28px 28px 26px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 12px !important;
+  background: #0f0f0f !important;
+  text-align: left;
+}
+html.kft [data-kft-util-help] > p:first-child {
+  order: 0;
+  color: var(--kft-text) !important;
+  font-size: 17px !important;
+  font-weight: 800 !important;
+}
+/* El "Widen the filters, or record one…" de Karasu lo sustituyen los pasos */
+html.kft [data-kft-util-help] > p:nth-child(2) {
+  display: none !important;
+}
+html.kft [data-kft-util-help]::before {
+  content: attr(data-kft-util-help);
+  order: 1;
+  max-width: 38ch;
+  margin: 12px 0 20px;
+  color: var(--kft-text-2);
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+html.kft [data-kft-util-help] > div:last-child {
+  order: 2;
+  margin: 0 !important;
+}
+/* Acción principal: Add a Lineup */
+html.kft [data-kft-util-help] > div:last-child button:not(#kft) {
+  height: 38px !important;
+  padding: 0 18px !important;
+  border: 1px solid var(--kft-accent-hex) !important;
+  border-radius: 8px !important;
+  background: hsl(var(--kft-accent) / 0.12) !important;
+  color: var(--kft-accent-hex) !important;
+  font-weight: 800 !important;
+  box-shadow: none !important;
+}
+html.kft [data-kft-util-help] > div:last-child button:not(#kft):hover {
+  background: hsl(var(--kft-accent) / 0.2) !important;
+}
+/* Paso 1 señalado en el mapa: Practice Server con el acento */
+html.kft [data-kft-util-empty] .utility-board button:has(.lucide-server):not(#kft) {
+  border-color: var(--kft-accent-hex) !important;
+  color: var(--kft-accent-hex) !important;
+  background: hsl(var(--kft-accent) / 0.08) !important;
+}
+/* Sin lineups: contadores, buscador y filtros en segundo plano */
+html.kft [data-kft-util-empty] > :last-child > div:first-child > div:last-child {
+  opacity: 0.45;
+  transition: opacity 0.2s;
+}
+html.kft [data-kft-util-empty] > :last-child > div:first-child > div:last-child:is(:hover, :focus-within) {
+  opacity: 1;
+}
+/* La clave "Squares = origin · Dots = landing" no tiene nada que explicar */
+html.kft [data-kft-util-empty] .utility-board-key {
+  display: none !important;
+}
