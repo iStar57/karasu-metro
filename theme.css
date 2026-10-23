@@ -5927,3 +5927,34 @@ html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="conten
 html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] [data-sidebar="menu-item"]:has(> a[href="/play"]) {
   margin-top: 4px !important;
 }
+
+/* Barra plegada: el cuervo entero (su caja recortaba el pico) */
+html.kft .group[data-collapsible="icon"] [data-sidebar="header"]:not(#kft) {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  align-items: center;
+}
+html.kft .group[data-collapsible="icon"] [data-sidebar="header"] > a:not(#kft) {
+  width: 34px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+/* Barra plegada: el avatar entero y centrado, sin nombre ni flechas */
+html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="footer"] button[aria-haspopup="menu"]:not(#kft) {
+  justify-content: center !important;
+  width: 32px !important;
+  height: 32px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="footer"] button[aria-haspopup="menu"] > a:not(#kft) {
+  display: block !important;
+  width: 32px !important;
+  min-height: 0 !important;
+}
+html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="footer"] button[aria-haspopup="menu"] > a > :not(:first-child),
+html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="footer"] button[aria-haspopup="menu"] > :not(a) {
+  display: none !important;
+}
