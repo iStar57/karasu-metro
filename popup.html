@@ -13,453 +13,173 @@
       font-family: Michroma;
       src: url("fonts/michroma-latin.woff2") format("woff2");
     }
-    @property --spin {
-      syntax: "<angle>";
-      inherits: false;
-      initial-value: 0deg;
-    }
 
     :root {
       --accent: #38e1ff;
-      --accent-hi: color-mix(in oklab, var(--accent) 72%, #fff);
-      --accent-deep: color-mix(in oklab, var(--accent) 80%, #000);
-      --glow: color-mix(in srgb, var(--accent) 55%, transparent);
-      --glow-soft: color-mix(in srgb, var(--accent) 20%, transparent);
-      --grad: linear-gradient(135deg, var(--accent-hi), var(--accent) 50%, var(--accent-deep));
-      --bg: #060606;
-      --glass: rgba(20, 20, 20, 0.62);
-      --line: rgba(255, 255, 255, 0.07);
+      --bg: #0b0b0b;
+      --line: rgba(255, 255, 255, 0.08);
       --text: #f1f1f1;
       --text-2: #a7a7a7;
       --text-3: #6b6b6b;
-      --ease: cubic-bezier(0.22, 1, 0.36, 1);
-      --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     * { box-sizing: border-box; }
-    html, body { background: var(--bg); }
-    /* El overflow va en <html>: si solo lo lleva <body>, el navegador lo
-       pasa a la ventana y la luz ambiente animada (más grande que el popup)
-       cambia el tamaño del documento en cada fotograma → el popup crece y
-       se encoge sin parar. Así <body> recorta de verdad. */
-    html { overflow: hidden; }
-    body { contain: paint; }
+    html { overflow: hidden; background: var(--bg); }
     body {
-      position: relative;
       margin: 0;
       width: 300px;
-      overflow: hidden;
+      padding: 18px 18px 14px;
+      background: var(--bg);
       color: var(--text);
       font: 13px/1.4 Geist, "Segoe UI", system-ui, sans-serif;
       -webkit-font-smoothing: antialiased;
     }
+    button { font: inherit; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-    /* Luz ambiente del color de acento */
-    .ambient {
-      position: absolute;
-      inset: -40%;
-      z-index: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(30% 26% at 78% 24%, var(--glow-soft), transparent 70%),
-        radial-gradient(26% 22% at 18% 82%, color-mix(in srgb, var(--accent) 11%, transparent), transparent 70%);
-      transition: opacity 0.6s var(--ease);
-    }
-    body.off .ambient { opacity: 0.2; }
-
-    .wrap {
-      position: relative;
-      z-index: 1;
+    /* ---------- Cabecera: marca, estado e interruptor en una fila ---------- */
+    .top {
       display: grid;
-      gap: 10px;
-      padding: 14px;
-    }
-
-    /* ---------- Cabecera ---------- */
-    header {
-      display: flex;
+      grid-template-columns: auto 1fr auto;
       align-items: center;
       gap: 12px;
-      padding: 2px 2px 4px;
     }
-    .logo {
-      position: relative;
-      flex: none;
-      display: grid;
-      place-items: center;
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      background: linear-gradient(145deg, #1d1d1d, #0c0c0c);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 8px 22px -8px var(--glow);
-      transition: box-shadow 0.4s var(--ease);
-    }
-    .logo img {
-      width: 24px;
-      height: 24px;
-      transition: scale 0.45s var(--spring), rotate 0.45s var(--spring);
-    }
-    .logo:hover img { scale: 1.14; rotate: -8deg; }
-    /* Arco de luz que gira alrededor del logo */
-    .logo::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      padding: 1px;
-      border-radius: inherit;
-      background: conic-gradient(from var(--spin), transparent 0 65%, var(--accent-hi) 85%, transparent);
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      transition: opacity 0.4s;
-    }
-    body.off .logo { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06); }
-    body.off .logo::after { opacity: 0; }
-
-    .brand { min-width: 0; }
+    .mark { display: block; width: 30px; height: 30px; }
+    .mark .eye { fill: var(--accent); }
     h1 {
       margin: 0;
-      font: 400 11.5px/1.2 Michroma, Geist, sans-serif;
-      letter-spacing: 0.08em;
-      white-space: nowrap;
-      text-transform: uppercase;
-      background: linear-gradient(180deg, #fff 30%, #9a9a9a);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .sub { margin-top: 3px; color: var(--text-3); font-size: 11px; }
-
-    .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-left: auto;
-      padding: 4px 9px 4px 8px;
-      border-radius: 999px;
-      color: var(--accent-hi);
-      background: color-mix(in srgb, var(--accent) 14%, transparent);
-      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent);
-      font-size: 10.5px;
-      font-weight: 700;
-      letter-spacing: 0.05em;
+      font: 400 11px/1.3 Michroma, Geist, sans-serif;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       white-space: nowrap;
-      transition: color 0.4s var(--ease), background 0.4s var(--ease), box-shadow 0.4s var(--ease);
     }
-    .status i {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: currentColor;
-    }
-    body.off .status {
-      color: var(--text-3);
-      background: rgba(255, 255, 255, 0.04);
-      box-shadow: inset 0 0 0 1px var(--line);
-    }
+    .meta { margin: 3px 0 0; color: var(--text-3); font-size: 11.5px; white-space: nowrap; }
+    #status-text { color: var(--text-2); font-weight: 600; }
+    body:not(.off) #status-text { color: var(--accent); }
 
-    /* ---------- Tarjetas de cristal ---------- */
-    .card {
-      overflow: hidden;
-      border-radius: 12px;
-      background: var(--glass);
-      -webkit-backdrop-filter: blur(14px) saturate(140%);
-      backdrop-filter: blur(14px) saturate(140%);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.05),
-        inset 0 0 0 1px var(--line),
-        0 18px 40px -24px #000;
-    }
-
-    .row {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 11px 14px;
-      cursor: pointer;
-      transition: background 0.3s var(--ease), opacity 0.4s var(--ease), filter 0.4s var(--ease);
-    }
-    .row + .row { border-top: 1px solid var(--line); }
-    .row:hover { background: rgba(255, 255, 255, 0.035); }
-
-    .ic {
-      flex: none;
-      display: grid;
-      place-items: center;
-      width: 30px;
-      height: 30px;
-      border-radius: 8px;
-      color: var(--text-2);
-      background: rgba(255, 255, 255, 0.05);
-      transition: color 0.3s var(--ease), background 0.3s var(--ease), box-shadow 0.3s var(--ease), scale 0.4s var(--spring);
-    }
-    .ic svg { width: 16px; height: 16px; }
-    .row:hover .ic { scale: 1.08; }
-    .row:has(input:checked) .ic,
-    .accent-card .ic {
-      color: var(--accent-hi);
-      background: color-mix(in srgb, var(--accent) 16%, transparent);
-      box-shadow: 0 0 18px -4px var(--glow);
-    }
-
-    .label { flex: 1; min-width: 0; }
-    .label b { display: block; font-size: 13px; font-weight: 600; }
-    .label small { display: block; margin-top: 1px; color: var(--text-3); font-size: 11px; }
-
-    .row.static { cursor: default; }
-    .row.static:hover { background: none; }
-    .option-toggle { margin: 0; }
-    .mini {
-      flex: none;
-      height: 28px;
-      padding: 0 11px;
-      border: 0;
-      border-radius: 7px;
-      color: var(--accent-hi);
-      background: color-mix(in srgb, var(--accent) 14%, transparent);
-      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent);
-      font: 700 10.5px Geist, sans-serif;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.3s var(--ease), translate 0.3s var(--ease), scale 0.15s var(--ease), box-shadow 0.3s var(--ease);
-    }
-    .mini:hover {
-      background: color-mix(in srgb, var(--accent) 24%, transparent);
-      translate: 0 -1px;
-      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 55%, transparent), 0 8px 18px -10px var(--glow);
-    }
-    .mini:active { scale: 0.95; translate: 0 0; }
-    .mini:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 2px; }
-
-    /* Opciones que dependen del tema: se apagan visualmente si está pausado */
-    body.off .dep { opacity: 0.4; filter: saturate(0); }
-
-    /* ---------- Interruptor ---------- */
-    .switch { position: relative; flex: none; width: 40px; height: 22px; }
-    .switch input {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      margin: 0;
-      opacity: 0;
-      cursor: pointer;
-    }
-    .track {
-      position: absolute;
-      inset: 0;
-      border-radius: 999px;
-      background: #2a2a2a;
-      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
-      transition: background 0.35s var(--ease), box-shadow 0.35s var(--ease);
-    }
+    /* Interruptor plano */
+    .switch { position: relative; display: block; width: 34px; height: 20px; }
+    .switch input { position: absolute; inset: 0; z-index: 1; margin: 0; opacity: 0; cursor: pointer; }
+    .track { position: absolute; inset: 0; border-radius: 999px; background: #2b2b2b; transition: background 0.18s ease; }
     .track::before {
       content: "";
       position: absolute;
       top: 3px;
       left: 3px;
-      width: 16px;
-      height: 16px;
-      border-radius: 999px;
-      background: #fff;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
-      transition: translate 0.45s var(--spring), width 0.2s var(--ease);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #f1f1f1;
+      transition: translate 0.18s ease;
     }
-    input:checked + .track {
-      background: var(--grad);
-      box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent), 0 4px 14px -4px var(--glow);
-    }
-    input:checked + .track::before { translate: 18px 0; }
-    /* Al pulsar, el pomo se estira como en iOS */
-    .row:active .track::before { width: 20px; }
-    .row:active input:checked + .track::before { translate: 14px 0; }
-    input:focus-visible + .track { outline: 2px solid var(--accent-hi); outline-offset: 2px; }
+    input:checked + .track { background: var(--accent); }
+    input:checked + .track::before { translate: 14px 0; background: #0b0b0b; }
+    input:focus-visible + .track { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-    /* ---------- Color de acento ---------- */
-    .accent-card { padding: 12px 14px 14px; }
-    .accent-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-    .hex {
-      padding: 4px 8px;
-      border-radius: 6px;
-      color: var(--accent-hi);
-      background: rgba(255, 255, 255, 0.04);
-      box-shadow: inset 0 0 0 1px var(--line);
-      font: 600 11px ui-monospace, "Cascadia Mono", monospace;
-      letter-spacing: 0.04em;
-      transition: color 0.3s var(--ease);
-    }
-    .swatches { display: grid; grid-template-columns: repeat(7, 1fr); gap: 9px; }
+    /* ---------- Bloques separados por una línea fina ---------- */
+    .block { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+    body.off .dep { opacity: 0.4; }
+
+    .head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; }
+    .head span:first-child { font-weight: 600; }
+    .hex { color: var(--text-3); font: 500 11px ui-monospace, "Cascadia Mono", monospace; letter-spacing: 0.04em; }
+
+    /* 7 colores repartidos exactamente en el ancho */
+    .swatches { display: flex; justify-content: space-between; }
     .sw {
       position: relative;
-      aspect-ratio: 1;
+      width: 26px;
+      height: 26px;
       padding: 0;
       border: 0;
       border-radius: 50%;
       background: var(--c);
       cursor: pointer;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 4px 10px -4px var(--c);
-      transition: scale 0.4s var(--spring), box-shadow 0.3s var(--ease);
+      transition: box-shadow 0.15s ease;
     }
-    .sw:hover { scale: 1.15; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 8px 18px -4px var(--c); }
-    .sw:active { scale: 0.9; transition-duration: 0.12s; }
-    .sw:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
-    .sw[aria-pressed="true"] {
-      box-shadow: 0 0 0 2px #0e0e0e, 0 0 0 4px var(--c), 0 8px 20px -4px var(--c);
-    }
-    .sw::after {
-      content: "";
-      position: absolute;
-      inset: 34%;
-      border-radius: 50%;
-      background: #fff;
-      scale: 0;
-      transition: scale 0.4s var(--spring);
-    }
-    .sw[aria-pressed="true"]::after { scale: 1; }
-    .sw.custom {
-      --c: var(--accent);
-      background: conic-gradient(#ff3b3b, #ffd23b, #3bff6e, #3bd8ff, #6b3bff, #ff3bd2, #ff3b3b);
-    }
-    .sw.custom input {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      cursor: pointer;
-    }
+    .sw:hover { box-shadow: 0 0 0 2px var(--bg), 0 0 0 3.5px var(--text-3); }
+    .sw[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--bg), 0 0 0 3.5px var(--text); }
+    .sw.custom { background: conic-gradient(#ff3b3b, #ffd23b, #3bff6e, #3bd8ff, #6b3bff, #ff3bd2, #ff3b3b); }
+    .sw.custom input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
 
-    /* ---------- Pie ---------- */
-    footer { display: flex; align-items: center; gap: 10px; padding: 0 2px; }
-    .reset {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      height: 32px;
-      padding: 0 12px;
+    .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .row b { font-weight: 600; }
+    #notices-count { margin-left: 6px; color: var(--text-3); }
+
+    /* Acciones como enlaces de texto */
+    .link {
+      padding: 0;
       border: 0;
-      border-radius: 8px;
+      background: none;
       color: var(--text-2);
-      background: rgba(255, 255, 255, 0.04);
-      box-shadow: inset 0 0 0 1px var(--line);
-      font: 700 10.5px Geist, sans-serif;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      white-space: nowrap;
+      font-size: 12px;
+      font-weight: 600;
       cursor: pointer;
-      transition: color 0.3s var(--ease), box-shadow 0.3s var(--ease), translate 0.3s var(--ease), scale 0.15s var(--ease), opacity 0.3s;
     }
-    .reset svg { width: 13px; height: 13px; transition: rotate 0.6s var(--spring); }
-    .reset:hover:not(:disabled) {
-      color: var(--text);
-      translate: 0 -1px;
-      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 55%, transparent), 0 8px 18px -10px var(--glow);
-    }
-    .reset:hover:not(:disabled) svg { rotate: -200deg; }
-    .reset:active:not(:disabled) { scale: 0.96; translate: 0 0; }
-    .reset:disabled { opacity: 0.35; cursor: default; }
-    .reset:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 2px; }
+    .link:hover:not(:disabled) { color: var(--text); }
+    .link:disabled { opacity: 0.35; cursor: default; }
+    #notices-reset { color: var(--accent); }
 
-    .saved {
-      display: inline-flex;
+    footer {
+      display: flex;
       align-items: center;
-      gap: 5px;
-      margin-left: auto;
-      color: var(--text-3);
-      font-size: 11px;
-      white-space: nowrap;
-      transition: color 0.3s var(--ease);
+      justify-content: space-between;
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
     }
-    .saved svg { width: 12px; height: 12px; opacity: 0; scale: 0.4; transition: opacity 0.3s, scale 0.45s var(--spring); }
+    .saved { color: var(--text-3); font-size: 11.5px; transition: color 0.2s ease; }
     .saved.on { color: #6ade43; }
-    .saved.on svg { opacity: 1; scale: 1; }
-
-    /* ---------- Movimiento ---------- */
-    @keyframes rise { from { opacity: 0; translate: 0 10px; } }
-    @keyframes drift { to { translate: -8% 6%; } }
-    @keyframes spin { to { --spin: 360deg; } }
-    @keyframes ping {
-      0% { box-shadow: 0 0 0 0 currentColor; }
-      100% { box-shadow: 0 0 0 7px transparent; }
-    }
-    @media (prefers-reduced-motion: no-preference) {
-      .ambient { animation: drift 14s ease-in-out infinite alternate; }
-      .logo::after { animation: spin 4s linear infinite; }
-      .status i { animation: ping 1.8s var(--ease) infinite; }
-      body.off .status i { animation: none; }
-      .wrap > * { animation: rise 0.55s var(--ease) backwards; }
-      .wrap > :nth-child(2) { animation-delay: 60ms; }
-      .wrap > :nth-child(3) { animation-delay: 120ms; }
-      .wrap > :nth-child(4) { animation-delay: 180ms; }
-      .wrap > :nth-child(5) { animation-delay: 240ms; }
-    }
   </style>
 </head>
 <body>
-  <div class="ambient" aria-hidden="true"></div>
-  <div class="wrap">
-    <header>
-      <div class="logo"><img src="icons/icon48.png" alt=""></div>
-      <div class="brand">
-        <h1>Karasu Metro</h1>
-        <div class="sub" data-i18n="subtitle">for karasu.live</div>
-      </div>
-      <span class="status" id="status"><i></i><span id="status-text" data-i18n="active">Active</span></span>
-    </header>
+  <header class="top">
+    <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+      <polygon points="4,12 9,6 17,4.5 22,7.5 18.5,12.5" fill="#f1f3f5"/>
+      <polygon points="22,7.5 30,11.5 18.5,12.5" fill="#d9dde2"/>
+      <polygon points="18.5,12.5 30,11.5 20,15" fill="#8a9099"/>
+      <polygon points="4,12 18.5,12.5 20,15 13,20" fill="#b9bfc7"/>
+      <polygon points="13,20 20,15 17.5,22.5 14.5,21" fill="#6e747d"/>
+      <polygon points="13,20 14.5,24 11,22.5 9.5,27 8.5,22" fill="#575c64"/>
+      <polygon points="4,12 13,20 8.5,22 3,30 5,18" fill="#9aa1aa"/>
+      <circle class="eye" cx="15" cy="9.2" r="1.1"/>
+    </svg>
+    <div>
+      <h1>Karasu Metro</h1>
+      <p class="meta"><span id="status-text">Active</span> · <span data-i18n="subtitle">for karasu.live</span></p>
+    </div>
+    <label class="switch" data-i18n-title="enable" title="Enable theme">
+      <input type="checkbox" id="enabled" data-i18n-aria="enable" aria-label="Enable theme">
+      <span class="track"></span>
+    </label>
+  </header>
 
-    <section class="card">
-      <label class="row">
-        <span class="ic">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v8"/><path d="M6.4 6.4a8 8 0 1 0 11.2 0"/></svg>
-        </span>
-        <span class="label"><b data-i18n="enable">Enable theme</b><small data-i18n="instant">Applies instantly</small></span>
-        <span class="switch"><input type="checkbox" id="enabled"><span class="track"></span></span>
+  <section class="block dep">
+    <div class="head">
+      <span data-i18n="accent">Accent color</span>
+      <span class="hex" id="hex">#38E1FF</span>
+    </div>
+    <div class="swatches" role="group" aria-label="Accent color">
+      <button class="sw" type="button" style="--c:#38e1ff" data-c="#38e1ff" data-i18n-title="cyan" data-i18n-aria="cyan"></button>
+      <button class="sw" type="button" style="--c:#ff4b00" data-c="#ff4b00" data-i18n-title="orange" data-i18n-aria="orange"></button>
+      <button class="sw" type="button" style="--c:#ff2d55" data-c="#ff2d55" data-i18n-title="crimson" data-i18n-aria="crimson"></button>
+      <button class="sw" type="button" style="--c:#f5b700" data-c="#f5b700" data-i18n-title="gold" data-i18n-aria="gold"></button>
+      <button class="sw" type="button" style="--c:#22d36b" data-c="#22d36b" data-i18n-title="emerald" data-i18n-aria="emerald"></button>
+      <button class="sw" type="button" style="--c:#a24bff" data-c="#a24bff" data-i18n-title="violet" data-i18n-aria="violet"></button>
+      <label class="sw custom" id="custom" data-i18n-title="custom" data-i18n-aria="custom">
+        <input type="color" id="accent">
       </label>
-    </section>
+    </div>
+  </section>
 
-    <section class="card accent-card dep">
-      <div class="accent-head">
-        <span class="ic">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 1 1 9-9c0 2-1.5 3-3 3h-2a2 2 0 0 0-1.5 3.3A1.6 1.6 0 0 1 12 21z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10.5" cy="7" r="1"/><circle cx="15.5" cy="7.5" r="1"/></svg>
-        </span>
-        <span class="label"><b data-i18n="accent">Accent color</b><small data-i18n="accentHint">Buttons and highlights</small></span>
-        <span class="hex" id="hex">#FF4B00</span>
-      </div>
-      <div class="swatches" role="group" aria-label="Accent color" data-i18n-aria="accent">
-        <button class="sw" type="button" style="--c:#38e1ff" data-c="#38e1ff" data-i18n-title="cyan" data-i18n-aria="cyan"></button>
-        <button class="sw" type="button" style="--c:#ff4b00" data-c="#ff4b00" data-i18n-title="orange" data-i18n-aria="orange"></button>
-        <button class="sw" type="button" style="--c:#ff2d55" data-c="#ff2d55" data-i18n-title="crimson" data-i18n-aria="crimson"></button>
-        <button class="sw" type="button" style="--c:#f5b700" data-c="#f5b700" data-i18n-title="gold" data-i18n-aria="gold"></button>
-        <button class="sw" type="button" style="--c:#22d36b" data-c="#22d36b" data-i18n-title="emerald" data-i18n-aria="emerald"></button>
-        <button class="sw" type="button" style="--c:#a24bff" data-c="#a24bff" data-i18n-title="violet" data-i18n-aria="violet"></button>
-        <label class="sw custom" id="custom" data-i18n-title="custom" data-i18n-aria="custom">
-          <input type="color" id="accent">
-        </label>
-      </div>
-    </section>
+  <section class="block row" id="notices" hidden>
+    <span><b data-i18n="dismissed">Dismissed notices</b><span id="notices-count">0 hidden</span></span>
+    <button class="link" id="notices-reset" type="button" data-i18n="show">Show</button>
+  </section>
 
-    <section class="card" id="notices" hidden>
-      <div class="row static">
-        <span class="ic">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/><path d="M17 17H4a1 1 0 0 1-.7-1.7C4.6 14 6 12.6 6 8a6 6 0 0 1 .6-2.7"/><path d="M8.7 3.7A6 6 0 0 1 18 8c0 2.8.5 4.5 1.2 5.6"/><path d="m2 2 20 20"/></svg>
-        </span>
-        <span class="label"><b data-i18n="dismissed">Dismissed notices</b><small id="notices-count">0 hidden</small></span>
-        <button class="mini" id="notices-reset" type="button" data-i18n="show">Show</button>
-      </div>
-    </section>
-
-    <footer>
-      <button class="reset" id="reset" type="button" data-i18n-title="resetHint">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
-        <span data-i18n="reset">Reset</span>
-      </button>
-      <span class="saved" id="saved">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>
-        <span id="saved-text" data-i18n="instant">Applies instantly</span>
-      </span>
-    </footer>
-  </div>
+  <footer>
+    <button class="link" id="reset" type="button" data-i18n-title="resetHint"><span data-i18n="reset">Reset</span></button>
+    <span class="saved" id="saved"><span id="saved-text" data-i18n="instant">Applies instantly</span></span>
+  </footer>
   <script src="popup.js"></script>
 </body>
 </html>

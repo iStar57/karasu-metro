@@ -58,7 +58,7 @@ chrome.storage.sync.get({ ...DEFAULTS, accentV2: false }, (stored) => {
   if (!stored.accentV2) { if (stored.accent === "#ff4b00") stored.accent = DEFAULTS.accent; chrome.storage.sync.set({ accent: stored.accent, accentV2: true }); }
   delete stored.accentV2; state = { ...DEFAULTS, ...stored }; render();
 });
-chrome.storage.local.get({ siteLanguage: "" }, ({ siteLanguage }) => { if (siteLanguage) applyLanguage(siteLanguage); });
+chrome.storage.local.get({ siteLanguage: "" }, ({ siteLanguage }) => { if (siteLanguage) { applyLanguage(siteLanguage); render(); } });
 for (const key of ["enabled"]) $(key).addEventListener("change", (e) => save({ [key]: e.target.checked }));
 swatches.forEach((sw) => sw.addEventListener("click", () => save({ accent: sw.dataset.c })));
 let accentTimer;
@@ -71,6 +71,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
   if (changes.dismissedAlerts) renderNotices(changes.dismissedAlerts.newValue || []);
   if (changes.siteLanguage?.newValue) {
     applyLanguage(changes.siteLanguage.newValue);
+    render();
     chrome.storage.local.get({ dismissedAlerts: [] }, (s) => renderNotices(s.dismissedAlerts));
   }
 });
