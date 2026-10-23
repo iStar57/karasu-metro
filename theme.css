@@ -5989,3 +5989,9 @@ html.kft main button[title][class*="bg-[hsl(var(--tac-amber))]/10"]:not(#kft) {
   background: hsl(var(--kft-accent) / 0.08) !important;
   box-shadow: none !important;
 }
+/* Cosmetics: Karasu deja sus iconos de check/candado como etiquetas vacías
+   (<check>, <lock>) que no dibujan nada pero ocupan su hueco y descentran
+   el nombre. Fuera. */
+html.kft main button[title] > span:nth-child(2) > :not(svg):not(span):empty {
+  display: none !important;
+}
