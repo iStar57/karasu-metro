@@ -501,12 +501,11 @@ html.kft .group[data-side="left"] [data-sidebar="content"] [data-sidebar="menu-i
   }
 }
 
-/* Barra plegada (solo iconos): sin carpetas, todos los iconos visibles */
-html.kft .group[data-side="left"][data-collapsible="icon"] .kft-folder {
+/* Barra plegada (solo iconos): las carpetas quedan como un icono cada una
+   (su nombre al pasar el ratón); al pulsarla se despliega la barra con la
+   carpeta abierta. Sus entradas no se repiten aquí. */
+html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] [data-sidebar="menu-item"][data-kft-in-folder] {
   display: none !important;
-}
-html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] [data-sidebar="menu-item"][data-kft-folded] {
-  display: block !important;
 }
 html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] [data-sidebar="menu-item"][data-kft-in-folder] {
   margin-left: 0;
@@ -5856,4 +5855,75 @@ html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="footer
   width: 16px !important;
   height: 16px !important;
   margin: 0 !important;
+}
+
+/* Barra plegada: todos los iconos en el mismo eje, botones de 32px
+   centrados, y separadores finos entre bloques:
+   [Buscar · JUGAR] │ [Inicio · Ver] │ [Competir · Comunidad · Arsenal] │ [Karasu+] */
+html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] [data-sidebar="menu-item"]:not(#kft) {
+  display: flex;
+  justify-content: center;
+}
+html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] [data-sidebar="menu-button"]:not(#kft),
+html.kft .group[data-side="left"][data-collapsible="icon"] .kft-folder:not(#kft) {
+  justify-content: center !important;
+  width: 32px !important;
+  height: 32px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  font-size: 0 !important;
+}
+html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] [data-sidebar="menu-button"] > :not(svg):not(:has(svg)),
+html.kft .group[data-side="left"][data-collapsible="icon"] .kft-folder > :not(svg:first-child) {
+  display: none !important;
+}
+html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] [data-sidebar="menu-button"] svg,
+html.kft .group[data-side="left"][data-collapsible="icon"] .kft-folder > svg:first-child {
+  width: 18px !important;
+  height: 18px !important;
+  margin: 0 !important;
+  flex: none;
+}
+html.kft .group[data-side="left"][data-collapsible="icon"] .kft-folder:not(#kft) {
+  display: flex !important;
+  align-items: center;
+  border-radius: 6px !important;
+  color: var(--kft-text-2) !important;
+}
+html.kft .group[data-side="left"][data-collapsible="icon"] .kft-folder:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: var(--kft-text) !important;
+}
+/* La carpeta de la página actual, con el acento */
+html.kft .group[data-side="left"][data-collapsible="icon"] .kft-folder.has-active:not(#kft) {
+  background: hsl(var(--kft-accent) / 0.14) !important;
+  color: var(--kft-accent-hex) !important;
+  box-shadow: none !important;
+}
+/* Separadores: antes de Inicio, de la primera carpeta y de Karasu+ */
+html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] [data-sidebar="menu-item"]:has(> a[href="/me"]),
+html.kft .group[data-side="left"][data-collapsible="icon"] .kft-folder[data-folder="compete"],
+html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] [data-sidebar="menu-item"]:has(> a[href="/plus"]) {
+  position: relative;
+  margin-top: 13px !important;
+}
+html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] [data-sidebar="menu-item"]:has(> a[href="/me"])::after,
+html.kft .group[data-side="left"][data-collapsible="icon"] .kft-folder[data-folder="compete"]::after,
+html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] [data-sidebar="menu-item"]:has(> a[href="/plus"])::after {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  width: 18px;
+  height: 1px;
+  translate: -50% 0;
+  background: rgba(255, 255, 255, 0.12);
+}
+/* Los separadores propios de Karasu sobran con la barra plegada */
+html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] div.h-px {
+  display: none !important;
+}
+html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="content"] [data-sidebar="menu-item"]:has(> a[href="/play"]) {
+  margin-top: 4px !important;
 }

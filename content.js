@@ -468,13 +468,20 @@
         count.className = "kft-folder-count";
         head.append(text, count, svgIcon("m9 18 6-6-6-6", "kft-folder-chev"));
         head.addEventListener("click", () => {
-          openFolder = openFolder === id ? "" : id;
+          // Barra plegada: la carpeta se abre desplegando la barra
+          const rail = head.closest(".group[data-side=\"left\"]");
+          if (rail && rail.dataset.collapsible === "icon") {
+            openFolder = id;
+            document.querySelector("[data-sidebar=\"trigger\"]")?.click();
+          } else openFolder = openFolder === id ? "" : id;
           updateFolders();
         });
         content.appendChild(head);
       }
       const labelEl = head.querySelector(".kft-folder-label");
       if (labelEl && labelEl.textContent !== label) labelEl.textContent = label;
+      if (head.title !== label) head.title = label;
+      if (head.getAttribute("aria-label") !== label) head.setAttribute("aria-label", label);
       const open = openFolder === id;
       if (head.getAttribute("aria-expanded") !== String(open)) head.setAttribute("aria-expanded", open);
       head.classList.toggle("has-active", activeFolder === id);
