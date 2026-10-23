@@ -511,6 +511,22 @@
     ticker.pos = el.scrollLeft;
     ticker.last = 0;
     el.dataset.kftTicker = "";
+    // Rueda del ratón encima de la barra: abajo avanza, arriba retrocede.
+    // Mientras el cursor está encima el ticker está en pausa; al salir sigue
+    // desde donde la dejó el usuario.
+    if (!el.dataset.kftWheel) {
+      el.dataset.kftWheel = "";
+      el.addEventListener("wheel", (e) => {
+        if (!settings.enabled || e.ctrlKey) return;
+        const max = el.scrollWidth - el.clientWidth;
+        if (max <= 2) return;
+        const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? el.clientWidth : 1;
+        const d = (Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX) * unit;
+        if (!d) return;
+        e.preventDefault();
+        el.scrollLeft = Math.max(0, Math.min(max, el.scrollLeft + d));
+      }, { passive: false });
+    }
     cancelAnimationFrame(ticker.raf);
     const SPEED = 30; // px por segundo
     const step = (now) => {
