@@ -2729,7 +2729,7 @@ html.kft [data-kft-match="vetoblock"] > div.min-h-0 > .picks-grid:not(#kft) {
   background: #0d0d0d;
 }
 html.kft [data-kft-match="vetoblock"] > div.min-h-0 > .picks-grid::before {
-  content: "VETO";
+  content: var(--kft-t-veto, "VETO");
   align-self: center;
   padding: 0 6px 0 8px;
   color: var(--kft-text-3);
@@ -5209,10 +5209,7 @@ html.kft [data-kft-podium] > a > div > div:nth-child(6):not(#kft) {
   color: var(--kft-text-2) !important;
 }
 html.kft [data-kft-podium] > a > div > div:nth-child(6)::after {
-  content: " wins";
-}
-html.kft[lang^="es"] [data-kft-podium] > a > div > div:nth-child(6)::after {
-  content: " victorias";
+  content: var(--kft-t-wins, " wins");
 }
 
 /* #1: ficha protagonista */

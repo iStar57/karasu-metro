@@ -1262,26 +1262,67 @@
   // enseñaba controles que no hacen nada. Se marca el estado vacío para que
   // el CSS explique qué es y lleve a la única acción útil (Practice Server).
   // El texto va en un atributo (pintado con ::before), sin nodos en Vue.
-  const UTIL_HELP = {
-    en: [
-      "Lineups are saved grenade throws: where to stand, where to aim and where it lands.",
-      "",
-      "1   Open a Practice Server (top of the map)",
-      "2   Throw the grenade in game",
-      "3   Save it: it shows up here and on the map",
-      "",
-      "Using filters? Clear them to see everything.",
-    ].join("\n"),
-    es: [
-      "Un lineup es una granada guardada: dónde ponerte, dónde apuntar y dónde cae.",
-      "",
-      "1   Abre un Practice Server (arriba del mapa)",
-      "2   Lanza la granada en el juego",
-      "3   Guárdala: aparece aquí y en el mapa",
-      "",
-      "¿Tienes filtros puestos? Quítalos para verlo todo.",
-    ].join("\n"),
+  // Textos propios del tema, en el idioma que el jugador eligió en Karasu
+  // (<html lang>, que Karasu cambia al cambiar de idioma). Sin dato o con un
+  // idioma que no está aquí: inglés. El resto de textos que se ven son los
+  // de Karasu, que ya llegan traducidos.
+  const I18N = {
+    en: {
+      wins: " wins", veto: "VETO", lead: (n) => `+${n} ELO over #2`,
+      util: ["Lineups are saved grenade throws: where to stand, where to aim and where it lands.", "1   Open a Practice Server (top of the map)", "2   Throw the grenade in game", "3   Save it: it shows up here and on the map", "Using filters? Clear them to see everything."],
+    },
+    es: {
+      wins: " victorias", veto: "VETO", lead: (n) => `+${n} ELO sobre el #2`,
+      util: ["Un lineup es una granada guardada: dónde ponerte, dónde apuntar y dónde cae.", "1   Abre un Practice Server (arriba del mapa)", "2   Lanza la granada en el juego", "3   Guárdala: aparece aquí y en el mapa", "¿Tienes filtros puestos? Quítalos para verlo todo."],
+    },
+    fr: {
+      wins: " victoires", veto: "VETO", lead: (n) => `+${n} ELO devant le n°2`,
+      util: ["Un lineup est une grenade enregistrée : où se placer, où viser et où elle tombe.", "1   Ouvrez un Practice Server (en haut de la carte)", "2   Lancez la grenade en jeu", "3   Enregistrez-la : elle apparaît ici et sur la carte", "Des filtres actifs ? Retirez-les pour tout voir."],
+    },
+    de: {
+      wins: " Siege", veto: "VETO", lead: (n) => `+${n} ELO vor Platz 2`,
+      util: ["Ein Lineup ist eine gespeicherte Granate: wo du stehst, wohin du zielst und wo sie landet.", "1   Öffne einen Practice Server (oben auf der Karte)", "2   Wirf die Granate im Spiel", "3   Speichere sie: Sie erscheint hier und auf der Karte", "Filter aktiv? Entferne sie, um alles zu sehen."],
+    },
+    pt: {
+      wins: " vitórias", veto: "VETO", lead: (n) => `+${n} ELO à frente do 2.º`,
+      util: ["Um lineup é uma granada guardada: onde ficar, para onde apontar e onde cai.", "1   Abre um Practice Server (no topo do mapa)", "2   Lança a granada no jogo", "3   Guarda-a: aparece aqui e no mapa", "Tens filtros ativos? Remove-os para ver tudo."],
+    },
+    it: {
+      wins: " vittorie", veto: "VETO", lead: (n) => `+${n} ELO sul 2°`,
+      util: ["Un lineup è una granata salvata: dove stare, dove mirare e dove atterra.", "1   Apri un Practice Server (in alto sulla mappa)", "2   Lancia la granata in gioco", "3   Salvala: compare qui e sulla mappa", "Filtri attivi? Rimuovili per vedere tutto."],
+    },
+    ru: {
+      wins: " побед", veto: "ВЕТО", lead: (n) => `+${n} ELO над №2`,
+      util: ["Лайнап — сохранённый бросок гранаты: где встать, куда целиться и куда она упадёт.", "1   Откройте Practice Server (над картой)", "2   Бросьте гранату в игре", "3   Сохраните её: она появится здесь и на карте", "Включены фильтры? Сбросьте их, чтобы увидеть всё."],
+    },
+    ja: {
+      wins: " 勝利", veto: "マップ選択", lead: (n) => `2位に +${n} ELO`,
+      util: ["ラインナップは保存したグレネードの投げ方です：立ち位置、狙う場所、着弾点。", "1   Practice Server を開く（マップの上）", "2   ゲーム内でグレネードを投げる", "3   保存すると、ここと地図に表示されます", "フィルターを使用中？ 解除するとすべて表示されます。"],
+    },
+    zh: {
+      wins: " 胜", veto: "地图禁选", lead: (n) => `领先第 2 名 +${n} ELO`,
+      util: ["道具点位是保存下来的投掷：站在哪里、瞄准哪里、落在哪里。", "1   打开 Practice Server（地图上方）", "2   在游戏中投掷道具", "3   保存后，它会显示在这里和地图上", "正在使用筛选？清除后即可查看全部。"],
+    },
+    ko: {
+      wins: " 승", veto: "맵 밴픽", lead: (n) => `2위보다 +${n} ELO`,
+      util: ["라인업은 저장된 수류탄 투척입니다: 설 위치, 조준점, 떨어지는 곳.", "1   Practice Server 열기 (맵 위쪽)", "2   게임에서 수류탄 던지기", "3   저장하면 여기와 맵에 표시됩니다", "필터를 사용 중인가요? 해제하면 모두 볼 수 있습니다."],
+    },
   };
+  function T() {
+    const base = String(document.documentElement.lang || "").toLowerCase().split(/[-_]/)[0];
+    return I18N[base] || I18N.en;
+  }
+  // Textos que pinta el CSS (content: var(--kft-t-…)): se actualizan si el
+  // jugador cambia el idioma de Karasu
+  let textsLang = "";
+  function applyTexts() {
+    const lang = document.documentElement.lang || "";
+    if (!settings.enabled || lang === textsLang) return;
+    textsLang = lang;
+    const t = T();
+    root.style.setProperty("--kft-t-wins", JSON.stringify(t.wins));
+    root.style.setProperty("--kft-t-veto", JSON.stringify(t.veto));
+  }
   function decorateUtility() {
     if (!settings.enabled || !/^\/utility\/[^/]+/.test(location.pathname)) return;
     const board = document.querySelector(".utility-board");
@@ -1290,7 +1331,10 @@
     setData(root, "kftUtil", "");
     const empty = root.querySelector("div.border-dashed.text-center");
     setData(root, "kftUtilEmpty", empty ? "" : null);
-    if (empty) setData(empty, "kftUtilHelp", UTIL_HELP[/^es/i.test(document.documentElement.lang) ? "es" : "en"]);
+    if (empty) {
+      const [intro, s1, s2, s3, foot] = T().util;
+      setData(empty, "kftUtilHelp", [intro, "", s1, s2, s3, "", foot].join("\n"));
+    }
   }
 
   function decorateLeaderboard() {
@@ -1305,8 +1349,7 @@
       const eloOf = (a) => parseInt(a?.querySelector(":scope > div > span:nth-child(4)")?.textContent.replace(/\D/g, ""), 10);
       const lead = eloOf(podium.children[1]) - eloOf(podium.children[0]);
       const box = podium.children[1]?.firstElementChild;
-      const es = /^es/i.test(document.documentElement.lang);
-      const text = isNaN(lead) ? null : es ? `+${lead} ELO sobre el #2` : `+${lead} ELO over #2`;
+      const text = isNaN(lead) ? null : T().lead(lead);
       if (box && box.dataset.kftLead !== text) {
         if (text) box.dataset.kftLead = text;
         else delete box.dataset.kftLead;
@@ -1382,6 +1425,9 @@
   }
 
   function restoreAll() {
+    root.style.removeProperty("--kft-t-wins");
+    root.style.removeProperty("--kft-t-veto");
+    textsLang = "";
     document.querySelectorAll(".kft-logo-mark, .kft-logo-kanji").forEach((el) => el.remove());
     document.querySelectorAll(".kft-search, .kft-role-legend").forEach((el) => el.remove());
     updateWaveBg();
@@ -1457,6 +1503,7 @@
       decorateProfile();
       decorateLeaderboard();
       decorateUtility();
+      applyTexts();
       updateWaveBg();
       decorateMatch();
       placeSearch();
@@ -1474,6 +1521,7 @@
     decorateProfile();
     decorateLeaderboard();
     decorateUtility();
+    applyTexts();
     decorateMatch();
     placeSearch();
     brandLogo();

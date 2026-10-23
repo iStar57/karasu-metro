@@ -33,7 +33,7 @@ function applyLanguage(rawLang) {
   if (group) group.setAttribute("aria-label", messages.accentSwatches);
 }
 let state = { ...DEFAULTS };
-applyLanguage(navigator.language || "en");
+applyLanguage("en"); // sin dato de la web: inglés; luego el idioma elegido en Karasu
 function render() {
   const accent = state.accent.toLowerCase();
   document.documentElement.style.setProperty("--accent", accent);
