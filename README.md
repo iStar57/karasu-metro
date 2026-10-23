@@ -24,18 +24,6 @@ Karasu Metro gives the site a cleaner, darker interface and reworks its busiest 
 
 From the toolbar popup you can turn the theme on or off, pick an accent color and restore dismissed notices.
 
-## Install
-
-**From a store:** Chrome Web Store (link coming soon).
-
-**From source (Chrome or Edge):**
-
-1. Download or clone this repository.
-2. Open `chrome://extensions` and turn on **Developer mode**.
-3. Click **Load unpacked** and select the repository folder.
-
-**From source (Firefox):** the repository is the Chrome (Manifest V3) build. Firefox needs a `browser_specific_settings` entry in `manifest.json` before loading it from `about:debugging#/runtime/this-firefox`.
-
 ## Project layout
 
 | File | Purpose |
