@@ -231,7 +231,10 @@ html.kft h1 {
 /* Fondo topográfico animado -> negro plano (aparece en el layout principal
    y otra vez dentro de páginas sueltas como /login) */
 html.kft div.fixed.inset-0.pointer-events-none[aria-hidden="true"] > svg,
-html.kft div.fixed.inset-0.pointer-events-none[aria-hidden="true"] canvas {
+html.kft div.fixed.inset-0.pointer-events-none[aria-hidden="true"] canvas,
+html.kft svg:has(> g > path.animate-topo-flow, > path.animate-topo-flow) {
+  /* display:none, no opacidad: así sus 18 trazos animados en bucle dejan de
+     recalcular estilos cada fotograma (~230 veces por segundo en reposo) */
   display: none !important;
 }
 html.kft div.fixed.inset-0.pointer-events-none[aria-hidden="true"] > .bg-background {
@@ -3050,6 +3053,8 @@ html.kft.kft-fx body::after {
   inset: -15%;
   z-index: 2147483000;
   pointer-events: none;
+  /* Capa propia en la GPU: su deriva lenta (translate) no repinta la página */
+  will-change: translate;
   background:
     radial-gradient(38% 32% at 88% 4%, hsl(var(--kft-accent) / 0.085), transparent 70%),
     radial-gradient(32% 28% at 4% 100%, hsl(var(--kft-accent) / 0.05), transparent 70%);
@@ -3386,13 +3391,17 @@ html.kft.kft-fx ::selection {
     animation: kft-gauge 1.1s var(--kft-ease) 0.15s backwards;
   }
 
-  html.kft.kft-fx [data-sidebar="header"] > a > span {
-    animation: kft-sheen 7s ease-in-out infinite;
+  /* El destello del logo pasa al pasar el ratón (antes, en bucle infinito,
+     obligaba a repintar el texto en cada fotograma) */
+  html.kft.kft-fx [data-sidebar="header"] > a:hover > span {
+    animation: kft-sheen 1.4s ease-in-out;
   }
 
   /* El CTA de la cola "respira" mientras está disponible */
+  /* Dos respiraciones al aparecer y quieto: el drop-shadow animado en bucle
+     repintaba el botón en cada fotograma */
   html.kft.kft-fx button[class*="shadow-[0_4px_20px_hsl(var(--primary)"]:not(:disabled) {
-    animation: kft-breathe 3.2s ease-in-out infinite;
+    animation: kft-breathe 3.2s ease-in-out 2;
   }
 
   /* Elevaciones y pulsaciones */
@@ -5961,4 +5970,13 @@ html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="footer
 html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="footer"] button[aria-haspopup="menu"] > a > :not(:first-child),
 html.kft .group[data-side="left"][data-collapsible="icon"] [data-sidebar="footer"] button[aria-haspopup="menu"] > :not(a) {
   display: none !important;
+}
+
+/* Rendimiento: la campana y el punto de notificaciones de Karasu se animan
+   en bucle infinito (en pantallas de 144-240 Hz, cientos de recálculos por
+   segundo con la página quieta). Avisan tres veces y se quedan quietos; el
+   punto sigue visible mientras haya notificaciones. */
+html.kft .animate-bell,
+html.kft .animate-ping {
+  animation-iteration-count: 3 !important;
 }
