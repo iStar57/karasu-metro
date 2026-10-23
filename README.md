@@ -26,7 +26,7 @@ From the toolbar popup you can turn the theme on or off, pick an accent color an
 
 ## Install
 
-**From a store:** Chrome Web Store (link coming soon). For Firefox, download the signed `.xpi` from [Releases](https://github.com/iStar57/karasu-metro/releases).
+**From a store:** Chrome Web Store (link coming soon).
 
 **From source (Chrome or Edge):**
 
@@ -34,11 +34,7 @@ From the toolbar popup you can turn the theme on or off, pick an accent color an
 2. Open `chrome://extensions` and turn on **Developer mode**.
 3. Click **Load unpacked** and select the repository folder.
 
-**From source (Firefox):**
-
-1. Run `build-firefox.ps1`. It writes `dist/firefox`.
-2. Open `about:debugging#/runtime/this-firefox`.
-3. Click **Load Temporary Add-on** and select `dist/firefox/manifest.json`.
+**From source (Firefox):** the repository is the Chrome (Manifest V3) build. Firefox needs a `browser_specific_settings` entry in `manifest.json` before loading it from `about:debugging#/runtime/this-firefox`.
 
 ## Project layout
 
@@ -49,9 +45,6 @@ From the toolbar popup you can turn the theme on or off, pick an accent color an
 | `content.js` | Marks parts of Karasu's pages with `data-kft-*` attributes so the CSS can target them, and adds small helpers such as the search box and the bans ticker. It never moves or removes Karasu's own elements. |
 | `popup.html`, `popup.js` | Toolbar popup with the settings |
 | `fonts/` | Geist and Michroma, under the SIL Open Font License |
-| `build-chrome.ps1` | Packs `dist/karasu-metro-chrome-<version>.zip` for the Chrome Web Store |
-| `build-firefox.ps1` | Builds the Firefox version in `dist/firefox` and `dist/karasu-metro-firefox-<version>.xpi` |
-| `sign-firefox.ps1` | Signs the Firefox build through addons.mozilla.org with your own API keys, read from environment variables or a prompt |
 
 Karasu updates its site often, so the theme finds page elements by their structure, not by their text, and it works in any language the site supports. If a page looks broken after a Karasu update, please open an issue with a screenshot.
 

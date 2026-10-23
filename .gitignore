@@ -9,3 +9,8 @@ node_modules/
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Scripts locales de empaquetado y firma (no se publican)
+build-chrome.ps1
+build-firefox.ps1
+sign-firefox.ps1
